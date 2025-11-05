@@ -26,12 +26,14 @@ public class Board {
             }
         }
     }
+    
     public Tile getTile(int row, int col) {
-    if (!inBounds(row, col)) return null;
-    return tiles[row][col];
+        if (!inBounds(row, col)) return null;
+        return tiles[row][col];
     }
+    
     public boolean inBounds(int r, int c) { //para que no aaceda a una celda inexistente 
-    return r >= 0 && r < ROWS && c >= 0 && c < COLUMNS;
+        return r >= 0 && r < ROWS && c >= 0 && c < COLUMNS;
     }
     
 
@@ -95,13 +97,34 @@ public class Board {
         return HitResult.MISS;
     } 
     
-    public int getRows() { 
-        return ROWS; 
+    public int getCasillasVivas() {
+        int vivas = 0;
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLUMNS; j++) {
+                TileState estado = tiles[i][j].getState();
+                //las casillas vivas estan ocupadas o dañadas
+                if (estado == TileState.OCCUPIED || estado == TileState.DAMAGED) {
+                    vivas++;
+                }
+            }
+        }
+        return vivas;
     }
 
-    public int getColumns() { 
-        return COLUMNS; 
+    
+    public int getROWS() {
+        return ROWS;
     }
+
+    public int getCOLUMNS() {
+        return COLUMNS;
+    }
+    
+    public int getTotalCasillas(){
+        return ROWS * COLUMNS;
+    }
+
+
     
     
 }
