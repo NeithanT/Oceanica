@@ -16,7 +16,7 @@ public abstract class Fighter {
     private int endurance;
     private int sanity;
       
-    protected int representationPercentage; 
+    private int representationPercentage; 
     protected ArrayList<Tile> assignedTiles;
     
     public void addTile(Tile tile) {
@@ -37,5 +37,11 @@ public abstract class Fighter {
         }
         return (getAliveTiles() * 100.0) / assignedTiles.size();
     }
+
+    public int getRepresentationPercentage() {
+        return representationPercentage;
+    }
+    
+    
     
 }
