@@ -1,0 +1,6 @@
+package menea.Fighters;
+
+public enum AttackType {
+    THUNDERS_UNDER_THE_SEA, FISH_TELEPHATY, RELEASE_THE_KRAKEN,
+    WAVES_CONTROL, THE_TRIDENT, UNDERSEA_VOLCANOES
+}
