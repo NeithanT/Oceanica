@@ -10,9 +10,9 @@ public class CommandInterpreter {
         this.ctx = ctx;
     }
 
-    public void handle(String raw){
-        if (raw == null || raw.isBlank()) return;
-        String[] parts = raw.trim().split("\\s+");
+    public void handle(String rawString){
+        if (rawString == null || rawString.isBlank()) return;
+        String[] parts = rawString.trim().split("\\s+");
         String name = parts[0];
         String[] args = new String[Math.max(0, parts.length-1)];
         if (args.length > 0) System.arraycopy(parts, 1, args, 0, args.length);
