@@ -32,8 +32,8 @@ public class BoardPanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        for (int r = 0; r < board.getRows(); r++) {
-            for (int c = 0; c < board.getColumns(); c++) {
+        for (int r = 0; r < board.getROWS(); r++) {
+            for (int c = 0; c < board.getCOLUMNS(); c++) {
                 Tile t = board.getTile(r, c);
                 Color fill = switch (t.getState()) {
                     case EMPTY     -> new Color(200, 200, 200); // gris
@@ -58,8 +58,8 @@ public class BoardPanel extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         if (board == null) return new Dimension(300, 200);
-        int w = padding*2 + board.getColumns()*(cellSize+1);
-        int h = padding*2 + board.getRows()*(cellSize+1);
+        int w = padding*2 + board.getCOLUMNS()*(cellSize+1);
+        int h = padding*2 + board.getROWS()*(cellSize+1);
         return new Dimension(w, h);
     }
 }

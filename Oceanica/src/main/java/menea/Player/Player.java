@@ -47,7 +47,7 @@ public class Player {
     }
     
     public double porcentajeVida(){
-        int totalTiles = board.getRows() * board.getColumns(); //600 tiles
+        int totalTiles = board.getROWS() * board.getCOLUMNS(); //600 tiles
         //TODO: determinar aliveTiles en Board
         int aliveTiles = 10; //TODO: cambiar el 10
         return (aliveTiles * 100) / totalTiles;

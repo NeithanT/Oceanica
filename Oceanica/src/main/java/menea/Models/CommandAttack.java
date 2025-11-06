@@ -36,7 +36,7 @@ public class CommandAttack extends Command {
 
         Board board = ctx.board();
         if (!board.inBounds(r, c)) {
-            return CommandResult.fail("Fuera de rango. Fila: 1.." + board.getRows() + ", Columna: 1.." + board.getColumns());
+            return CommandResult.fail("Fuera de rango. Fila: 1.." + board.getROWS() + ", Columna: 1.." + board.getROWS());
         }
 
         HitResult res = board.attackAt(r, c);

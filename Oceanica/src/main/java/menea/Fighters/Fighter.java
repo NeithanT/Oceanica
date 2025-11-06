@@ -11,6 +11,7 @@ public abstract class Fighter {
     
     private String name;
     protected String imagePath;
+    private boolean alive;
     
     private int strength;
     private int endurance;
@@ -18,10 +19,34 @@ public abstract class Fighter {
       
     private int representationPercentage; 
     protected ArrayList<Tile> assignedTiles;
+
+    //CONSTRUCTOR
+    public Fighter(AttackType type, Attack attack, String name, String imagePath, int strength, int endurance, int sanity, int representationPercentage, ArrayList<Tile> assignedTiles) {
+        this.type = type;
+        this.attack = attack;
+        this.name = name;
+        this.imagePath = imagePath;
+        this.alive = true;
+        this.strength = strength;
+        this.endurance = endurance;
+        this.sanity = sanity;
+        this.representationPercentage = representationPercentage;
+        this.assignedTiles = assignedTiles;
+    }
+    
+    
     
     public void addTile(Tile tile) {
         assignedTiles.add(tile);
     }
+    
+    public boolean aliveStatus(){
+        if (this.assignedTiles.isEmpty()){
+            this.alive = false;
+        }
+        return alive;
+    }
+    
 
     public int getAliveTiles() {
         return assignedTiles.size(); //TODO: hacerlo bien
