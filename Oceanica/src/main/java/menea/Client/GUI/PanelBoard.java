@@ -26,11 +26,14 @@ public class PanelBoard extends JPanel {
     
     
     private Board board;
-    private int padding  = 2;
     
     public PanelBoard(JPanel pnl) {
         width = (int)pnl.getWidth();
         height = (int)pnl.getHeight();
+        
+        System.out.println(width);
+        System.out.println(height);
+        
         cellSizeX = width/COLUMNS;
         cellSizeY = height/ROWS;
     }
@@ -41,6 +44,23 @@ public class PanelBoard extends JPanel {
         super.paintComponent(g);
         
         Graphics g2 = (Graphics2D) g;
+        
+        board = new Board();
+        for (int row = 0; row < board.getROWS(); row++) {
+            for (int column = 0; column < board.getCOLUMNS(); column++) {
+                //Tile tile = board.getTile(row, column); TODO take into account tile state
+                Color fill = new Color(230, 126, 34);
+
+                int x = column * (cellSizeX);
+                int y = row * (cellSizeY);
+
+                g2.setColor(fill);
+                g2.fillRect(x, y, cellSizeX, cellSizeY);
+                //g2.setColor(Color.BLACK);
+                //g2.drawRect(x, y, cellSizeX, cellSizeY);
+            }
+        }
+        
         g2.setColor(Color.BLACK);
         
         for (int i = 0; i <= ROWS; i++) {
@@ -49,22 +69,6 @@ public class PanelBoard extends JPanel {
         
         for (int j = 0; j <= COLUMNS; j++) {
             g2.drawLine(j * cellSizeX, 0, j * cellSizeX, height);
-        }
-        
-        board = new Board();
-        for (int row = 0; row < board.getROWS(); row++) {
-            for (int column = 0; column < board.getCOLUMNS(); column++) {
-                //Tile tile = board.getTile(row, column); TODO take into account tile state
-                Color fill = new Color(230, 126, 34);
-
-                int x = padding + column * (cellSizeX + 1);
-                int y = padding + row * (cellSizeY + 1);
-
-                g2.setColor(fill);
-                g2.fillRect(x, y, cellSizeX, cellSizeY);
-                g2.setColor(Color.BLACK);
-                g2.drawRect(x, y, cellSizeX, cellSizeY);
-            }
         }
 
         g2.dispose();
@@ -75,11 +79,5 @@ public class PanelBoard extends JPanel {
         repaint();
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (board == null) return;
-
-    }
     
 }
