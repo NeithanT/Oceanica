@@ -8,7 +8,6 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import menea.Models.CommandInterpreter;
 import menea.Tiles.Board;
@@ -20,7 +19,7 @@ public class FrameConsole extends javax.swing.JFrame {
     private GraphicsDevice gd;
     
     private static final String IMAGE_PATH = "/assets/";
-    private Image ImageFondo;
+    private Image imageFondo;
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameConsole.class.getName());
 
@@ -45,11 +44,7 @@ public class FrameConsole extends javax.swing.JFrame {
         try {
 
             imageFondo = ImageIO.read(getClass().getResource(IMAGE_PATH + "BlackManta.png"));
-
-            background = background.getScaledInstance(260, 200, Image.SCALE_SMOOTH);
-
-           ImageIO.read(getClass().getResource(IMAGE_PATH + "AndrewGarfield.png"))
-                    .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
+            imageFondo = imageFondo.getScaledInstance(260, 200, Image.SCALE_SMOOTH);
     
         } catch (IOException e) {
             System.out.println("No se pudo cargar");
