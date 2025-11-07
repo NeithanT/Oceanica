@@ -9,6 +9,7 @@ public class CommandHelp extends Command {
 
     @Override
     public CommandResult execute(CommandContext ctx, String[] args){
-        return CommandResult.ok(registry.helpIndex());
+        return CommandResult.ok(registry.helpIndex());// genera "Comandos: HELP ATTACK START LOG y esos 
     }    
 }
+

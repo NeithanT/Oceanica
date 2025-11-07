@@ -4,30 +4,33 @@ import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class FrameCharacterSelection extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameCharacterSelection.class.getName());
 
     GraphicsDevice gd;
-    
+
     private static final String IMAGE_PATH = "/assets/";
     private ArrayList<Image> allImages;
     private Image background;
-    
+    private int currentCharacter = 1;
+
     public void loadImage() {
         try {
-            
+
             background = ImageIO.read(getClass().getResource(IMAGE_PATH + "BlackManta.png"));
-            
+
             background = background.getScaledInstance(260, 200, Image.SCALE_SMOOTH);
             allImages = new ArrayList<>();
-            
+
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "AndrewGarfield.png"))
                     .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "Aquaman.png"))
@@ -45,9 +48,9 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "ChicaFresita.png"))
                     .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "Dr_Strange.png"))
-                   .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
+                    .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "Hercules.png"))
-                   .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
+                    .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "Kitten.png"))
                     .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "LadyBug.png"))
@@ -57,21 +60,21 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "Poseidon.png"))
                     .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "RainbowDash.png"))
-                    .getScaledInstance(260, 200, Image.SCALE_SMOOTH));            
+                    .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "Sikowitz.png"))
                     .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
-            allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "Spiderman.png"))
+            allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "Lebron_James.png"))
                     .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
             allImages.add(ImageIO.read(getClass().getResource(IMAGE_PATH + "Thor.png"))
                     .getScaledInstance(260, 200, Image.SCALE_SMOOTH));
-            
+
         } catch (IOException e) {
             System.out.println("No se pudo cargar");
         }
     }
-    
+
     public void init() {
-        
+
         gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         try {
@@ -79,9 +82,9 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error cargando pantalla " + e.getMessage());
         }
-        
+
     }
-    
+
     /**
      * Creates new form FrameCharacterSelection
      */
@@ -101,7 +104,6 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton4 = new javax.swing.JButton();
         pnlBackground = new javax.swing.JPanel();
         btnCharacterThree = new javax.swing.JButton();
         btnCharacterOne = new javax.swing.JButton();
@@ -121,16 +123,31 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
         btnCharacterSixteen = new javax.swing.JButton();
         btnCharacterSeventeen = new javax.swing.JButton();
         btnCharacterEighteen = new javax.swing.JButton();
-
-        jButton4.setText("jButton1");
-        jButton4.setMaximumSize(null);
-        jButton4.setMinimumSize(new java.awt.Dimension(260, 200));
-        jButton4.setPreferredSize(new java.awt.Dimension(260, 200));
+        pnlCharacterSelection = new javax.swing.JPanel();
+        pnlCharacterSelectedOne = new javax.swing.JPanel();
+        lblCharacterSelectedOne = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        pnlCharacterSelectedTwo = new javax.swing.JPanel();
+        lblCharacterSelectedTwo = new javax.swing.JLabel();
+        pnlCharacterSelectedThree = new javax.swing.JPanel();
+        lblCharacterSelectedThree = new javax.swing.JLabel();
+        lblIntro = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        pnlBackground.setBackground(new java.awt.Color(14, 51, 134));
+        pnlBackground.setBackground(new java.awt.Color(0, 102, 255));
 
         btnCharacterThree.setContentAreaFilled(false);
         btnCharacterThree.setMinimumSize(new java.awt.Dimension(260, 200));
@@ -211,57 +228,209 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
         btnCharacterEighteen.setMinimumSize(new java.awt.Dimension(260, 200));
         btnCharacterEighteen.setPreferredSize(new java.awt.Dimension(260, 200));
 
+        pnlCharacterSelection.setBackground(new java.awt.Color(14, 51, 134));
+        pnlCharacterSelection.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlCharacterSelectedOne.setBackground(new java.awt.Color(51, 153, 255));
+        pnlCharacterSelectedOne.setPreferredSize(new java.awt.Dimension(600, 280));
+
+        lblCharacterSelectedOne.setBackground(new java.awt.Color(51, 204, 255));
+        lblCharacterSelectedOne.setOpaque(true);
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel1.setText("Tipos de ataques:");
+
+        jLabel2.setText("% de Casillas:");
+
+        jLabel3.setText("Nombre:");
+
+        jLabel4.setText("Fuerza:");
+
+        jLabel5.setText("Resistencia:");
+
+        jLabel6.setText("Sanidad:");
+
+        javax.swing.GroupLayout pnlCharacterSelectedOneLayout = new javax.swing.GroupLayout(pnlCharacterSelectedOne);
+        pnlCharacterSelectedOne.setLayout(pnlCharacterSelectedOneLayout);
+        pnlCharacterSelectedOneLayout.setHorizontalGroup(
+            pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCharacterSelectedOneLayout.createSequentialGroup()
+                .addComponent(lblCharacterSelectedOne, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addGroup(pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField2)
+                        .addComponent(jTextField1))
+                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44))
+        );
+        pnlCharacterSelectedOneLayout.setVerticalGroup(
+            pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCharacterSelectedOne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCharacterSelectedOneLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addGroup(pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addGroup(pnlCharacterSelectedOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(29, 29, 29))
+        );
+
+        pnlCharacterSelection.add(pnlCharacterSelectedOne, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 600, 340));
+
+        pnlCharacterSelectedTwo.setBackground(new java.awt.Color(255, 153, 102));
+        pnlCharacterSelectedTwo.setPreferredSize(new java.awt.Dimension(600, 280));
+
+        lblCharacterSelectedTwo.setBackground(new java.awt.Color(204, 102, 0));
+        lblCharacterSelectedTwo.setOpaque(true);
+
+        javax.swing.GroupLayout pnlCharacterSelectedTwoLayout = new javax.swing.GroupLayout(pnlCharacterSelectedTwo);
+        pnlCharacterSelectedTwo.setLayout(pnlCharacterSelectedTwoLayout);
+        pnlCharacterSelectedTwoLayout.setHorizontalGroup(
+            pnlCharacterSelectedTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCharacterSelectedTwoLayout.createSequentialGroup()
+                .addComponent(lblCharacterSelectedTwo, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 320, Short.MAX_VALUE))
+        );
+        pnlCharacterSelectedTwoLayout.setVerticalGroup(
+            pnlCharacterSelectedTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCharacterSelectedTwo, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+        );
+
+        pnlCharacterSelection.add(pnlCharacterSelectedTwo, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, -1, 340));
+
+        pnlCharacterSelectedThree.setBackground(new java.awt.Color(0, 204, 0));
+        pnlCharacterSelectedThree.setPreferredSize(new java.awt.Dimension(600, 280));
+
+        lblCharacterSelectedThree.setBackground(new java.awt.Color(0, 153, 0));
+        lblCharacterSelectedThree.setOpaque(true);
+
+        javax.swing.GroupLayout pnlCharacterSelectedThreeLayout = new javax.swing.GroupLayout(pnlCharacterSelectedThree);
+        pnlCharacterSelectedThree.setLayout(pnlCharacterSelectedThreeLayout);
+        pnlCharacterSelectedThreeLayout.setHorizontalGroup(
+            pnlCharacterSelectedThreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCharacterSelectedThreeLayout.createSequentialGroup()
+                .addComponent(lblCharacterSelectedThree, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 320, Short.MAX_VALUE))
+        );
+        pnlCharacterSelectedThreeLayout.setVerticalGroup(
+            pnlCharacterSelectedThreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCharacterSelectedThree, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+        );
+
+        pnlCharacterSelection.add(pnlCharacterSelectedThree, new org.netbeans.lib.awtextra.AbsoluteConstraints(1350, 10, 600, 330));
+
+        lblIntro.setFont(new java.awt.Font("Red Hat Display SemiBold", 3, 36)); // NOI18N
+        lblIntro.setText("ESCOGE TUS PELEADORES");
+
         javax.swing.GroupLayout pnlBackgroundLayout = new javax.swing.GroupLayout(pnlBackground);
         pnlBackground.setLayout(pnlBackgroundLayout);
         pnlBackgroundLayout.setHorizontalGroup(
             pnlBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBackgroundLayout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(pnlBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlBackgroundLayout.createSequentialGroup()
-                        .addComponent(btnCharacterEight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(btnCharacterNine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterEleven, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterTwelve, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterThirteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterFourteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBackgroundLayout.createSequentialGroup()
-                        .addComponent(btnCharacterOne, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(btnCharacterTwo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterThree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterFour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterFive, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterSix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCharacterSeven, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12))
+            .addComponent(pnlCharacterSelection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlBackgroundLayout.createSequentialGroup()
-                .addGap(420, 420, 420)
-                .addComponent(btnCharacterFifteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCharacterSixteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCharacterSeventeen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCharacterEighteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addGroup(pnlBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlBackgroundLayout.createSequentialGroup()
+                            .addComponent(btnCharacterEight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(12, 12, 12)
+                            .addComponent(btnCharacterNine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterEleven, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterTwelve, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterThirteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterFourteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBackgroundLayout.createSequentialGroup()
+                            .addComponent(btnCharacterOne, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(12, 12, 12)
+                            .addComponent(btnCharacterTwo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterThree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterFour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterFive, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterSix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCharacterSeven, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlBackgroundLayout.createSequentialGroup()
+                        .addGap(404, 404, 404)
+                        .addComponent(btnCharacterFifteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCharacterSixteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCharacterSeventeen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCharacterEighteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 412, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBackgroundLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblIntro)
+                .addGap(718, 718, 718))
         );
         pnlBackgroundLayout.setVerticalGroup(
             pnlBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBackgroundLayout.createSequentialGroup()
-                .addGap(127, 127, 127)
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(lblIntro)
+                .addGap(18, 18, 18)
                 .addGroup(pnlBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCharacterThree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCharacterOne, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -285,7 +454,8 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
                     .addComponent(btnCharacterFifteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCharacterSeventeen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCharacterEighteen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(329, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlCharacterSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -307,6 +477,18 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
     private void btnCharacterTwoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCharacterTwoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCharacterTwoActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -331,12 +513,39 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FrameCharacterSelection().setVisible(true));
-        
+
     }
-    
+
+    private void setSelectedCharacter(Icon img) {
+
+        switch (currentCharacter) {
+            case 1:
+                lblCharacterSelectedOne.setIcon(img);
+                currentCharacter++;
+                break;
+            case 2:
+                lblCharacterSelectedTwo.setIcon(img);
+                currentCharacter++;
+                break;
+            case 3:
+                lblCharacterSelectedThree.setIcon(img);
+                currentCharacter++;
+                break;
+            default:
+                break;
+
+        }
+    }
+
     private void setHoverEffect(JButton button) {
-    
+
         button.addMouseListener(new java.awt.event.MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                setSelectedCharacter(button.getIcon());
+            }
+
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 button.setOpaque(true);
@@ -350,10 +559,11 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
                 button.setContentAreaFilled(false);
             }
         });
-        
+
     }
 
     private void setButtonIcons() {
+
         ImageIcon icon = new ImageIcon(background);
         btnCharacterOne.setIcon(new ImageIcon(allImages.get(0)));
         btnCharacterTwo.setIcon(new ImageIcon(allImages.get(1)));
@@ -373,7 +583,7 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
         btnCharacterSixteen.setIcon(new ImageIcon(allImages.get(15)));
         btnCharacterSeventeen.setIcon(new ImageIcon(allImages.get(16)));
         btnCharacterEighteen.setIcon(new ImageIcon(allImages.get(17)));
-        
+
         setHoverEffect(btnCharacterOne);
         setHoverEffect(btnCharacterTwo);
         setHoverEffect(btnCharacterThree);
@@ -392,7 +602,7 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
         setHoverEffect(btnCharacterSixteen);
         setHoverEffect(btnCharacterSeventeen);
         setHoverEffect(btnCharacterEighteen);
-          
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -414,7 +624,26 @@ public class FrameCharacterSelection extends javax.swing.JFrame {
     private javax.swing.JButton btnCharacterThree;
     private javax.swing.JButton btnCharacterTwelve;
     private javax.swing.JButton btnCharacterTwo;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JLabel lblCharacterSelectedOne;
+    private javax.swing.JLabel lblCharacterSelectedThree;
+    private javax.swing.JLabel lblCharacterSelectedTwo;
+    private javax.swing.JLabel lblIntro;
     private javax.swing.JPanel pnlBackground;
+    private javax.swing.JPanel pnlCharacterSelectedOne;
+    private javax.swing.JPanel pnlCharacterSelectedThree;
+    private javax.swing.JPanel pnlCharacterSelectedTwo;
+    private javax.swing.JPanel pnlCharacterSelection;
     // End of variables declaration//GEN-END:variables
 }
