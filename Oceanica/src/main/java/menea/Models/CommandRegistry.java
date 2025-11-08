@@ -8,6 +8,8 @@ import java.util.Map;
  * @author melissa
  */
 public class CommandRegistry {
+    //Diccionario que guarda todos los comandos disponibles 
+    //TODO: Registrar los comandos porque no están , se puede hacer en FrameConsole 
     private final Map<String, Command> commands = new LinkedHashMap<>();
 
     public void register(Command cmd){

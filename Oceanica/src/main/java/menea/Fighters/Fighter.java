@@ -42,6 +42,13 @@ public abstract class Fighter {
         return representationPercentage;
     }
     
-    
+    public Attack getAttack() {
+        return attack;
+    }
+
+    public void setAttack(Attack attack) {
+        this.attack = attack;
+        this.type = attack.getTipo();
+    }
     
 }
