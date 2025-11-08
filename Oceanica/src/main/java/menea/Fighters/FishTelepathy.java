@@ -15,36 +15,36 @@ public class FishTelepathy extends Attack {
         super(AttackType.FISH_TELEPHATY);
     }
     //peces atacan aleatoriamente casillas, cada pez daña 33% de la vida de la casilla
-    public void cardumen(Board enemyBoard) {
-    int numPeces = 100 + random.nextInt(201); // 100-300 peces
+    public void cardumen(Board tableroEnemigo) {
+    int numPeces = 100 + random.nextInt(201); // 100 300 peces
     
     for (int i = 0; i < numPeces; i++) {
-        int[] pos = getRandomTile(enemyBoard);
-        int vidaActual = enemyBoard.getTile(pos[0], pos[1]).getLife();
+        int[] pos = getRandomTile(tableroEnemigo);
+        int vidaActual = tableroEnemigo.getTile(pos[0], pos[1]).getLife();
         
         int damage = (int) (vidaActual * 0.33); // 33% de la vida actual
         
-        enemyBoard.getTile(pos[0], pos[1]).daño(damage, "Cardumen");
+        tableroEnemigo.getTile(pos[0], pos[1]).daño(damage, "Cardumen");
         }
     }
     
-    public void sharkAttack(Board enemyBoard) {
+    public void sharkAttack(Board tableroEnemigo) {
         int[][] esquinas = {
             {0, 0}, // Superior izquierda
-            {0, enemyBoard.getCOLUMNS() - 1}, // Superior derecha
-            {enemyBoard.getROWS() - 1, 0}, // Inferior izquierda
-            {enemyBoard.getROWS() - 1, enemyBoard.getCOLUMNS() - 1} // Inferior derecha
+            {0, tableroEnemigo.getCOLUMNS() - 1}, // Superior derecha
+            {tableroEnemigo.getROWS() - 1, 0}, // Inferior izquierda
+            {tableroEnemigo.getROWS() - 1, tableroEnemigo.getCOLUMNS() - 1} // Inferior derecha
         };
         
         for (int[] esquina : esquinas) {
-            int radio = 1 + random.nextInt(10); // 1-10 casillas
-            atacarArea(enemyBoard, esquina[0], esquina[1], radio, 100, "Shark Attack");
+            int radio = 1 + random.nextInt(10); // 1 a 10 casillas
+            atacarArea(tableroEnemigo, esquina[0], esquina[1], radio, 100, "Shark Attack");
         }
     }
     
     //Pulpos con 8 tentáculo c/u en casiillas aleatorias, con 25% de daño cada tectacu
-    public void pulp(Board enemyBoard) {
-    int numPulpos = 20 + random.nextInt(31); // 20-50 pulpos
+    public void pulp(Board tableroEnemigo) {
+    int numPulpos = 20 + random.nextInt(31); // 20 a 50 pulpos
     
     // HashMap para contar cuántos tentáculos tocan cada casilla
     java.util.HashMap<String, Integer> tentaculosPorCasilla = new java.util.HashMap<>();
@@ -52,7 +52,7 @@ public class FishTelepathy extends Attack {
     //Aca se determina en dónde caen todos los tentáculos (simultáneamente)
         for (int i = 0; i < numPulpos; i++) {
             for (int j = 0; j < 8; j++) { // 8 tentáculos por pulpo
-                int[] pos = getRandomTile(enemyBoard);
+                int[] pos = getRandomTile(tableroEnemigo);
                 String coordenadas = pos[0] + "," + pos[1];
 
                 tentaculosPorCasilla.put(coordenadas, tentaculosPorCasilla.getOrDefault(coordenadas, 0) + 1);
@@ -66,15 +66,15 @@ public class FishTelepathy extends Attack {
             int col = Integer.parseInt(coords[1]);
             int numTentaculos = entry.getValue();
 
-            int vidaActual = enemyBoard.getTile(row, col).getLife();
+            int vidaActual = tableroEnemigo.getTile(row, col).getLife();
 
             if (numTentaculos >= 4) {
                 // Si hay 4 o más tentáculos en la misma casilla, se destruye completamente
-                enemyBoard.getTile(row, col).daño(vidaActual, "Pulp Tentacle (4+ hits)");
+                tableroEnemigo.getTile(row, col).daño(vidaActual, "Pulp Tentacle (4+ golpes)");
             } else {
                 // Si menos de 4, cada tentáculo hace 25% de la vida actual
                 int damageTotal = (int) (vidaActual * 0.25 * numTentaculos);
-                enemyBoard.getTile(row, col).daño(damageTotal, "Pulp Tentacle (" + numTentaculos + " hits)");
+                tableroEnemigo.getTile(row, col).daño(damageTotal, "Pulp Tentacle (" + numTentaculos + " golpes)");
             }
         }
     }
