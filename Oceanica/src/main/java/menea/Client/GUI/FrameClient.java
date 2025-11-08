@@ -46,13 +46,44 @@ public class FrameClient extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlBackground = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        pnlBitacora = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        pnlAttacks = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtAreaAttacks = new javax.swing.JTextArea();
         pnlBoard = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
+        pnlFighters = new javax.swing.JPanel();
+        pnlCharacterOne = new javax.swing.JPanel();
+        lblCharacterOneSanity = new javax.swing.JLabel();
+        lblCharacterOneImage = new javax.swing.JLabel();
+        lblCharacterOneName = new javax.swing.JLabel();
+        lblCharacterOneType = new javax.swing.JLabel();
+        lblCharacterOneTiles = new javax.swing.JLabel();
+        lblCharacterOneStrength = new javax.swing.JLabel();
+        lblCharacterOneEndurance = new javax.swing.JLabel();
+        pnlCharacterTwo = new javax.swing.JPanel();
+        lblCharacterTwoSanity = new javax.swing.JLabel();
+        lblCharacterTwoImage = new javax.swing.JLabel();
+        lblCharacterTwoName = new javax.swing.JLabel();
+        lblCharacterTwoType = new javax.swing.JLabel();
+        lblCharacterTwoTiles = new javax.swing.JLabel();
+        lblCharacterTwoStrength = new javax.swing.JLabel();
+        lblCharacterTwoEndurance = new javax.swing.JLabel();
+        pnlCharacterThree = new javax.swing.JPanel();
+        lblCharacterThreeSanity = new javax.swing.JLabel();
+        lblCharacterThreeImage = new javax.swing.JLabel();
+        lblCharacterThreeName = new javax.swing.JLabel();
+        lblCharacterThreeType = new javax.swing.JLabel();
+        lblCharacterThreeTiles = new javax.swing.JLabel();
+        lblCharacterThreeStrength = new javax.swing.JLabel();
+        lblCharacterThreeEndurance = new javax.swing.JLabel();
+        pnlCommandLine = new javax.swing.JPanel();
+        txtFieldCommandLine = new javax.swing.JTextField();
+        pnlCommandRegister = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtAreaCommandRegister = new javax.swing.JTextArea();
+        pnlState = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,96 +91,206 @@ public class FrameClient extends javax.swing.JFrame {
         pnlBackground.setPreferredSize(new java.awt.Dimension(1920, 1080));
         pnlBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
+        pnlBitacora.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout pnlBitacoraLayout = new javax.swing.GroupLayout(pnlBitacora);
+        pnlBitacora.setLayout(pnlBitacoraLayout);
+        pnlBitacoraLayout.setHorizontalGroup(
+            pnlBitacoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 290, Short.MAX_VALUE)
+        pnlBitacoraLayout.setVerticalGroup(
+            pnlBitacoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
         );
 
-        pnlBackground.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 490, 290));
+        pnlBackground.add(pnlBitacora, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 490, 290));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
+        pnlAttacks.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+
+        txtAreaAttacks.setEditable(false);
+        txtAreaAttacks.setColumns(20);
+        txtAreaAttacks.setRows(5);
+        jScrollPane2.setViewportView(txtAreaAttacks);
+
+        javax.swing.GroupLayout pnlAttacksLayout = new javax.swing.GroupLayout(pnlAttacks);
+        pnlAttacks.setLayout(pnlAttacksLayout);
+        pnlAttacksLayout.setHorizontalGroup(
+            pnlAttacksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+        pnlAttacksLayout.setVerticalGroup(
+            pnlAttacksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
         );
 
-        pnlBackground.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 490, 450));
+        pnlBackground.add(pnlAttacks, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 490, 450));
+
+        pnlBoard.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
 
         javax.swing.GroupLayout pnlBoardLayout = new javax.swing.GroupLayout(pnlBoard);
         pnlBoard.setLayout(pnlBoardLayout);
         pnlBoardLayout.setHorizontalGroup(
             pnlBoardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 900, Short.MAX_VALUE)
+            .addGap(0, 892, Short.MAX_VALUE)
         );
         pnlBoardLayout.setVerticalGroup(
             pnlBoardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGap(0, 612, Short.MAX_VALUE)
         );
 
         pnlBackground.add(pnlBoard, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 900, 620));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
+        pnlFighters.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+        pnlFighters.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlCharacterOne.setBackground(new java.awt.Color(255, 102, 51));
+        pnlCharacterOne.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblCharacterOneSanity.setText("jLabel1");
+        pnlCharacterOne.add(lblCharacterOneSanity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
+
+        lblCharacterOneImage.setText("jLabel1");
+        pnlCharacterOne.add(lblCharacterOneImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
+        lblCharacterOneName.setText("jLabel1");
+        pnlCharacterOne.add(lblCharacterOneName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
+
+        lblCharacterOneType.setText("jLabel1");
+        pnlCharacterOne.add(lblCharacterOneType, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
+
+        lblCharacterOneTiles.setText("jLabel1");
+        pnlCharacterOne.add(lblCharacterOneTiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
+
+        lblCharacterOneStrength.setText("jLabel1");
+        pnlCharacterOne.add(lblCharacterOneStrength, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
+
+        lblCharacterOneEndurance.setText("jLabel1");
+        pnlCharacterOne.add(lblCharacterOneEndurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
+
+        pnlFighters.add(pnlCharacterOne, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 250));
+
+        pnlCharacterTwo.setBackground(new java.awt.Color(255, 102, 51));
+        pnlCharacterTwo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblCharacterTwoSanity.setText("jLabel1");
+        pnlCharacterTwo.add(lblCharacterTwoSanity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
+
+        lblCharacterTwoImage.setText("jLabel1");
+        pnlCharacterTwo.add(lblCharacterTwoImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
+        lblCharacterTwoName.setText("jLabel1");
+        pnlCharacterTwo.add(lblCharacterTwoName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
+
+        lblCharacterTwoType.setText("jLabel1");
+        pnlCharacterTwo.add(lblCharacterTwoType, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
+
+        lblCharacterTwoTiles.setText("jLabel1");
+        pnlCharacterTwo.add(lblCharacterTwoTiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
+
+        lblCharacterTwoStrength.setText("jLabel1");
+        pnlCharacterTwo.add(lblCharacterTwoStrength, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
+
+        lblCharacterTwoEndurance.setText("jLabel1");
+        pnlCharacterTwo.add(lblCharacterTwoEndurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
+
+        pnlFighters.add(pnlCharacterTwo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 490, 250));
+
+        pnlCharacterThree.setBackground(new java.awt.Color(255, 102, 51));
+        pnlCharacterThree.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblCharacterThreeSanity.setText("jLabel1");
+        pnlCharacterThree.add(lblCharacterThreeSanity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
+
+        lblCharacterThreeImage.setText("jLabel1");
+        pnlCharacterThree.add(lblCharacterThreeImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
+        lblCharacterThreeName.setText("jLabel1");
+        pnlCharacterThree.add(lblCharacterThreeName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
+
+        lblCharacterThreeType.setText("jLabel1");
+        pnlCharacterThree.add(lblCharacterThreeType, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
+
+        lblCharacterThreeTiles.setText("jLabel1");
+        pnlCharacterThree.add(lblCharacterThreeTiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
+
+        lblCharacterThreeStrength.setText("jLabel1");
+        pnlCharacterThree.add(lblCharacterThreeStrength, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
+
+        lblCharacterThreeEndurance.setText("jLabel1");
+        pnlCharacterThree.add(lblCharacterThreeEndurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
+
+        pnlFighters.add(pnlCharacterThree, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 490, 250));
+
+        pnlBackground.add(pnlFighters, new org.netbeans.lib.awtextra.AbsoluteConstraints(1420, 10, 490, 750));
+
+        pnlCommandLine.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+
+        txtFieldCommandLine.setText("jTextField1");
+        txtFieldCommandLine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldCommandLineActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlCommandLineLayout = new javax.swing.GroupLayout(pnlCommandLine);
+        pnlCommandLine.setLayout(pnlCommandLineLayout);
+        pnlCommandLineLayout.setHorizontalGroup(
+            pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1892, Short.MAX_VALUE)
+            .addGroup(pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(txtFieldCommandLine, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1892, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+        pnlCommandLineLayout.setVerticalGroup(
+            pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 52, Short.MAX_VALUE)
+            .addGroup(pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(txtFieldCommandLine, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
         );
 
-        pnlBackground.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1420, 10, 490, 750));
+        pnlBackground.add(pnlCommandLine, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 1010, 1900, 60));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1900, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
+        pnlCommandRegister.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
 
-        pnlBackground.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 1010, 1900, 60));
+        txtAreaCommandRegister.setColumns(20);
+        txtAreaCommandRegister.setRows(5);
+        jScrollPane3.setViewportView(txtAreaCommandRegister);
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1900, Short.MAX_VALUE)
+        javax.swing.GroupLayout pnlCommandRegisterLayout = new javax.swing.GroupLayout(pnlCommandRegister);
+        pnlCommandRegister.setLayout(pnlCommandRegisterLayout);
+        pnlCommandRegisterLayout.setHorizontalGroup(
+            pnlCommandRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1892, Short.MAX_VALUE)
+            .addGroup(pnlCommandRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1892, Short.MAX_VALUE))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 230, Short.MAX_VALUE)
+        pnlCommandRegisterLayout.setVerticalGroup(
+            pnlCommandRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 222, Short.MAX_VALUE)
+            .addGroup(pnlCommandRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
         );
 
-        pnlBackground.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 770, 1900, 230));
+        pnlBackground.add(pnlCommandRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 770, 1900, 230));
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 900, Short.MAX_VALUE)
+        pnlState.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+
+        javax.swing.GroupLayout pnlStateLayout = new javax.swing.GroupLayout(pnlState);
+        pnlState.setLayout(pnlStateLayout);
+        pnlStateLayout.setHorizontalGroup(
+            pnlStateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 892, Short.MAX_VALUE)
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+        pnlStateLayout.setVerticalGroup(
+            pnlStateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
 
-        pnlBackground.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 640, 900, 120));
+        pnlBackground.add(pnlState, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 640, 900, 120));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,6 +305,10 @@ public class FrameClient extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtFieldCommandLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldCommandLineActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldCommandLineActionPerformed
 
     /**
      * @param args the command line arguments
@@ -191,13 +336,44 @@ public class FrameClient extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel lblCharacterOneEndurance;
+    private javax.swing.JLabel lblCharacterOneImage;
+    private javax.swing.JLabel lblCharacterOneName;
+    private javax.swing.JLabel lblCharacterOneSanity;
+    private javax.swing.JLabel lblCharacterOneStrength;
+    private javax.swing.JLabel lblCharacterOneTiles;
+    private javax.swing.JLabel lblCharacterOneType;
+    private javax.swing.JLabel lblCharacterThreeEndurance;
+    private javax.swing.JLabel lblCharacterThreeImage;
+    private javax.swing.JLabel lblCharacterThreeName;
+    private javax.swing.JLabel lblCharacterThreeSanity;
+    private javax.swing.JLabel lblCharacterThreeStrength;
+    private javax.swing.JLabel lblCharacterThreeTiles;
+    private javax.swing.JLabel lblCharacterThreeType;
+    private javax.swing.JLabel lblCharacterTwoEndurance;
+    private javax.swing.JLabel lblCharacterTwoImage;
+    private javax.swing.JLabel lblCharacterTwoName;
+    private javax.swing.JLabel lblCharacterTwoSanity;
+    private javax.swing.JLabel lblCharacterTwoStrength;
+    private javax.swing.JLabel lblCharacterTwoTiles;
+    private javax.swing.JLabel lblCharacterTwoType;
+    private javax.swing.JPanel pnlAttacks;
     private javax.swing.JPanel pnlBackground;
+    private javax.swing.JPanel pnlBitacora;
     private javax.swing.JPanel pnlBoard;
+    private javax.swing.JPanel pnlCharacterOne;
+    private javax.swing.JPanel pnlCharacterThree;
+    private javax.swing.JPanel pnlCharacterTwo;
+    private javax.swing.JPanel pnlCommandLine;
+    private javax.swing.JPanel pnlCommandRegister;
+    private javax.swing.JPanel pnlFighters;
+    private javax.swing.JPanel pnlState;
+    private javax.swing.JTextArea txtAreaAttacks;
+    private javax.swing.JTextArea txtAreaCommandRegister;
+    private javax.swing.JTextField txtFieldCommandLine;
     // End of variables declaration//GEN-END:variables
 }

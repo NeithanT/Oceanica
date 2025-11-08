@@ -49,8 +49,11 @@ public class PanelBoard extends JPanel {
         for (int row = 0; row < board.getROWS(); row++) {
             for (int column = 0; column < board.getCOLUMNS(); column++) {
                 //Tile tile = board.getTile(row, column); TODO take into account tile state
-                Color fill = new Color(230, 126, 34);
-
+                Color fill;
+                if (column % 2 == 0)
+                    fill = new Color(230, 126, 34);
+                else
+                    fill = new Color(200,100,50);
                 int x = column * (cellSizeX);
                 int y = row * (cellSizeY);
 
