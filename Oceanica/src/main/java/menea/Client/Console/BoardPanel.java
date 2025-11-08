@@ -13,6 +13,9 @@ public class BoardPanel extends JPanel {
     private Board board;
     private int cellSize = 18; // ajusta si quieres más grande/pequeño
     private int padding  = 2;
+    
+    private final int ROWS = 20;
+    private final int COLUMNS = 30;
 
     public BoardPanel(Board board) {
         this.board = board;
