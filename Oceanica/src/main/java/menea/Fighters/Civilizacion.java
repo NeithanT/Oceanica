@@ -1,8 +1,7 @@
 package menea.Fighters;
 
-import java.util.ArrayList;
-
 import menea.Tiles.Board;
+import java.util.ArrayList;
 
 public class Civilizacion {
     
@@ -88,7 +87,7 @@ public class Civilizacion {
         return false;
     }
     
-    public void stateReady(){
+    public void state(){
         if (luchadores.size() != MAX_LUCHADORES) {
             System.out.println("Debes tener 3 luchadores en esta civilizacion.");
             return;
@@ -118,40 +117,7 @@ public class Civilizacion {
         int casillasVivas = board.getCasillasVivas();
         return (casillasVivas * 100.0) / totalCasillas;
     }
-
-    public void lifeStatus(){
-
-        boolean todosMuertos = true;
-
-        for (Fighter fighter : luchadores) {
-            if (fighter.aliveStatus()) {
-                todosMuertos = false;
-                break;
-            }
-        }
-
-        this.viva = !todosMuertos;        
-    }
-        
     
-    //BITACORA
-    public String registrarAtaqueRealizado(Fighter luchador, Civilizacion atacada){
-        
-        if (luchador == null || atacada == null) {
-            return "Error: luchador o civilización atacada no válidos.";
-        }
-        
-        this.ataquesRealizados++;
-        atacada.ataquesRecibidos++;
-        
-        
-        
-        return "";
-    }
     
-    public String registrarAtaqueRecibido() {
-
-        return "";
-    }
     
 }

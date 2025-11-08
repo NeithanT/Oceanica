@@ -1,10 +1,14 @@
 package menea.Models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
-public final class CommandResult {
+public class CommandResult implements Serializable {
     //existe para que la consola sepa qué mostrar y todas retornen lo mismo y así
+   
+    private static final long serialVersionUID = 1L;//Es un número de versión de la clase Java lo usa para verificar que la clase que se envía y la que recibe son compatibles
+                                                 //long + grande
     private final boolean ok;
     private final String message;
 

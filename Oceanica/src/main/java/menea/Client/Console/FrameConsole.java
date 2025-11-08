@@ -4,22 +4,21 @@ package menea.Client.Console;
  *
  * @author melissa
  */
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import menea.Models.CommandAttack;
+import menea.Models.CommandContext;
+import menea.Models.CommandHelp;
 import menea.Models.CommandInterpreter;
+import menea.Models.CommandRegistry;
+import menea.Models.CommandSelectAttack;
+import menea.Models.StartCommand;
+import menea.Player.Player;
+import menea.Server.Client;
 import menea.Tiles.Board;
 
 public class FrameConsole extends javax.swing.JFrame {
     
     private CommandInterpreter interpreter;
-    private Board boardRef;
-    private GraphicsDevice gd;
-    
-    private static final String IMAGE_PATH = "/assets/";
-    private Image imageFondo;
+    private Board boardRef; 
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameConsole.class.getName());
 
@@ -30,27 +29,10 @@ public class FrameConsole extends javax.swing.JFrame {
     public FrameConsole() {
         initComponents();
     
-        txfCommandConsult.addActionListener(e -> ProcesarComando());
-        gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        try {
-            gd.setFullScreenWindow(this);
-        } catch (Exception e) {
-            System.out.println("Error cargando pantalla" + e.getMessage());
-        }
+        btnSend.addActionListener(e -> ProcesarComando());
+        txfCommand.addActionListener(e -> ProcesarComando());    
     
     }
-    
-    public void loadImage() {
-        try {
-
-            imageFondo = ImageIO.read(getClass().getResource(IMAGE_PATH + "BlackManta.png"));
-            imageFondo = imageFondo.getScaledInstance(260, 200, Image.SCALE_SMOOTH);
-    
-        } catch (IOException e) {
-            System.out.println("No se pudo cargar");
-        }
-    }
-    
     public void attachBoard(Board board) {
         this.boardRef = board;
         plnMatriz.repaint();       
@@ -74,16 +56,61 @@ public class FrameConsole extends javax.swing.JFrame {
     private void initComponents() {
 
         jPasswordField1 = new javax.swing.JPasswordField();
-        txfCommandConsult = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txfCommand = new javax.swing.JTextField();
+        plnMatriz = new javax.swing.JPanel();
+        btnSend = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txaLog = new javax.swing.JTextArea();
-        txfCommand1 = new javax.swing.JTextField();
-        pnlFondo = new javax.swing.JPanel();
-        plnMatriz = new javax.swing.JPanel();
 
         jPasswordField1.setText("jPasswordField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel1.setForeground(new java.awt.Color(0, 153, 153));
+
+        jLabel1.setFont(new java.awt.Font("Stencil", 0, 24)); // NOI18N
+        jLabel1.setText("CONSOLA OCEÁNICA PRUEBAAA");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(265, 265, 265)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel1)
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+
+        plnMatriz.setBackground(new java.awt.Color(204, 204, 204));
+        plnMatriz.setForeground(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout plnMatrizLayout = new javax.swing.GroupLayout(plnMatriz);
+        plnMatriz.setLayout(plnMatrizLayout);
+        plnMatrizLayout.setHorizontalGroup(
+            plnMatrizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 454, Short.MAX_VALUE)
+        );
+        plnMatrizLayout.setVerticalGroup(
+            plnMatrizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        btnSend.setText("Send");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
 
         txaLog.setEditable(false);
         txaLog.setColumns(20);
@@ -91,86 +118,61 @@ public class FrameConsole extends javax.swing.JFrame {
         txaLog.setRows(5);
         jScrollPane2.setViewportView(txaLog);
 
-        pnlFondo.setBackground(new java.awt.Color(255, 51, 51));
-
-        javax.swing.GroupLayout pnlFondoLayout = new javax.swing.GroupLayout(pnlFondo);
-        pnlFondo.setLayout(pnlFondoLayout);
-        pnlFondoLayout.setHorizontalGroup(
-            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 307, Short.MAX_VALUE)
-        );
-        pnlFondoLayout.setVerticalGroup(
-            pnlFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 170, Short.MAX_VALUE)
-        );
-
-        plnMatriz.setBackground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout plnMatrizLayout = new javax.swing.GroupLayout(plnMatriz);
-        plnMatriz.setLayout(plnMatrizLayout);
-        plnMatrizLayout.setHorizontalGroup(
-            plnMatrizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 286, Short.MAX_VALUE)
-        );
-        plnMatrizLayout.setVerticalGroup(
-            plnMatrizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 242, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(txfCommand)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(143, 143, 143)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(plnMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(pnlFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 753, Short.MAX_VALUE))
-                    .addComponent(txfCommandConsult)
-                    .addComponent(txfCommand1))
+                        .addGap(0, 285, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
-                        .addGap(3, 3, 3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(pnlFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(plnMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95)))
-                .addComponent(txfCommandConsult, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txfCommand1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(plnMatriz, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txfCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     
-        
+    
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSendActionPerformed
+    
     public void log(String message) {
         txaLog.append(message + "\n"); //agregar una línea a la bitácora 
     }
     
     private void ProcesarComando() {
-        String comando = txfCommandConsult.getText().trim(); //trim para eliminar espacios en blancos d l q el usuario ingrese 
+        String comando = txfCommand.getText().trim(); //trim para eliminar espacios en blancos d l q el usuario ingrese 
         if (comando.isEmpty()) return; //
 
         log(">" + comando); // > para que se note q es entrada del jugador
-        txfCommandConsult.setText("");
+        txfCommand.setText("");
 
         if (interpreter != null) {
             interpreter.handle(comando); 
@@ -180,6 +182,25 @@ public class FrameConsole extends javax.swing.JFrame {
         }
         public void logAttack(int dmg, int attacker, int target) {
         log("Jugador " + attacker + " atacó al jugador " + target + " con daño de " + dmg);
+    }
+    public void setupGame(Player player, Client client) {
+    // Acá se crea el registro
+    CommandRegistry registry = new CommandRegistry();
+    
+    // Se registran los comandos (esto es lo que falta)
+        registry.register(new CommandAttack());
+        registry.register(new CommandSelectAttack());
+        registry.register(new CommandHelp(registry));
+        registry.register(new StartCommand());
+
+        //Se crea el contexto
+        CommandContext ctx = new CommandContext(this, client, boardRef, player);
+
+        // Se crea el interpreter con el registry
+        CommandInterpreter interpreter = new CommandInterpreter(registry, ctx);
+
+        // Y se conecta a la consola
+        this.attachInterpreter(interpreter);
     }
     
     /**
@@ -208,12 +229,14 @@ public class FrameConsole extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSend;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel plnMatriz;
-    private javax.swing.JPanel pnlFondo;
     private javax.swing.JTextArea txaLog;
-    private javax.swing.JTextField txfCommand1;
-    private javax.swing.JTextField txfCommandConsult;
+    private javax.swing.JTextField txfCommand;
     // End of variables declaration//GEN-END:variables
 }
