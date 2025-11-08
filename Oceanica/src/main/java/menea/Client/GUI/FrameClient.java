@@ -3,6 +3,11 @@ package menea.Client.GUI;
 import java.awt.BorderLayout;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.io.IOException;
+import java.util.concurrent.locks.ReadWriteLock;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -13,12 +18,19 @@ public class FrameClient extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameClient.class.getName());
 
+    private static final String IMAGE_PATH = "/assets/";
+
+    public void load_Image() {
+
+    }
+
     GraphicsDevice gd;
     /**
      * Creates new form FrameClient
      */
     public FrameClient() {
         initComponents();
+        exampleLabels();
         gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         try {
@@ -35,6 +47,48 @@ public class FrameClient extends javax.swing.JFrame {
         pnlBoard.setLayout(new BorderLayout());
         pnlBoard.add(board, BorderLayout.CENTER);
     }
+
+    public ImageIcon loadImageIcon(String id) {
+        
+        try {
+            Image img = ImageIO.read(getClass().getResource(IMAGE_PATH + id + ".png"));
+            img = img.getScaledInstance(240, 240, Image.SCALE_SMOOTH);
+            return new ImageIcon(img);
+        } catch (IOException e) {
+            System.out.println("No se pudo cargar imagen:" + e.getMessage());
+        }
+        return new ImageIcon();
+    }
+    private void exampleLabels() {
+
+        lblCharacterOneName.setText("Chica Fresita");
+        lblCharacterOneType.setText("Volcano");
+        lblCharacterOneTiles.setText("30%");
+        lblCharacterOneStrength.setText("Fuerza: 50");
+        lblCharacterOneEndurance.setText("Resistencia: 75");
+        lblCharacterOneSanity.setText("Sanidad: 50");
+        lblCharacterOneImage.setText("");
+        lblCharacterOneImage.setIcon(loadImageIcon("ChicaFresita"));
+        
+        lblCharacterTwoName.setText("Lebron James");
+        lblCharacterTwoType.setText("Trident:");
+        lblCharacterTwoTiles.setText("40%");
+        lblCharacterTwoStrength.setText("Fuerza: 100");
+        lblCharacterTwoEndurance.setText("Resistencia: 100");
+        lblCharacterTwoSanity.setText("Sanidad: 100");
+        lblCharacterTwoImage.setText("");
+        lblCharacterTwoImage.setIcon(loadImageIcon("LebronJames"));
+        
+        lblCharacterThreeName.setText("Dr Strange");
+        lblCharacterThreeType.setText("Waves Control");
+        lblCharacterThreeTiles.setText("30%");
+        lblCharacterThreeStrength.setText("Fuerza: 75");
+        lblCharacterThreeEndurance.setText("Resistencia: 75");
+        lblCharacterThreeSanity.setText("Sanidad: 50");
+        lblCharacterThreeImage.setText("");
+        lblCharacterThreeImage.setIcon(loadImageIcon("DrStrange"));
+        
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,7 +102,7 @@ public class FrameClient extends javax.swing.JFrame {
         pnlBackground = new javax.swing.JPanel();
         pnlBitacora = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtAreaBitacora = new javax.swing.JTextArea();
         pnlAttacks = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAreaAttacks = new javax.swing.JTextArea();
@@ -93,9 +147,10 @@ public class FrameClient extends javax.swing.JFrame {
 
         pnlBitacora.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtAreaBitacora.setEditable(false);
+        txtAreaBitacora.setColumns(20);
+        txtAreaBitacora.setRows(5);
+        jScrollPane1.setViewportView(txtAreaBitacora);
 
         javax.swing.GroupLayout pnlBitacoraLayout = new javax.swing.GroupLayout(pnlBitacora);
         pnlBitacora.setLayout(pnlBitacoraLayout);
@@ -149,6 +204,7 @@ public class FrameClient extends javax.swing.JFrame {
         pnlFighters.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlCharacterOne.setBackground(new java.awt.Color(255, 102, 51));
+        pnlCharacterOne.setOpaque(false);
         pnlCharacterOne.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblCharacterOneSanity.setText("jLabel1");
@@ -175,6 +231,7 @@ public class FrameClient extends javax.swing.JFrame {
         pnlFighters.add(pnlCharacterOne, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 250));
 
         pnlCharacterTwo.setBackground(new java.awt.Color(255, 102, 51));
+        pnlCharacterTwo.setOpaque(false);
         pnlCharacterTwo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblCharacterTwoSanity.setText("jLabel1");
@@ -201,6 +258,7 @@ public class FrameClient extends javax.swing.JFrame {
         pnlFighters.add(pnlCharacterTwo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 490, 250));
 
         pnlCharacterThree.setBackground(new java.awt.Color(255, 102, 51));
+        pnlCharacterThree.setOpaque(false);
         pnlCharacterThree.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblCharacterThreeSanity.setText("jLabel1");
@@ -230,7 +288,7 @@ public class FrameClient extends javax.swing.JFrame {
 
         pnlCommandLine.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
 
-        txtFieldCommandLine.setText("jTextField1");
+        txtFieldCommandLine.setText(">");
         txtFieldCommandLine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFieldCommandLineActionPerformed(evt);
@@ -339,7 +397,6 @@ public class FrameClient extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblCharacterOneEndurance;
     private javax.swing.JLabel lblCharacterOneImage;
     private javax.swing.JLabel lblCharacterOneName;
@@ -373,6 +430,7 @@ public class FrameClient extends javax.swing.JFrame {
     private javax.swing.JPanel pnlFighters;
     private javax.swing.JPanel pnlState;
     private javax.swing.JTextArea txtAreaAttacks;
+    private javax.swing.JTextArea txtAreaBitacora;
     private javax.swing.JTextArea txtAreaCommandRegister;
     private javax.swing.JTextField txtFieldCommandLine;
     // End of variables declaration//GEN-END:variables
