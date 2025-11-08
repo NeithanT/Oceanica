@@ -4,7 +4,15 @@ package menea.Client.Console;
  *
  * @author melissa
  */
+import menea.Models.CommandAttack;
+import menea.Models.CommandContext;
+import menea.Models.CommandHelp;
 import menea.Models.CommandInterpreter;
+import menea.Models.CommandRegistry;
+import menea.Models.CommandSelectAttack;
+import menea.Models.StartCommand;
+import menea.Player.Player;
+import menea.Server.Client;
 import menea.Tiles.Board;
 
 public class FrameConsole extends javax.swing.JFrame {
@@ -174,6 +182,25 @@ public class FrameConsole extends javax.swing.JFrame {
         }
         public void logAttack(int dmg, int attacker, int target) {
         log("Jugador " + attacker + " atacó al jugador " + target + " con daño de " + dmg);
+    }
+    public void setupGame(Player player, Client client) {
+    // Acá se crea el registro
+    CommandRegistry registry = new CommandRegistry();
+    
+    // Se registran los comandos (esto es lo que falta)
+        registry.register(new CommandAttack());
+        registry.register(new CommandSelectAttack());
+        registry.register(new CommandHelp(registry));
+        registry.register(new StartCommand());
+
+        //Se crea el contexto
+        CommandContext ctx = new CommandContext(this, client, boardRef, player);
+
+        // Se crea el interpreter con el registry
+        CommandInterpreter interpreter = new CommandInterpreter(registry, ctx);
+
+        // Y se conecta a la consola
+        this.attachInterpreter(interpreter);
     }
     
     /**

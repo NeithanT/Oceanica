@@ -1,5 +1,6 @@
 package menea.Models;
 
+import java.io.Serializable;
 import menea.Tiles.Board;
 import menea.Fighters.Attack;
 import menea.Fighters.FishTelepathy;
@@ -7,11 +8,14 @@ import menea.Fighters.ReleaseTheKraken;
 import menea.Fighters.ThundersUnderTheSea;
 
 
-public class CommandAttack extends Command {
+public class CommandAttack extends Command implements Serializable {
+    private static final long serialVersionUID = 1L;//Es un número de versión de la clase Java lo usa para verificar que la clase que se envía y la que recibe son compatibles
     
     public CommandAttack() { }
 
-    @Override public String name(){ return "ATTACK"; }
+    @Override public String name(){ 
+        return "ATTACK";
+    }
     @Override public String help(){ //TODO: agregar los ataques de Alina 
         return "ATTACK <metodo> [parámetros] -> Ejecuta un ataque específico\n" +  //los parámetros son la info extra que el usuario debe ingresar estos varían dependiendo del ataque y así 
                "Métodos disponibles dependen de tu tipo de ataque seleccionado:\n\n" +
