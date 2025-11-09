@@ -11,21 +11,23 @@ import menea.Tiles.Board;
  * @author melissa
  */
 public class FishTelepathy extends Attack {
+    
     public FishTelepathy() {
         super(AttackType.FISH_TELEPHATY);
     }
+    
     //peces atacan aleatoriamente casillas, cada pez daña 33% de la vida de la casilla
     public void cardumen(Board tableroEnemigo) {
-    int numPeces = 100 + random.nextInt(201); // 100 300 peces
-    
-    for (int i = 0; i < numPeces; i++) {
-        int[] pos = getRandomTile(tableroEnemigo);
-        int vidaActual = tableroEnemigo.getTile(pos[0], pos[1]).getLife();
-        
-        int damage = (int) (vidaActual * 0.33); // 33% de la vida actual
-        
-        tableroEnemigo.getTile(pos[0], pos[1]).daño(damage, "Cardumen");
-        }
+        int numPeces = 100 + random.nextInt(201); // 100 300 peces
+
+        for (int i = 0; i < numPeces; i++) {
+            int[] pos = getRandomTile(tableroEnemigo);
+            int vidaActual = tableroEnemigo.getTile(pos[0], pos[1]).getLife();
+
+            int damage = (int) (vidaActual * 0.33); // 33% de la vida actual
+
+            tableroEnemigo.getTile(pos[0], pos[1]).daño(damage, "Cardumen");
+            }
     }
     
     public void sharkAttack(Board tableroEnemigo) {
@@ -44,12 +46,12 @@ public class FishTelepathy extends Attack {
     
     //Pulpos con 8 tentáculo c/u en casiillas aleatorias, con 25% de daño cada tectacu
     public void pulp(Board tableroEnemigo) {
-    int numPulpos = 20 + random.nextInt(31); // 20 a 50 pulpos
-    
-    // HashMap para contar cuántos tentáculos tocan cada casilla
-    java.util.HashMap<String, Integer> tentaculosPorCasilla = new java.util.HashMap<>();
-    
-    //Aca se determina en dónde caen todos los tentáculos (simultáneamente)
+        int numPulpos = 20 + random.nextInt(31); // 20 a 50 pulpos
+
+        // HashMap para contar cuántos tentáculos tocan cada casilla
+        java.util.HashMap<String, Integer> tentaculosPorCasilla = new java.util.HashMap<>();
+
+        //Aca se determina en dónde caen todos los tentáculos (simultáneamente)
         for (int i = 0; i < numPulpos; i++) {
             for (int j = 0; j < 8; j++) { // 8 tentáculos por pulpo
                 int[] pos = getRandomTile(tableroEnemigo);
@@ -78,4 +80,8 @@ public class FishTelepathy extends Attack {
             }
         }
     }
+    
+    
+    
+    
 }

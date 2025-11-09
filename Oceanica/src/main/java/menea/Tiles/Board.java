@@ -10,6 +10,7 @@ public class Board {
     private final int AMT_FIGHTERS = 3;
     private Tile[][] tiles;
     private Fighter[] fighters;
+    
     public Board() {
         tiles = new Tile[ROWS][COLUMNS];
         fighters = new Fighter[AMT_FIGHTERS];
