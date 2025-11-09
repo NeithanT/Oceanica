@@ -6,19 +6,21 @@ import menea.Fighters.Fighter;
 
 
 public class Tile {
-    
+
     private Fighter owner;  // quién la posee
     private TileState state;
-    private int life;           
+    private int life;
     private final ArrayList<String> history; // historial para guardar td lo que pasa durante el juego, final para que si alguien hace un newAr....
+    private final ArrayList<SpecialObject> specialObjects; // objetos especiales en la casilla (volcanes, remolinos, basura)
 
     public Tile() {
-        this.state = TileState.EMPTY; 
+        this.state = TileState.EMPTY;
         this.life = 100;
         this.history = new ArrayList<>();
+        this.specialObjects = new ArrayList<>();
     }
 
-     public void daño(int cantidad, String atacante) {
+    public void daño(int cantidad, String atacante) {
         if (life <= 0) return;
         int antes = life;
         life = Math.max(0, life - cantidad);
@@ -64,6 +66,20 @@ public class Tile {
 
     public void setLife(int life) {
         this.life = life;
+    }
+
+    public ArrayList<SpecialObject> getSpecialObjects() {
+        return specialObjects;
+    }
+
+    public void addSpecialObject(SpecialObject obj) {
+        this.specialObjects.add(obj);
+        this.history.add("Objeto especial añadido: " + obj.getType());
+    }
+
+    public void removeSpecialObject(SpecialObject obj) {
+        this.specialObjects.remove(obj);
+        this.history.add("Objeto especial removido: " + obj.getType());
     }
 
 }

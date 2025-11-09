@@ -5,16 +5,13 @@ import menea.Tiles.Board;
 
 
 public abstract class Attack {
-     protected Random random; //protected para que sus clases hijas sin importar el paquete, puedan utilizarlos incluso sin gets sets 
+    protected Random random; //protected para que sus clases hijas sin importar el paquete, puedan utilizarlos incluso sin gets sets 
     protected AttackType tipo;
     
-    public Attack() {
-        this.random = new Random();
-    }
-
     //CONSTRUCTOR
     public Attack(AttackType tipo) {
         this.tipo = tipo;
+        this.random = new Random();
     }
     
     public void atacarArea(Board board, int centroX, int CentroY, int radio, int damage, String atacante){
@@ -32,7 +29,7 @@ public abstract class Attack {
         }
     }
     
-    public void atacarLinea (Board board, int inicioX, int inicioY, String direccion, int alcance, int damage, String atacante){
+    public void atacarLinea (Board board, int inicioX, int inicioY, String direccion, int alcance, int damage, String ataque){
         //ataca en linea recta hacia abajo, arriba, der o izq
         for (int i = 1; i <= alcance; i++){
         
@@ -51,7 +48,7 @@ public abstract class Attack {
                     break;
             }
             
-            board.getTile(inicioX, inicioY).daño(damage, atacante);
+            board.getTile(inicioX, inicioY).daño(damage, ataque);
         }
     }
     

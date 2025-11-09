@@ -11,9 +11,11 @@ import menea.Tiles.Board;
  * @author melissa
  */
 public class ReleaseTheKraken extends Attack {
+    
     public ReleaseTheKraken() {
         super(AttackType.RELEASE_THE_KRAKEN);
     }
+    
     //Permite colocar en el tabelro la aparición de 3 tent q destruyan 1 casilla de radio a su alrededor
     public void tentaculos(Board tableroEnemigo) {
         for (int i = 0; i < 3; i++) {
