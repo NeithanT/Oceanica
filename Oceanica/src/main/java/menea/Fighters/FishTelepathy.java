@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package menea.Fighters;
 
 import menea.Tiles.Board;
 
-/**
- *
- * @author melissa
- */
 public class FishTelepathy extends Attack {
     public FishTelepathy() {
         super(AttackType.FISH_TELEPHATY);
@@ -44,12 +36,12 @@ public class FishTelepathy extends Attack {
     
     //Pulpos con 8 tentáculo c/u en casiillas aleatorias, con 25% de daño cada tectacu
     public void pulp(Board tableroEnemigo) {
-    int numPulpos = 20 + random.nextInt(31); // 20 a 50 pulpos
-    
-    // HashMap para contar cuántos tentáculos tocan cada casilla
-    java.util.HashMap<String, Integer> tentaculosPorCasilla = new java.util.HashMap<>();
-    
-    //Aca se determina en dónde caen todos los tentáculos (simultáneamente)
+        int numPulpos = 20 + random.nextInt(31); // 20 a 50 pulpos
+
+        // HashMap para contar cuántos tentáculos tocan cada casilla
+        java.util.HashMap<String, Integer> tentaculosPorCasilla = new java.util.HashMap<>();
+
+        //Aca se determina en dónde caen todos los tentáculos (simultáneamente)
         for (int i = 0; i < numPulpos; i++) {
             for (int j = 0; j < 8; j++) { // 8 tentáculos por pulpo
                 int[] pos = getRandomTile(tableroEnemigo);

@@ -16,14 +16,6 @@ import menea.Fighters.ThundersUnderTheSea;
 public class CommandSelectAttack extends Command{
    @Override 
     public String name(){ return "SELECT"; }
-    
-    @Override 
-    public String help(){ 
-        return "SELECT <tipo>: Selecciona tu tipo de ataque:\n" +
-               "  1. FISH_TELEPHATY\n" +
-               "  2. THUNDERS_UNDER_THE_SEA\n" +
-               "  3. RELEASE_THE_KRAKEN";
-    }
 
     @Override
     public CommandResult execute(CommandContext ctx, String[] args){

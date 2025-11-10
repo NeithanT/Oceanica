@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package menea.Fighters;
 
 import menea.Tiles.Board;
 
-/**
- *
- * @author melissa
- */
 public class ThundersUnderTheSea extends Attack {
     public ThundersUnderTheSea() {
         super(AttackType.THUNDERS_UNDER_THE_SEA);
@@ -47,6 +39,7 @@ public class ThundersUnderTheSea extends Attack {
             }
         }
     }
+    
     // Entre 25 y 100 angilas, cada una da 1-10 descargas de 10% cada una
     public void elAttack(Board tableroEnemigo) {
         int numAnguilas = 25 + random.nextInt(76); // 25-100 anguilas

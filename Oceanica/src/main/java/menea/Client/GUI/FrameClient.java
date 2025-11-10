@@ -5,7 +5,6 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.IOException;
-import java.util.concurrent.locks.ReadWriteLock;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -18,11 +17,9 @@ public class FrameClient extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameClient.class.getName());
 
+    private ClientManager manager;
     private static final String IMAGE_PATH = "/assets/";
 
-    public void load_Image() {
-
-    }
 
     GraphicsDevice gd;
     /**
@@ -31,6 +28,20 @@ public class FrameClient extends javax.swing.JFrame {
     public FrameClient() {
         initComponents();
         exampleLabels();
+        setFullScreen();
+        
+        drawBoard();
+        
+        manager = new ClientManager();
+        manager.setLogArea(txtAreaCommandRegister);
+        manager.setAttackLog(txtAreaAttacks);
+        manager.setBitacora(txtAreaBitacora);
+        manager.setCommandField(txtFieldCommandLine);
+        manager.setBoardPanel(pnlBoard);
+    }
+
+    private void setFullScreen() {
+    
         gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         try {
@@ -38,10 +49,8 @@ public class FrameClient extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error cargando pantalla " + e.getMessage());
         }
-        
-        drawBoard();
     }
-
+    
     public void drawBoard() {
         JPanel board = new PanelBoard(pnlBoard);
         pnlBoard.setLayout(new BorderLayout());
@@ -59,6 +68,7 @@ public class FrameClient extends javax.swing.JFrame {
         }
         return new ImageIcon();
     }
+    
     private void exampleLabels() {
 
         lblCharacterOneName.setText("Chica Fresita");
@@ -287,33 +297,21 @@ public class FrameClient extends javax.swing.JFrame {
         pnlBackground.add(pnlFighters, new org.netbeans.lib.awtextra.AbsoluteConstraints(1420, 10, 490, 750));
 
         pnlCommandLine.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+        pnlCommandLine.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtFieldCommandLine.setText(">");
+        txtFieldCommandLine.setCaretColor(new java.awt.Color(0, 102, 0));
         txtFieldCommandLine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFieldCommandLineActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout pnlCommandLineLayout = new javax.swing.GroupLayout(pnlCommandLine);
-        pnlCommandLine.setLayout(pnlCommandLineLayout);
-        pnlCommandLineLayout.setHorizontalGroup(
-            pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1892, Short.MAX_VALUE)
-            .addGroup(pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(txtFieldCommandLine, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1892, Short.MAX_VALUE))
-        );
-        pnlCommandLineLayout.setVerticalGroup(
-            pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 52, Short.MAX_VALUE)
-            .addGroup(pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(txtFieldCommandLine, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
-        );
+        pnlCommandLine.add(txtFieldCommandLine, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 4, 1890, 52));
 
         pnlBackground.add(pnlCommandLine, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 1010, 1900, 60));
 
         pnlCommandRegister.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
 
+        txtAreaCommandRegister.setEditable(false);
         txtAreaCommandRegister.setColumns(20);
         txtAreaCommandRegister.setRows(5);
         jScrollPane3.setViewportView(txtAreaCommandRegister);
@@ -365,7 +363,7 @@ public class FrameClient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtFieldCommandLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldCommandLineActionPerformed
-        // TODO add your handling code here:
+        manager.processCommand();
     }//GEN-LAST:event_txtFieldCommandLineActionPerformed
 
     /**

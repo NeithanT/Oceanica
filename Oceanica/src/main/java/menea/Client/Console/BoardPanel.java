@@ -11,7 +11,7 @@ import java.awt.*;
 public class BoardPanel extends JPanel {
 
     private Board board;
-    private int cellSize = 18; // ajusta si quieres más grande/pequeño
+    private int cellSize = 18;
     private int padding  = 2;
 
     public BoardPanel(Board board) {

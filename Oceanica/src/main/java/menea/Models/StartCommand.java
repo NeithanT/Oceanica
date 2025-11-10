@@ -1,9 +1,9 @@
 package menea.Models;
 
 public class StartCommand extends Command {
-    @Override public String name(){ return "START"; }
-    @Override public String help(){ return "START -> asigna zonas iniciales y muestra resumen"; }
-
+    @Override
+    public String name() { return "START"; }
+    
     @Override
     public CommandResult execute(CommandContext ctx, String[] args){
         try {
