@@ -26,10 +26,9 @@ public class TheTrident extends Attack{
                 String direccion = direcciones[random.nextInt(direcciones.length)]; //escoge la direccion a atacar aleatoriamente
                 
                 atacarLinea(boardAtacado, fila, columna, direccion, alcance, 100, "Three Lines");
-                
+
             }
-        }  
-        //TODO: registrar en bitacora
+        }
     }
     
     public void threeNumbers(Board boardAtacado, int[] numerosTrident, int[] numerosAtacado){
@@ -63,9 +62,7 @@ public class TheTrident extends Attack{
                 atacarRandomTile(boardAtacado, 100, "Three Numbers");
             }
         }
-        
-        //TODO: registrar en bitacora
-        
+
     }
 
     public void controlTheKraken(Board boardAtacado, ReleaseTheKraken ataqueKraken){
