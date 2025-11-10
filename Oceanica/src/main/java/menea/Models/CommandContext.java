@@ -1,7 +1,6 @@
 package menea.Models;
 
 import java.io.Serializable;
-import menea.Client.Console.FrameConsole; 
 import menea.Player.Player;
 import menea.Server.Client;
 import menea.Tiles.Board;
@@ -10,18 +9,17 @@ public class CommandContext {
     //Este no es serializable, pq tiene referencias a objetos cm Frame.. lo de los atributos 
     //no lo serialicé, pero si voy a agregar un método para serrializar los datos
     //revisar si eso sí está bien o qué hacer si no lo está 
-    //referencias útiles para cualquier comando 
-    private final FrameConsole console;
+    //referencias útiles para cualquier comando
     private final Client clientUI;
     private final Board board;
     private final Player player;
 
-    public CommandContext(FrameConsole console, Client clientUI, Board board, Player player) {
-        this.console = console;
+    public CommandContext(Client clientUI, Board board, Player player) {
         this.clientUI = clientUI;
         this.board = board;
         this.player = player;
     }
+    
     public class AttackMessage implements Serializable {
         private static final long serialVersionUID = 1L;
 
@@ -60,9 +58,6 @@ public class CommandContext {
             }
       
         }
-    public FrameConsole console(){ 
-        return console; 
-    }
     public Client client(){ 
         return clientUI; 
     }

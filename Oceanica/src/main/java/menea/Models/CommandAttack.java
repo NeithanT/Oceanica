@@ -8,30 +8,15 @@ import menea.Fighters.ReleaseTheKraken;
 import menea.Fighters.ThundersUnderTheSea;
 
 
-public class CommandAttack extends Command implements Serializable {
-    private static final long serialVersionUID = 1L;//Es un número de versión de la clase Java lo usa para verificar que la clase que se envía y la que recibe son compatibles
+public class CommandAttack extends Command {
     
     public CommandAttack() { }
 
-    @Override public String name(){ 
+    @Override
+    public String name() { 
         return "ATTACK";
     }
-    @Override public String help(){ //TODO: agregar los ataques de Alina 
-        return "ATTACK <metodo> [parámetros] -> Ejecuta un ataque específico\n" +  //los parámetros son la info extra que el usuario debe ingresar estos varían dependiendo del ataque y así 
-               "Métodos disponibles dependen de tu tipo de ataque seleccionado:\n\n" +
-               "FISH_TELEPHATY:\n" +
-               "  - ATTACK CARDUMEN\n" +
-               "  - ATTACK SHARK\n" +
-               "  - ATTACK PULP\n\n" +
-               "THUNDERS_UNDER_THE_SEA:\n" +
-               "  - ATTACK THUNDERRAIN\n" +
-               "  - ATTACK POSEIDON\n" +
-               "  - ATTACK EEL\n\n" +
-               "RELEASE_THE_KRAKEN:\n" +
-               "  - ATTACK TENTACLES\n" +
-               "  - ATTACK BREATH <fila> <col> <direccion>\n" +
-               "  - ATTACK KRAKEN"; 
-    }
+    
 
     @Override
     public CommandResult execute(CommandContext ctx, String[] args) {
@@ -56,6 +41,7 @@ public class CommandAttack extends Command implements Serializable {
             return CommandResult.fail("Error al ejecutar ataque: " + e.getMessage());
         }
     }
+    
     private CommandResult ejecutarAtaque(String metodo, String[] args, Board tableroEnemigo, CommandContext ctx) {
         // Aquí se necesita obtener el tipo de ataque del jugador
         // De la manera en q lo programé está genérico
@@ -87,21 +73,18 @@ public class CommandAttack extends Command implements Serializable {
         switch (metodo) {
             case "CARDUMEN":
                 ataque.cardumen(tablero);
-                ctx.console().log("Cardumen de peces lanzado");
+                
                 break;
             case "SHARK":
                 ataque.sharkAttack(tablero);
-                ctx.console().log("Ataque de tiburones desde las esquinas");
                 break;
             case "PULP":
                 ataque.pulp(tablero);
-                ctx.console().log("Pulpos con tentáculos lanzados");
                 break;
             default:
                 return CommandResult.fail("Método no válido para Fish Telepathy. Usa: CARDUMEN, SHARK, o PULP");
         }
         
-        ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
@@ -110,21 +93,16 @@ public class CommandAttack extends Command implements Serializable {
             case "THUNDERRAIN":
             case "RAIN":
                 ataque.thunderRain(tablero);
-                ctx.console().log("Lluvia de truenos cayendo");
                 break;
             case "POSEIDON":
                 ataque.poseidonThunders(tablero);
-                ctx.console().log("Truenos de Poseidón cayendo");
                 break;
             case "ELATTACK":
                 ataque.elAttack(tablero);
-                ctx.console().log("Anguilas eléctricas atacan");
                 break;
             default:
                 return CommandResult.fail("Método no válido para Thunders. Usa: THUNDERRAIN, POSEIDON, o ELATTACK");
         }
-        
-        ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
@@ -133,7 +111,6 @@ public class CommandAttack extends Command implements Serializable {
             case "TENTACLES":
             case "TENTACULOS":
                 ataque.tentaculos(tablero);
-                ctx.console().log("¡Tentáculos del Kraken emergen!");
                 break;
             case "BREATH":
             case "ALIENTO":
@@ -145,7 +122,6 @@ public class CommandAttack extends Command implements Serializable {
                     int col = Integer.parseInt(args[2]) - 1;
                     String direccion = args[3];
                     ataque.krakenBreath(tablero, fila, col, direccion);
-                    ctx.console().log("¡Aliento del Kraken lanzado hacia " + direccion + "!");
                 } catch (NumberFormatException e) {
                     return CommandResult.fail("Fila y columna deben ser números.");
                 }
@@ -153,13 +129,11 @@ public class CommandAttack extends Command implements Serializable {
             case "KRAKEN":
             case "RELEASE":
                 ataque.releaseTheKraken(tablero);
-                ctx.console().log("¡Release the Kraken! Destrucción masiva!");
                 break;
             default:
                 return CommandResult.fail("Método no válido para Kraken. Usa: TENTACLES, BREATH, o KRAKEN");
         }
         
-        ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
        

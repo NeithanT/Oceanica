@@ -7,7 +7,6 @@ import menea.Tiles.Tile;
 public abstract class Fighter {
     
     private AttackType type;
-    private Attack attack;
     
     private String name;
     protected String imagePath;
@@ -40,15 +39,6 @@ public abstract class Fighter {
 
     public int getRepresentationPercentage() {
         return representationPercentage;
-    }
-    
-    public Attack getAttack() {
-        return attack;
-    }
-
-    public void setAttack(Attack attack) {
-        this.attack = attack;
-        this.type = attack.getTipo();
     }
     
 }

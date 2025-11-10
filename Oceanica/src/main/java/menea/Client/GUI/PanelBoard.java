@@ -31,9 +31,6 @@ public class PanelBoard extends JPanel {
         width = (int)pnl.getWidth();
         height = (int)pnl.getHeight();
         
-        System.out.println(width);
-        System.out.println(height);
-        
         cellSizeX = width/COLUMNS;
         cellSizeY = height/ROWS;
     }
