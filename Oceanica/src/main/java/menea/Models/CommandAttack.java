@@ -20,79 +20,80 @@ public class CommandAttack extends Command implements Serializable {
     }
     
     @Override public String help(){
-        return "ATTACK <metodo> [parámetros] -> Ejecuta un ataque específico\n" +  //los parámetros son la info extra que el usuario debe ingresar estos varían dependiendo del ataque y así
+        return "ATTACK <NombreJugador> <metodo> [parámetros] -> Ejecuta un ataque específico\n" +
                "Métodos disponibles dependen de tu tipo de ataque seleccionado:\n\n" +
                "FISH_TELEPHATY:\n" +
-               "  - ATTACK CARDUMEN\n" +
-               "  - ATTACK SHARK\n" +
-               "  - ATTACK PULP\n\n" +
+               "  - ATTACK NombreJugador CARDUMEN\n" +
+               "  - ATTACK NombreJugador SHARK\n" +
+               "  - ATTACK NombreJugador PULP\n\n" +
                "THUNDERS_UNDER_THE_SEA:\n" +
-               "  - ATTACK THUNDERRAIN\n" +
-               "  - ATTACK POSEIDON\n" +
-               "  - ATTACK EEL\n\n" +
+               "  - ATTACK NombreJugador THUNDERRAIN\n" +
+               "  - ATTACK NombreJugador POSEIDON\n" +
+               "  - ATTACK NombreJugador EEL\n\n" +
                "RELEASE_THE_KRAKEN:\n" +
-               "  - ATTACK TENTACLES\n" +
-               "  - ATTACK BREATH <fila> <col> <direccion>\n" +
-               "  - ATTACK KRAKEN\n\n" +
+               "  - ATTACK NombreJugador TENTACLES\n" +
+               "  - ATTACK NombreJugador BREATH <fila> <col> <direccion>\n" +
+               "  - ATTACK NombreJugador KRAKEN\n\n" +
                "WAVES_CONTROL:\n" +
-               "  - ATTACK SWIRL\n" +
-               "  - ATTACK GARBAGE\n" +
-               "  - ATTACK RADIOACTIVE\n\n" +
+               "  - ATTACK NombreJugador SWIRL\n" +
+               "  - ATTACK NombreJugador GARBAGE\n" +
+               "  - ATTACK NombreJugador RADIOACTIVE\n\n" +
                "UNDERSEA_VOLCANOES:\n" +
-               "  - ATTACK VOLCANO\n" +
-               "  - ATTACK EXPLOSION\n" +
-               "  - ATTACK TERMAL\n\n" +
+               "  - ATTACK NombreJugador VOLCANO\n" +
+               "  - ATTACK NombreJugador EXPLOSION\n" +
+               "  - ATTACK NombreJugador TERMAL\n\n" +
                "THE_TRIDENT:\n" +
-               "  - ATTACK THREELINES <x1> <y1> <x2> <y2> <x3> <y3>\n" +
-               "  - ATTACK THREENUMBERS <n1> <n2> <n3> <en1> <en2> <en3>";
+               "  - ATTACK NombreJugador THREELINES <x1> <y1> <x2> <y2> <x3> <y3>\n" +
+               "  - ATTACK NombreJugador THREENUMBERS <n1> <n2> <n3> <en1> <en2> <en3>";
     }
 
     @Override
     public CommandResult execute(CommandContext ctx, String[] args) {
-       if (args.length < 1) {
-            return CommandResult.fail("Uso: ATTACK <metodo> [parámetros]\nEscribe 'HELP ATTACK' para ver métodos disponibles.");
+       if (args.length < 2) {
+            return CommandResult.fail("Uso: ATTACK <NombreJugador> <metodo> [parámetros]\nEscribe 'HELP ATTACK' para ver métodos disponibles.");
         }
        if (ctx.player().getFighters().isEmpty()) { //obtiene el ataque del jugador actual
             return CommandResult.fail("No tienes fighters asignados.");
         }
        //TODO: agregar getter en figther
        //como Attack ataque = ctx.player().getFighters().get(0).getAttack();
-       
-       //ACÁ se SIMULA que ys está seleccionado, pero se tiene que verificar si sí 
-       
-       String metodo = args[0].toUpperCase();
-       
+
+       //ACÁ se SIMULA que ys está seleccionado, pero se tiene que verificar si sí
+
+       String jugadorObjetivo = args[0]; // Primer parámetro: nombre del jugador a atacar
+       String metodo = args[1].toUpperCase(); // Segundo parámetro: método de ataque
+
        Board tableroEnemigo = ctx.board(); //se debe de asegurar que este tablero sí sea el del enemigo
-       
+
        try {
-            return ejecutarAtaque(metodo, args, tableroEnemigo, ctx);
+            return ejecutarAtaque(jugadorObjetivo, metodo, args, tableroEnemigo, ctx);
         } catch (Exception e) {
             return CommandResult.fail("Error al ejecutar ataque: " + e.getMessage());
         }
     }
-    private CommandResult ejecutarAtaque(String metodo, String[] args, Board tableroEnemigo, CommandContext ctx) {
+    private CommandResult ejecutarAtaque(String jugadorObjetivo, String metodo, String[] args, Board tableroEnemigo, CommandContext ctx) {
         // Aquí se necesita obtener el tipo de ataque del jugador
         // De la manera en q lo programé está genérico
-        
+
         Attack ataque = obtenerAtaqueDelJugador(ctx);
-        
+
         if (ataque == null) {
             return CommandResult.fail("Primero debes seleccionar un tipo de ataque con: SELECT <tipo>");
         }
 
         // Ejecutar según el tipo de ataque
         if (ataque instanceof FishTelepathy) {
-            return ejecutarFishTelepathy((FishTelepathy) ataque, metodo, tableroEnemigo, ctx);
+            return ejecutarFishTelepathy((FishTelepathy) ataque, jugadorObjetivo, metodo, tableroEnemigo, ctx);
         } else if (ataque instanceof ThundersUnderTheSea) {
-            return ejecutarThunders((ThundersUnderTheSea) ataque, metodo, tableroEnemigo, ctx);
+            return ejecutarThunders((ThundersUnderTheSea) ataque, jugadorObjetivo, metodo, tableroEnemigo, ctx);
         } else if (ataque instanceof ReleaseTheKraken) {
-            return ejecutarKraken((ReleaseTheKraken) ataque, metodo, args, tableroEnemigo, ctx);
+            return ejecutarKraken((ReleaseTheKraken) ataque, jugadorObjetivo, metodo, args, tableroEnemigo, ctx);
         } else if (ataque instanceof WavesControl) {
-            return ejecutarWavesControl((WavesControl) ataque, metodo, tableroEnemigo, ctx);
+            return ejecutarWavesControl((WavesControl) ataque, jugadorObjetivo, metodo, tableroEnemigo, ctx);
         } else if (ataque instanceof UnderseaVolcanoes) {
-            return ejecutarUnderseaVolcanoes((UnderseaVolcanoes) ataque, metodo, tableroEnemigo, ctx);
+            return ejecutarUnderseaVolcanoes((UnderseaVolcanoes) ataque, jugadorObjetivo, metodo, tableroEnemigo, ctx);
         } else if (ataque instanceof TheTrident) {
-            return ejecutarTheTrident((TheTrident) ataque, metodo, args, tableroEnemigo, ctx);
+            return ejecutarTheTrident((TheTrident) ataque, jugadorObjetivo, metodo, args, tableroEnemigo, ctx);
         }
 
         return CommandResult.fail("Tipo de ataque no reconocido.");
@@ -103,7 +104,7 @@ public class CommandAttack extends Command implements Serializable {
         return null; // Placeholder
     }
 
-    private CommandResult ejecutarFishTelepathy(FishTelepathy ataque, String metodo, Board tablero, CommandContext ctx) {
+    private CommandResult ejecutarFishTelepathy(FishTelepathy ataque, String jugadorObjetivo, String metodo, Board tablero, CommandContext ctx) {
         String detalles = "";
         switch (metodo) {
             case "CARDUMEN":
@@ -126,14 +127,13 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
-                "Jugador enemigo", "FISH_TELEPATHY - " + detalles);
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(), jugadorObjetivo, "FISH_TELEPATHY - " + detalles);
 
         ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
-    private CommandResult ejecutarThunders(ThundersUnderTheSea ataque, String metodo, Board tablero, CommandContext ctx) {
+    private CommandResult ejecutarThunders(ThundersUnderTheSea ataque, String jugadorObjetivo, String metodo, Board tablero, CommandContext ctx) {
         String detalles = "";
         switch (metodo) {
             case "THUNDERRAIN":
@@ -157,14 +157,13 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
-                "Jugador enemigo", "THUNDERS_UNDER_THE_SEA - " + detalles);
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(), jugadorObjetivo, "THUNDERS_UNDER_THE_SEA - " + detalles);
 
         ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
-    private CommandResult ejecutarKraken(ReleaseTheKraken ataque, String metodo, String[] args, Board tablero, CommandContext ctx) {
+    private CommandResult ejecutarKraken(ReleaseTheKraken ataque, String jugadorObjetivo, String metodo, String[] args, Board tablero, CommandContext ctx) {
         String detalles = "";
         switch (metodo) {
             case "TENTACLES":
@@ -175,13 +174,13 @@ public class CommandAttack extends Command implements Serializable {
                 break;
             case "BREATH":
             case "ALIENTO":
-                if (args.length < 4) {
-                    return CommandResult.fail("Uso: ATTACK BREATH <fila> <col> <direccion>\nDirecciones: arriba, abajo, izquierda, derecha");
+                if (args.length < 5) {
+                    return CommandResult.fail("Uso: ATTACK <NombreJugador> BREATH <fila> <col> <direccion>\nDirecciones: arriba, abajo, izquierda, derecha");
                 }
                 try {
-                    int fila = Integer.parseInt(args[1]) - 1; // Convertir a 0-based
-                    int col = Integer.parseInt(args[2]) - 1;
-                    String direccion = args[3];
+                    int fila = Integer.parseInt(args[2]) - 1; // Convertir a 0-based
+                    int col = Integer.parseInt(args[3]) - 1;
+                    String direccion = args[4];
                     ataque.krakenBreath(tablero, fila, col, direccion);
                     detalles = "¡Aliento del Kraken lanzado hacia " + direccion + "!";
                     ctx.console().log(detalles);
@@ -200,14 +199,13 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
-                "Jugador enemigo", "RELEASE_THE_KRAKEN - " + detalles);
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(), jugadorObjetivo, "RELEASE_THE_KRAKEN - " + detalles);
 
         ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
-    private CommandResult ejecutarWavesControl(WavesControl ataque, String metodo, Board tablero, CommandContext ctx) {
+    private CommandResult ejecutarWavesControl(WavesControl ataque, String jugadorObjetivo, String metodo, Board tablero, CommandContext ctx) {
         String detalles = "";
         switch (metodo) {
             case "SWIRL":
@@ -233,14 +231,13 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
-                "Jugador enemigo", "WAVES_CONTROL - " + detalles);
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(), jugadorObjetivo, "WAVES_CONTROL - " + detalles);
 
         ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
-    private CommandResult ejecutarUnderseaVolcanoes(UnderseaVolcanoes ataque, String metodo, Board tablero, CommandContext ctx) {
+    private CommandResult ejecutarUnderseaVolcanoes(UnderseaVolcanoes ataque, String jugadorObjetivo, String metodo, Board tablero, CommandContext ctx) {
         String detalles = "";
         switch (metodo) {
             case "VOLCANO":
@@ -266,26 +263,25 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
-                "Jugador enemigo", "UNDERSEA_VOLCANOES - " + detalles);
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(), jugadorObjetivo, "UNDERSEA_VOLCANOES - " + detalles);
 
         ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
-    private CommandResult ejecutarTheTrident(TheTrident ataque, String metodo, String[] args, Board tablero, CommandContext ctx) {
+    private CommandResult ejecutarTheTrident(TheTrident ataque, String jugadorObjetivo, String metodo, String[] args, Board tablero, CommandContext ctx) {
         String detalles = "";
         switch (metodo) {
             case "THREELINES":
             case "3LINES":
-                if (args.length < 7) {
-                    return CommandResult.fail("Uso: ATTACK THREELINES <x1> <y1> <x2> <y2> <x3> <y3>\nDebe proporcionar 3 puntos (6 coordenadas)");
+                if (args.length < 8) {
+                    return CommandResult.fail("Uso: ATTACK <NombreJugador> THREELINES <x1> <y1> <x2> <y2> <x3> <y3>\nDebe proporcionar 3 puntos (6 coordenadas)");
                 }
                 try {
                     int[][] puntos = {
-                        {Integer.parseInt(args[1]), Integer.parseInt(args[2])},
-                        {Integer.parseInt(args[3]), Integer.parseInt(args[4])},
-                        {Integer.parseInt(args[5]), Integer.parseInt(args[6])}
+                        {Integer.parseInt(args[2]), Integer.parseInt(args[3])},
+                        {Integer.parseInt(args[4]), Integer.parseInt(args[5])},
+                        {Integer.parseInt(args[6]), Integer.parseInt(args[7])}
                     };
                     ataque.threeLines(tablero, puntos);
                     detalles = "¡Tres líneas de ataque lanzadas!";
@@ -296,20 +292,20 @@ public class CommandAttack extends Command implements Serializable {
                 break;
             case "THREENUMBERS":
             case "3NUMBERS":
-                if (args.length < 7) {
-                    return CommandResult.fail("Uso: ATTACK THREENUMBERS <n1> <n2> <n3> <en1> <en2> <en3>\n" +
+                if (args.length < 8) {
+                    return CommandResult.fail("Uso: ATTACK <NombreJugador> THREENUMBERS <n1> <n2> <n3> <en1> <en2> <en3>\n" +
                             "n1-n3: tus números (0-9)\nen1-en3: números del enemigo (0-9)");
                 }
                 try {
                     int[] numerosTrident = {
-                        Integer.parseInt(args[1]),
                         Integer.parseInt(args[2]),
-                        Integer.parseInt(args[3])
+                        Integer.parseInt(args[3]),
+                        Integer.parseInt(args[4])
                     };
                     int[] numerosAtacado = {
-                        Integer.parseInt(args[4]),
                         Integer.parseInt(args[5]),
-                        Integer.parseInt(args[6])
+                        Integer.parseInt(args[6]),
+                        Integer.parseInt(args[7])
                     };
                     ataque.threeNumbers(tablero, numerosTrident, numerosAtacado);
                     detalles = "Juego de números ejecutado";
@@ -323,8 +319,7 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
-                "Jugador enemigo", "THE_TRIDENT - " + detalles);
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(), jugadorObjetivo, "THE_TRIDENT - " + detalles);
 
         ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");

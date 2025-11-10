@@ -3,9 +3,7 @@ package menea.Models;
 import java.io.Serializable;
 
 public abstract class Command implements Serializable {
-    
-    private static final long serialVersionUID = 1L;//Es un número de versión de la clase Java lo usa para verificar que la clase que se envía y la que recibe son compatibles
-                                                    //long + grande
+                                                        //long + grande
     public abstract String name(); //nombre del comando
     public abstract String help(); // mensaje corto de ayuda
     
