@@ -12,13 +12,13 @@ import menea.Fighters.WavesControl;
 
 
 public class CommandAttack extends Command implements Serializable {
-    private static final long serialVersionUID = 1L;//Es un número de versión de la clase Java lo usa para verificar que la clase que se envía y la que recibe son compatibles
     
     public CommandAttack() { }
 
     @Override public String name(){ 
         return "ATTACK";
     }
+    
     @Override public String help(){
         return "ATTACK <metodo> [parámetros] -> Ejecuta un ataque específico\n" +  //los parámetros son la info extra que el usuario debe ingresar estos varían dependiendo del ataque y así
                "Métodos disponibles dependen de tu tipo de ataque seleccionado:\n\n" +
@@ -126,7 +126,7 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
                 "Jugador enemigo", "FISH_TELEPATHY - " + detalles);
 
         ctx.console().refreshBoard();
@@ -157,7 +157,7 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
                 "Jugador enemigo", "THUNDERS_UNDER_THE_SEA - " + detalles);
 
         ctx.console().refreshBoard();
@@ -200,7 +200,7 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
                 "Jugador enemigo", "RELEASE_THE_KRAKEN - " + detalles);
 
         ctx.console().refreshBoard();
@@ -233,7 +233,7 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
                 "Jugador enemigo", "WAVES_CONTROL - " + detalles);
 
         ctx.console().refreshBoard();
@@ -266,7 +266,7 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
                 "Jugador enemigo", "UNDERSEA_VOLCANOES - " + detalles);
 
         ctx.console().refreshBoard();
@@ -323,7 +323,7 @@ public class CommandAttack extends Command implements Serializable {
         }
 
         //registrar en la bitácora
-        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(),
                 "Jugador enemigo", "THE_TRIDENT - " + detalles);
 
         ctx.console().refreshBoard();
