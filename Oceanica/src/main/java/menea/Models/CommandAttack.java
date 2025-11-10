@@ -15,7 +15,8 @@ public class CommandAttack extends Command implements Serializable {
     
     public CommandAttack() { }
 
-    @Override public String name(){ 
+    @Override
+    public String name() { 
         return "ATTACK";
     }
     
@@ -172,6 +173,7 @@ public class CommandAttack extends Command implements Serializable {
                 detalles = "¡Tentáculos del Kraken emergen!";
                 ctx.console().log(detalles);
                 break;
+                
             case "BREATH":
             case "ALIENTO":
                 if (args.length < 5) {
@@ -185,7 +187,7 @@ public class CommandAttack extends Command implements Serializable {
                     detalles = "¡Aliento del Kraken lanzado hacia " + direccion + "!";
                     ctx.console().log(detalles);
                 } catch (NumberFormatException e) {
-                    return CommandResult.fail("Fila y columna deben ser números.");
+                    return CommandResult.fail("Fila y cola deben ser números.");
                 }
                 break;
             case "KRAKEN":
@@ -193,6 +195,20 @@ public class CommandAttack extends Command implements Serializable {
                 ataque.releaseTheKraken(tablero);
                 detalles = "¡Release the Kraken! Destrucción masiva!";
                 ctx.console().log(detalles);
+                if (args.length >= 3) {
+                    // El jugador colocó coordenadas 
+                    try {
+                        int fila = Integer.parseInt(args[1]) - 1;
+                        int col = Integer.parseInt(args[2]) - 1;
+                        ataque.releaseTheKraken(tablero, fila, col);
+                    } catch (NumberFormatException e) {
+                        return CommandResult.fail("Fila y cola deben ser números.");
+                    }
+                } else {
+                    // si no coloca coordenada q genera una posición aleatoria
+                    int[] pos = ataque.getRandomTile(tablero);
+                    ataque.releaseTheKraken(tablero, pos[0], pos[1]);
+                }
                 break;
             default:
                 return CommandResult.fail("Método no válido para Kraken. Usa: TENTACLES, BREATH, o KRAKEN");

@@ -14,8 +14,7 @@ public class StartCommand extends Command {
 
             //registrar inicio de partida en la bitácora
             String resumen = ctx.board().resumen();
-            Bitacora.registrarEvento(EventType.INICIAR_PARTIDA,
-                    ctx.player().getName(), "Territorio asignado - " + resumen);
+            Bitacora.registrarEvento(EventType.INICIAR_PARTIDA, ctx.player().getName(), "Territorio asignado - " + resumen);
 
             return CommandResult.ok("Territorio asignado. " + resumen);
         } catch (Exception ex) {
