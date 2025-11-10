@@ -33,11 +33,11 @@ public class CommandHelp {
                "THUNDERS_UNDER_THE_SEA:\n" +
                "  - ATTACK THUNDERRAIN\n" +
                "  - ATTACK POSEIDON\n" +
-               "  - ATTACK EEL\n\n" +
+               "  - ATTACK ELATTACK\n\n" +
                "RELEASE_THE_KRAKEN:\n" +
-               "  - ATTACK TENTACLES <fila1> <col1> <fila2> <col2> <fila3> <col3>\n" +
+               "  - ATTACK TENTACLES <f1> <c1> <f2> <c2> <f3> <c3>\n" +
                "  - ATTACK BREATH <fila> <col> <direccion>\n" +
-               "  - ATTACK KRAKEN <>\n" +
+               "  - ATTACK KRAKEN <fila> <col> (no coordenadas = ataque aleatorio )\n" +
                "THE_TRIDENT:\n" +
                "  - ATTACK THREELINES <fila1> <col1> <fila2> <col2> <fila3> <col3\n" +
                "  - ATTACK THREENUMBERS <num1> <num2> <num3>\n" +
