@@ -5,7 +5,10 @@ import menea.Tiles.Board;
 import menea.Fighters.Attack;
 import menea.Fighters.FishTelepathy;
 import menea.Fighters.ReleaseTheKraken;
+import menea.Fighters.TheTrident;
 import menea.Fighters.ThundersUnderTheSea;
+import menea.Fighters.UnderseaVolcanoes;
+import menea.Fighters.WavesControl;
 
 
 public class CommandAttack extends Command implements Serializable {
@@ -16,8 +19,8 @@ public class CommandAttack extends Command implements Serializable {
     @Override public String name(){ 
         return "ATTACK";
     }
-    @Override public String help(){ //TODO: agregar los ataques de Alina 
-        return "ATTACK <metodo> [parámetros] -> Ejecuta un ataque específico\n" +  //los parámetros son la info extra que el usuario debe ingresar estos varían dependiendo del ataque y así 
+    @Override public String help(){
+        return "ATTACK <metodo> [parámetros] -> Ejecuta un ataque específico\n" +  //los parámetros son la info extra que el usuario debe ingresar estos varían dependiendo del ataque y así
                "Métodos disponibles dependen de tu tipo de ataque seleccionado:\n\n" +
                "FISH_TELEPHATY:\n" +
                "  - ATTACK CARDUMEN\n" +
@@ -30,7 +33,18 @@ public class CommandAttack extends Command implements Serializable {
                "RELEASE_THE_KRAKEN:\n" +
                "  - ATTACK TENTACLES\n" +
                "  - ATTACK BREATH <fila> <col> <direccion>\n" +
-               "  - ATTACK KRAKEN"; 
+               "  - ATTACK KRAKEN\n\n" +
+               "WAVES_CONTROL:\n" +
+               "  - ATTACK SWIRL\n" +
+               "  - ATTACK GARBAGE\n" +
+               "  - ATTACK RADIOACTIVE\n\n" +
+               "UNDERSEA_VOLCANOES:\n" +
+               "  - ATTACK VOLCANO\n" +
+               "  - ATTACK EXPLOSION\n" +
+               "  - ATTACK TERMAL\n\n" +
+               "THE_TRIDENT:\n" +
+               "  - ATTACK THREELINES <x1> <y1> <x2> <y2> <x3> <y3>\n" +
+               "  - ATTACK THREENUMBERS <n1> <n2> <n3> <en1> <en2> <en3>";
     }
 
     @Override
@@ -73,8 +87,14 @@ public class CommandAttack extends Command implements Serializable {
             return ejecutarThunders((ThundersUnderTheSea) ataque, metodo, tableroEnemigo, ctx);
         } else if (ataque instanceof ReleaseTheKraken) {
             return ejecutarKraken((ReleaseTheKraken) ataque, metodo, args, tableroEnemigo, ctx);
+        } else if (ataque instanceof WavesControl) {
+            return ejecutarWavesControl((WavesControl) ataque, metodo, tableroEnemigo, ctx);
+        } else if (ataque instanceof UnderseaVolcanoes) {
+            return ejecutarUnderseaVolcanoes((UnderseaVolcanoes) ataque, metodo, tableroEnemigo, ctx);
+        } else if (ataque instanceof TheTrident) {
+            return ejecutarTheTrident((TheTrident) ataque, metodo, args, tableroEnemigo, ctx);
         }
-        
+
         return CommandResult.fail("Tipo de ataque no reconocido.");
     }
   
@@ -84,56 +104,74 @@ public class CommandAttack extends Command implements Serializable {
     }
 
     private CommandResult ejecutarFishTelepathy(FishTelepathy ataque, String metodo, Board tablero, CommandContext ctx) {
+        String detalles = "";
         switch (metodo) {
             case "CARDUMEN":
                 ataque.cardumen(tablero);
-                ctx.console().log("Cardumen de peces lanzado");
+                detalles = "Cardumen de peces lanzado";
+                ctx.console().log(detalles);
                 break;
             case "SHARK":
                 ataque.sharkAttack(tablero);
-                ctx.console().log("Ataque de tiburones desde las esquinas");
+                detalles = "Ataque de tiburones desde las esquinas";
+                ctx.console().log(detalles);
                 break;
             case "PULP":
                 ataque.pulp(tablero);
-                ctx.console().log("Pulpos con tentáculos lanzados");
+                detalles = "Pulpos con tentáculos lanzados";
+                ctx.console().log(detalles);
                 break;
             default:
                 return CommandResult.fail("Método no válido para Fish Telepathy. Usa: CARDUMEN, SHARK, o PULP");
         }
-        
+
+        //registrar en la bitácora
+        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+                "Jugador enemigo", "FISH_TELEPATHY - " + detalles);
+
         ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
     private CommandResult ejecutarThunders(ThundersUnderTheSea ataque, String metodo, Board tablero, CommandContext ctx) {
+        String detalles = "";
         switch (metodo) {
             case "THUNDERRAIN":
             case "RAIN":
                 ataque.thunderRain(tablero);
-                ctx.console().log("Lluvia de truenos cayendo");
+                detalles = "Lluvia de truenos cayendo";
+                ctx.console().log(detalles);
                 break;
             case "POSEIDON":
                 ataque.poseidonThunders(tablero);
-                ctx.console().log("Truenos de Poseidón cayendo");
+                detalles = "Truenos de Poseidón cayendo";
+                ctx.console().log(detalles);
                 break;
             case "ELATTACK":
                 ataque.elAttack(tablero);
-                ctx.console().log("Anguilas eléctricas atacan");
+                detalles = "Anguilas eléctricas atacan";
+                ctx.console().log(detalles);
                 break;
             default:
                 return CommandResult.fail("Método no válido para Thunders. Usa: THUNDERRAIN, POSEIDON, o ELATTACK");
         }
-        
+
+        //registrar en la bitácora
+        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+                "Jugador enemigo", "THUNDERS_UNDER_THE_SEA - " + detalles);
+
         ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
     private CommandResult ejecutarKraken(ReleaseTheKraken ataque, String metodo, String[] args, Board tablero, CommandContext ctx) {
+        String detalles = "";
         switch (metodo) {
             case "TENTACLES":
             case "TENTACULOS":
                 ataque.tentaculos(tablero);
-                ctx.console().log("¡Tentáculos del Kraken emergen!");
+                detalles = "¡Tentáculos del Kraken emergen!";
+                ctx.console().log(detalles);
                 break;
             case "BREATH":
             case "ALIENTO":
@@ -145,7 +183,8 @@ public class CommandAttack extends Command implements Serializable {
                     int col = Integer.parseInt(args[2]) - 1;
                     String direccion = args[3];
                     ataque.krakenBreath(tablero, fila, col, direccion);
-                    ctx.console().log("¡Aliento del Kraken lanzado hacia " + direccion + "!");
+                    detalles = "¡Aliento del Kraken lanzado hacia " + direccion + "!";
+                    ctx.console().log(detalles);
                 } catch (NumberFormatException e) {
                     return CommandResult.fail("Fila y columna deben ser números.");
                 }
@@ -153,17 +192,145 @@ public class CommandAttack extends Command implements Serializable {
             case "KRAKEN":
             case "RELEASE":
                 ataque.releaseTheKraken(tablero);
-                ctx.console().log("¡Release the Kraken! Destrucción masiva!");
+                detalles = "¡Release the Kraken! Destrucción masiva!";
+                ctx.console().log(detalles);
                 break;
             default:
                 return CommandResult.fail("Método no válido para Kraken. Usa: TENTACLES, BREATH, o KRAKEN");
         }
-        
+
+        //registrar en la bitácora
+        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+                "Jugador enemigo", "RELEASE_THE_KRAKEN - " + detalles);
+
         ctx.console().refreshBoard();
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
-       
-       
-    
-    
+
+    private CommandResult ejecutarWavesControl(WavesControl ataque, String metodo, Board tablero, CommandContext ctx) {
+        String detalles = "";
+        switch (metodo) {
+            case "SWIRL":
+            case "SWIRLRAISING":
+                ataque.swirlRaising(tablero);
+                detalles = "Remolino creado y destruyendo casillas";
+                ctx.console().log(detalles);
+                break;
+            case "GARBAGE":
+            case "SENDGARBAGE":
+                ataque.sendHumanGarbage(tablero);
+                detalles = "Basura humana enviada desde remolino";
+                ctx.console().log(detalles);
+                break;
+            case "RADIOACTIVE":
+            case "RADIOACTIVERUSH":
+                ataque.radioactiveRush(tablero);
+                detalles = "Ataque radioactivo activado";
+                ctx.console().log(detalles);
+                break;
+            default:
+                return CommandResult.fail("Método no válido para Waves Control. Usa: SWIRL, GARBAGE, o RADIOACTIVE");
+        }
+
+        //registrar en la bitácora
+        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+                "Jugador enemigo", "WAVES_CONTROL - " + detalles);
+
+        ctx.console().refreshBoard();
+        return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
+    }
+
+    private CommandResult ejecutarUnderseaVolcanoes(UnderseaVolcanoes ataque, String metodo, Board tablero, CommandContext ctx) {
+        String detalles = "";
+        switch (metodo) {
+            case "VOLCANO":
+            case "VOLCANORAISING":
+                ataque.volcanoRaising(tablero);
+                detalles = "Volcán submarino creado y destruyendo casillas";
+                ctx.console().log(detalles);
+                break;
+            case "EXPLOSION":
+            case "VOLCANOEXPLOSION":
+                ataque.volcanoExplosion(tablero);
+                detalles = "¡Volcán explotó lanzando piedras!";
+                ctx.console().log(detalles);
+                break;
+            case "TERMAL":
+            case "TERMALRUSH":
+                ataque.termalRush(tablero);
+                detalles = "Sobrecalentamiento termal activado";
+                ctx.console().log(detalles);
+                break;
+            default:
+                return CommandResult.fail("Método no válido para Undersea Volcanoes. Usa: VOLCANO, EXPLOSION, o TERMAL");
+        }
+
+        //registrar en la bitácora
+        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+                "Jugador enemigo", "UNDERSEA_VOLCANOES - " + detalles);
+
+        ctx.console().refreshBoard();
+        return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
+    }
+
+    private CommandResult ejecutarTheTrident(TheTrident ataque, String metodo, String[] args, Board tablero, CommandContext ctx) {
+        String detalles = "";
+        switch (metodo) {
+            case "THREELINES":
+            case "3LINES":
+                if (args.length < 7) {
+                    return CommandResult.fail("Uso: ATTACK THREELINES <x1> <y1> <x2> <y2> <x3> <y3>\nDebe proporcionar 3 puntos (6 coordenadas)");
+                }
+                try {
+                    int[][] puntos = {
+                        {Integer.parseInt(args[1]), Integer.parseInt(args[2])},
+                        {Integer.parseInt(args[3]), Integer.parseInt(args[4])},
+                        {Integer.parseInt(args[5]), Integer.parseInt(args[6])}
+                    };
+                    ataque.threeLines(tablero, puntos);
+                    detalles = "¡Tres líneas de ataque lanzadas!";
+                    ctx.console().log(detalles);
+                } catch (NumberFormatException e) {
+                    return CommandResult.fail("Las coordenadas deben ser números.");
+                }
+                break;
+            case "THREENUMBERS":
+            case "3NUMBERS":
+                if (args.length < 7) {
+                    return CommandResult.fail("Uso: ATTACK THREENUMBERS <n1> <n2> <n3> <en1> <en2> <en3>\n" +
+                            "n1-n3: tus números (0-9)\nen1-en3: números del enemigo (0-9)");
+                }
+                try {
+                    int[] numerosTrident = {
+                        Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2]),
+                        Integer.parseInt(args[3])
+                    };
+                    int[] numerosAtacado = {
+                        Integer.parseInt(args[4]),
+                        Integer.parseInt(args[5]),
+                        Integer.parseInt(args[6])
+                    };
+                    ataque.threeNumbers(tablero, numerosTrident, numerosAtacado);
+                    detalles = "Juego de números ejecutado";
+                    ctx.console().log(detalles);
+                } catch (NumberFormatException e) {
+                    return CommandResult.fail("Los números deben ser válidos (0-9).");
+                }
+                break;
+            default:
+                return CommandResult.fail("Método no válido para The Trident. Usa: THREELINES o THREENUMBERS");
+        }
+
+        //registrar en la bitácora
+        Bitacora.getInstance().registrarEvento(EventType.ATAQUE, ctx.player().getName(),
+                "Jugador enemigo", "THE_TRIDENT - " + detalles);
+
+        ctx.console().refreshBoard();
+        return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
+    }
+
+
+
+
 }
