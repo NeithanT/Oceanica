@@ -16,7 +16,7 @@ public class CommandManager {
     public CommandManager(GameManager gameManager) {
         
         this.gameManager = gameManager;
-        registry = new CommandRegistry();
+        registry = new CommandRegistry(gameManager);
         
     }
 

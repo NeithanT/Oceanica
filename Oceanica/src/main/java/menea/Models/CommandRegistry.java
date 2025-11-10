@@ -2,12 +2,15 @@ package menea.Models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import menea.Fighters.GameManager;
 
 public class CommandRegistry {
     // Diccionario que guarda todos los comandos disponibles
     private ArrayList<String> commands;
-
-    public CommandRegistry() {
+    private GameManager gameManager;
+    
+    public CommandRegistry(GameManager gmMag) {
+        
         commands = new ArrayList<>();
         commands.add("help");
         commands.add("create");
@@ -23,6 +26,8 @@ public class CommandRegistry {
         commands.add("logcells");
         commands.add("logalive");  
         
+        this.gameManager = gmMag;
+        
     }
     
     public boolean isValidCommand(String command) {
@@ -31,6 +36,7 @@ public class CommandRegistry {
     }
 
     private void validateAttack(String method, String[] args) {
+        
         if (method == null) throw new IllegalArgumentException("Attack method cannot be null");
         String m = method.toUpperCase();
         switch (m) {
@@ -123,6 +129,7 @@ public class CommandRegistry {
             default:
                 throw new IllegalArgumentException("Unknown attack method: " + method);
         }
+        
     }
 
     public String execute(String command, String[] args) {
@@ -132,34 +139,28 @@ public class CommandRegistry {
         String cmd = command.toLowerCase();
         switch (cmd) {
             case "help":
-                // help [optional: topic]
                 if (args == null || args.length == 0) {
                     return CommandHelp.help();
                 } else if (args.length == 1 && args[0].toLowerCase().equals("attack")) {
                     return CommandHelp.helpAttack();
                 } else {
-                    return "Invalid Arguements";
+                    return "Argumentos Invalidos";
                 }
 
             case "create":
-                // create [] -> open panel, or create with 7 args
                 if (args == null || args.length == 0) {
-                    System.out.println("Open create panel");
+                    // TODO: Create PANEL
                 } else if (args.length == 7) {
                     // name, image, attackType, control(int), fuerza(int), resistencia(int), sanidad(int)
-                    try {
-                        Integer.parseInt(args[3]);
-                        Integer.parseInt(args[4]);
-                        Integer.parseInt(args[5]);
-                        Integer.parseInt(args[6]);
-                        System.out.println("Create fighter: " + args[0]);
-                    } catch (NumberFormatException nfe) {
-                        throw new IllegalArgumentException("create: control_del_mapa,fuerza,resistencia,sanidad must be integers");
+                    if (gameManager.createFighter(args)) {
+                        return "Se creo con exito";
+                    } else {
+                        return "Argumentos Invalidos";
                     }
+                    
                 } else {
-                    throw new IllegalArgumentException("create takes 0 or 7 arguments");
+                    return "Argumentos Invalidos";
                 }
-                break;
 
             case "ready":
                 if (args != null && args.length > 0) throw new IllegalArgumentException("ready takes no arguments");
