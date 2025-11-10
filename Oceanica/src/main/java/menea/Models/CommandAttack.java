@@ -62,6 +62,12 @@ public class CommandAttack extends Command {
             return ejecutarThunders((ThundersUnderTheSea) ataque, metodo, tableroEnemigo, ctx);
         } else if (ataque instanceof ReleaseTheKraken) {
             return ejecutarKraken((ReleaseTheKraken) ataque, metodo, args, tableroEnemigo, ctx);
+        } else if (ataque instanceof TheTrident) {
+            return ejecutarTrident((TheTrident) ataque, metodo, args, tableroEnemigo, ctx);
+        } else if (ataque instanceof WavesControl) {
+            return ejecutarWavesControl((WavesControl) ataque, metodo, tableroEnemigo, ctx);
+        } else if (ataque instanceof UnderseaVolcanoes) {
+            return ejecutarUnderseaVolcanoes((UnderseaVolcanoes) ataque, metodo, tableroEnemigo, ctx);
         }
         
         return CommandResult.fail("Tipo de ataque no reconocido.");
