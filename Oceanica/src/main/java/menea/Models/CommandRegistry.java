@@ -174,7 +174,7 @@ public class CommandRegistry {
                 return "No hay 3 luchadores";
 
             case "attack":
-                // TODO : VALIDAR >>> que si tenga el ataque el jugador o lo que sea
+                // TODO : VALIDAR >>> que si tenga el turno/ ataque el jugador o lo que sea
                 if (args == null || args.length < 1) return "Argumentos Invalidos para attack";
 
                 
