@@ -174,19 +174,16 @@ public class CommandRegistry {
                 return "No hay 3 luchadores";
 
             case "attack":
-                // TODO : VALIDAR >>> que si tenga el ataque el jugador o lo que sea
+                // TODO : VALIDAR >>> que si tenga el turno/ ataque el jugador o lo que sea
                 if (args == null || args.length < 1) return "Argumentos Invalidos para attack";
 
-                
-                
                 if (!validateAttack(args)) {
                     return "Argumentos Invalido para ataque";
                 }
 
-                gameManager.sendAttack(args[0]);
+                gameManager.sendAttack(String.join(" ", args)); // el join es para restaurar la estructura
 
-                System.out.println("Ataque mandado");
-                return "Attack executed with " + args[0] + " method and 10 damage";
+                return "Attack " + args[0] + " sent successfully";
 
             case "skip":
                 if (args != null && args.length > 0) throw new IllegalArgumentException("skip takes no arguments");

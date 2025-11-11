@@ -64,7 +64,7 @@ public class FrameClient extends javax.swing.JFrame {
         lblCharacterOneStrength.setText(strength);
         lblCharacterOneEndurance.setText(endurance);
         lblCharacterOneSanity.setText(sanity);
-        lblCharacterOneImage.setIcon(loadImageIcon(imageId, 260, 200));
+        lblCharacterOneImage.setIcon(loadImageIcon(imageId, 150, 200));
     }
 
     public void updateCharacterTwo(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
@@ -74,7 +74,7 @@ public class FrameClient extends javax.swing.JFrame {
         lblCharacterTwoStrength.setText(strength);
         lblCharacterTwoEndurance.setText(endurance);
         lblCharacterTwoSanity.setText(sanity);
-        lblCharacterTwoImage.setIcon(loadImageIcon(imageId, 260, 200));
+        lblCharacterTwoImage.setIcon(loadImageIcon(imageId, 150, 200));
     }
 
     public void updateCharacterThree(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
@@ -84,7 +84,7 @@ public class FrameClient extends javax.swing.JFrame {
         lblCharacterThreeStrength.setText(strength);
         lblCharacterThreeEndurance.setText(endurance);
         lblCharacterThreeSanity.setText(sanity);
-        lblCharacterThreeImage.setIcon(loadImageIcon(imageId, 260, 200));
+        lblCharacterThreeImage.setIcon(loadImageIcon(imageId, 150, 200));
     }
 
     public void refreshAllFighters() {

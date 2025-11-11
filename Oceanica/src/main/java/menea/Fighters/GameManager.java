@@ -3,6 +3,7 @@ package menea.Fighters;
 import Action.Action;
 import Action.ActionType;
 import menea.Client.ClientConnection;
+import menea.Client.GUI.ClientManager;
 import menea.Tiles.Board;
 import menea.Vanity.ImageLoader;
 import menea.Client.GUI.FrameClient;
@@ -14,7 +15,7 @@ public class GameManager {
     private Board board;
     private FrameClient frameClient;
     private ClientConnection connection;
-    private Object clientManager;
+    private ClientManager clientManager;
     
     public GameManager() {
         fighters = new Fighter[3];
@@ -26,7 +27,7 @@ public class GameManager {
         this.frameClient = frame;
     }
     
-    public void setClientManager(Object manager) {
+    public void setClientManager(ClientManager manager) {
         this.clientManager = manager;
     }
     
@@ -231,11 +232,15 @@ public class GameManager {
     }
     
     public void sendAttack(String attackMethod) {
+        
+        receiveAttack(attackMethod);
+        
         if (connection == null) {
             System.out.println("Not connected to server");
             return;
         }
-        connection.attack(attackMethod);
+        // TODO, THIS in future
+        //connection.attack(attackMethod);
     }
     
     public void identifyAction(Action action) {
@@ -266,20 +271,159 @@ public class GameManager {
     
     public void receiveAttack(String attackContext) {
         System.out.println("Se recibio ataque! Context: " + attackContext);
-        // implementacion random de Chat xD
-        int randomRow = (int) (Math.random() * board.getROWS());
-        int randomCol = (int) (Math.random() * board.getCOLUMNS());
-        board.attackAt(randomRow, randomCol);
         
+        // Parse the attack method and parameters
+        String[] parts = attackContext.split(" ");
+        if (parts.length == 0) return;
+        
+        String attackMethod = parts[0].toUpperCase();
+        
+        // Execute the attack based on the method
+        executeReceivedAttack(attackMethod, parts);
+        
+        // Refresh UI
         if (clientManager != null) {
             try {
-                clientManager.getClass().getMethod("refreshBoard").invoke(clientManager);
+                clientManager.refreshBoard();
             } catch (Exception e) {
-                System.out.println("Error refreshing board: " + e.getMessage());
+                System.out.println("Error recargando la pantalla");
             }
         }
         if (frameClient != null) {
             frameClient.repaint();
+        }
+    }
+    
+    private void executeReceivedAttack(String method, String[] params) {
+        try {
+            switch (method) {
+                // FISH_TELEPATHY attacks
+                case "CARDUMEN":
+                    FishTelepathy fishAttack1 = new FishTelepathy();
+                    fishAttack1.cardumen(board);
+                    break;
+                case "SHARK":
+                    FishTelepathy fishAttack2 = new FishTelepathy();
+                    fishAttack2.sharkAttack(board);
+                    break;
+                case "PULP":
+                    FishTelepathy fishAttack3 = new FishTelepathy();
+                    fishAttack3.pulp(board);
+                    break;
+                
+                // THUNDERS_UNDER_THE_SEA attacks
+                case "THUNDERRAIN":
+                    ThundersUnderTheSea thunderAttack1 = new ThundersUnderTheSea();
+                    thunderAttack1.thunderRain(board);
+                    break;
+                case "POSEIDON":
+                    ThundersUnderTheSea thunderAttack2 = new ThundersUnderTheSea();
+                    thunderAttack2.poseidonThunders(board);
+                    break;
+                case "EEL":
+                    ThundersUnderTheSea thunderAttack3 = new ThundersUnderTheSea();
+                    thunderAttack3.elAttack(board);
+                    break;
+                
+                // RELEASE_THE_KRAKEN attacks
+                case "TENTACLES":
+                    if (params.length >= 7) {
+                        int f1 = Integer.parseInt(params[1]);
+                        int c1 = Integer.parseInt(params[2]);
+                        int f2 = Integer.parseInt(params[3]);
+                        int c2 = Integer.parseInt(params[4]);
+                        int f3 = Integer.parseInt(params[5]);
+                        int c3 = Integer.parseInt(params[6]);
+                        
+                        ReleaseTheKraken krakenAttack = new ReleaseTheKraken();
+                        krakenAttack.tentaculos(board, f1, c1, f2, c2, f3, c3);
+                    }
+                    break;
+                case "BREATH":
+                    if (params.length >= 4) {
+                        int fila = Integer.parseInt(params[1]);
+                        int col = Integer.parseInt(params[2]);
+                        String direccion = params[3];
+                        
+                        ReleaseTheKraken krakenAttack = new ReleaseTheKraken();
+                        krakenAttack.krakenBreath(board, fila, col, direccion);
+                    }
+                    break;
+                case "KRAKEN":
+                    ReleaseTheKraken krakenAttack = new ReleaseTheKraken();
+                    krakenAttack.releaseTheKraken(board);
+                    break;
+                
+                // UNDERSEA_VOLCANOES attacks
+                case "VOLCANORAISING":
+                    UnderseaVolcanoes volcanoAttack1 = new UnderseaVolcanoes();
+                    volcanoAttack1.volcanoRaising(board);
+                    break;
+                case "VOLCANOEXPLOSION":
+                    UnderseaVolcanoes volcanoAttack2 = new UnderseaVolcanoes();
+                    volcanoAttack2.volcanoExplosion(board);
+                    break;
+                case "TERMALRUSH":
+                    UnderseaVolcanoes volcanoAttack3 = new UnderseaVolcanoes();
+                    volcanoAttack3.termalRush(board);
+                    break;
+                
+                // WAVES_CONTROL attacks
+                case "SWIRLRAISING":
+                    WavesControl wavesAttack1 = new WavesControl();
+                    wavesAttack1.swirlRaising(board);
+                    break;
+                case "SENDHUMANGARDBAGE":
+                    WavesControl wavesAttack2 = new WavesControl();
+                    wavesAttack2.sendHumanGarbage(board);
+                    break;
+                case "RADIACTIVERUSH":
+                    WavesControl wavesAttack3 = new WavesControl();
+                    wavesAttack3.radioactiveRush(board);
+                    break;
+                
+                // THE_TRIDENT attacks
+                case "THREELINES":
+                    if (params.length >= 7) {
+                        int[][] puntos = {
+                            {Integer.parseInt(params[1]), Integer.parseInt(params[2])},
+                            {Integer.parseInt(params[3]), Integer.parseInt(params[4])},
+                            {Integer.parseInt(params[5]), Integer.parseInt(params[6])}
+                        };
+                        
+                        TheTrident tridentAttack = new TheTrident();
+                        tridentAttack.threeLines(board, puntos);
+                    }
+                    break;
+                case "THREENUMBERS":
+                    if (params.length >= 4) {
+                        int[] numerosTrident = {
+                            Integer.parseInt(params[1]),
+                            Integer.parseInt(params[2]),
+                            Integer.parseInt(params[3])
+                        };
+                        
+                        int[] numerosAtacado = {
+                            (int)(Math.random() * 10),
+                            (int)(Math.random() * 10),
+                            (int)(Math.random() * 10)
+                        };
+                        
+                        TheTrident tridentAttack = new TheTrident();
+                        tridentAttack.threeNumbers(board, numerosTrident, numerosAtacado);
+                    }
+                    break;
+                case "CONTROLKRAKEN":
+                    // TODO: Implementar control kraken
+                    System.out.println("CONTROLKRAKEN no tiene logica");
+                    break;
+                
+                default:
+                    System.out.println("Unknown attack method");
+            }
+        } catch (Exception e) {
+            System.out.println("Error executing attack: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

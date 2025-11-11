@@ -28,6 +28,13 @@ public class ReleaseTheKraken extends Attack {
         atacarArea(tableroEnemigo, fila3, col3, 1, 100, "Tentáculos del Kraken");
     }
     
+    // Overloaded method with specific coordinates for 3 tentacles
+    public void tentaculos(Board tableroEnemigo, int f1, int c1, int f2, int c2, int f3, int c3) {
+        atacarArea(tableroEnemigo, f1, c1, 1, 100, "Kraken Tentacle");
+        atacarArea(tableroEnemigo, f2, c2, 1, 100, "Kraken Tentacle");
+        atacarArea(tableroEnemigo, f3, c3, 1, 100, "Kraken Tentacle");
+    }
+    
     // lanza aliento en una dirección  destruye 1-8 casillas
     public void krakenBreath(Board tableroEnemigo, int fila, int col, String direction) {
         int alcance = 1 + random.nextInt(8); // 1-8 casillas
@@ -38,5 +45,11 @@ public class ReleaseTheKraken extends Attack {
     public void releaseTheKraken(Board tableroEnemigo, int fila, int col) {
         int radio = 1 + random.nextInt(9); // 1-9 casillas
         atacarArea(tableroEnemigo, fila, col, radio, 100, "Release the Kraken");
+    }
+    
+    
+    public void releaseTheKraken(Board tableroEnemigo, int row, int col) {
+        int radio = 1 + random.nextInt(9); // 1-10 casillas
+        atacarArea(tableroEnemigo, row, col, radio, 100, "Release the Kraken");
     }
 }
