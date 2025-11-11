@@ -62,7 +62,7 @@ public class CommandManager {
         handle(comando);
         
         txfCommand.setText("");
-     }         
+    }         
     
     public void logAttack(int dmg, int attacker, int target) {
         log("Jugador " + attacker + " atacó al jugador " + target + " con daño de " + dmg);

@@ -1,5 +1,6 @@
 package menea.Client.GUI;
 
+import javax.swing.ImageIcon;
 import menea.Fighters.GameManager;
 import menea.Tiles.Board;
 import menea.Vanity.ImageLoader;
@@ -11,7 +12,7 @@ import menea.Models.CommandManager;
 
 public class ClientManager {
 
-    private Board boardRef; 
+    private Board boardRef;
     private ImageLoader imgLoader;
     private GameManager gameManager;
     private CommandManager commandManager;
@@ -19,12 +20,17 @@ public class ClientManager {
     private JTextField txfCommand;
     private JPanel plnMatriz;
     private PanelBoard panelBoard;
+    private JTextArea txaLogCommands;
+    private JTextArea txaLogAttacks;
+    private JTextArea txaLogBitacora;
     
     public ClientManager() {
         imgLoader = new ImageLoader();
         gameManager = new GameManager();
         boardRef = gameManager.getBoard();
         gameManager.setClientManager(this);
+        commandManager = new CommandManager(gameManager);
+        
     }
     
     public GameManager getGameManager() {
@@ -32,7 +38,7 @@ public class ClientManager {
     }
     
     public void processCommand() {
-        gameManager.processCommand();
+        commandManager.processCommand();
     }
     
     public void setLogArea(JTextArea txaLog) {
@@ -40,7 +46,7 @@ public class ClientManager {
     }
     
     public void setCommandField(JTextField txfCommand) {
-        this.txfCommand = txfCommand;
+        commandManager.setCommandLine(txfCommand);
     }
     
     public void setBoardPanel(JPanel plnMatriz) {
@@ -49,6 +55,21 @@ public class ClientManager {
     
     public void setPanelBoard(PanelBoard panelBoard) {
         this.panelBoard = panelBoard;
+    }
+    
+    public void setLogCommands(JTextArea txaLogCommands) {
+        this.txaLogCommands = txaLogCommands;
+        commandManager.setLogCommands(txaLogCommands);
+    }
+    
+    public void setLogAttacks(JTextArea txaLogAttacks) {
+        this.txaLogAttacks = txaLogAttacks;
+        commandManager.setLogAttacks(txaLogAttacks);
+    }
+    
+    public void setLogBitacora(JTextArea txaLogBitacora) {
+        this.txaLogBitacora = txaLogBitacora;
+        commandManager.setLogBitacora(txaLogBitacora);
     }
     
     public void addFighter() {
@@ -68,6 +89,13 @@ public class ClientManager {
         }
     }
     
+    public ImageIcon loadImageIcon(String id) {
+        return imgLoader.loadImageIcon(id);
+    }
+    
+    public ImageIcon loadImageIcon(String id, int width, int height) {
+        return imgLoader.loadImageIcon(id, width, height);
+    }
     
     public void log(String message) {
         txaLog.append(message + "\n"); //agregar una línea a la bitácora 

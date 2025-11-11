@@ -29,8 +29,9 @@ public class ServerConnection extends Thread {
         
         try {
             System.out.println("Conectando usuario");
-            inputStream = new ObjectInputStream(socket.getInputStream());
             outputStream = new ObjectOutputStream(socket.getOutputStream());
+            outputStream.flush();
+            inputStream = new ObjectInputStream(socket.getInputStream());
             
             outputStream.writeInt(numOfPlayer);
             outputStream.flush();

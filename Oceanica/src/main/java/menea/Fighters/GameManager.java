@@ -181,7 +181,7 @@ public class GameManager {
                 return true;
             }
         }
-        // If no space available
+        // If no space left
         return false;
     }
     
@@ -238,9 +238,35 @@ public class GameManager {
         connection.attack(attackMethod);
     }
     
+    public void identifyAction(Action action) {
+        if (action == null) {
+            return;
+        }
+        
+        ActionType type = action.getType();
+        String context = action.getContext();
+        
+        switch (type) {
+            case ATTACK:
+                receiveAttack(context);
+                break;
+            case TURN:
+                // TODO: turno
+                break;
+            case CONNECT:
+                // TODO: coneccion
+                break;
+            case DISCONNECT:
+                // TODO:ver si gano
+                break;
+            default:
+                System.out.println("que paso aca: " + type);
+        }
+    }
+    
     public void receiveAttack(String attackContext) {
         System.out.println("Se recibio ataque! Context: " + attackContext);
-        
+        // implementacion random de Chat xD
         int randomRow = (int) (Math.random() * board.getROWS());
         int randomCol = (int) (Math.random() * board.getCOLUMNS());
         board.attackAt(randomRow, randomCol);

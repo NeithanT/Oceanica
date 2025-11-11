@@ -3,16 +3,9 @@ package menea.Client.GUI;
 import java.awt.BorderLayout;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
-/**
- *
- * @author nei
- */
+
 public class FrameClient extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameClient.class.getName());
@@ -22,12 +15,13 @@ public class FrameClient extends javax.swing.JFrame {
 
 
     GraphicsDevice gd;
+    
     /**
      * Creates new form FrameClient
      */
     public FrameClient() {
         initComponents();
-        initializeEmptyLabels();
+        
         gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         try {
@@ -37,8 +31,11 @@ public class FrameClient extends javax.swing.JFrame {
         }
         
         manager = new ClientManager();
-        manager.setLogArea(txtAreaBitacora);
         manager.setCommandField(txtFieldCommandLine);
+        manager.setLogArea(txtAreaAttacks);
+        manager.setLogCommands(txtAreaCommandRegister);
+        manager.setLogAttacks(txtAreaAttacks);
+        manager.setLogBitacora(txtAreaBitacora);
         manager.setBoardPanel(pnlBoard);
         
         manager.getGameManager().setFrameClient(this);
@@ -53,6 +50,14 @@ public class FrameClient extends javax.swing.JFrame {
         pnlBoard.add(board, BorderLayout.CENTER);
     }
 
+    public ImageIcon loadImageIcon(String id) {
+        return manager.loadImageIcon(id);
+    }
+    
+    public ImageIcon loadImageIcon(String id, int width, int height) {
+        return manager.loadImageIcon(id, width, height);
+    }
+
     public void updateCharacterOne(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
         lblCharacterOneName.setText(name);
         lblCharacterOneType.setText(type);
@@ -60,7 +65,7 @@ public class FrameClient extends javax.swing.JFrame {
         lblCharacterOneStrength.setText(strength);
         lblCharacterOneEndurance.setText(endurance);
         lblCharacterOneSanity.setText(sanity);
-        lblCharacterOneImage.setIcon(loadImageIcon(imageId));
+        lblCharacterOneImage.setIcon(loadImageIcon(imageId, 260, 200));
     }
 
     public void updateCharacterTwo(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
@@ -70,7 +75,7 @@ public class FrameClient extends javax.swing.JFrame {
         lblCharacterTwoStrength.setText(strength);
         lblCharacterTwoEndurance.setText(endurance);
         lblCharacterTwoSanity.setText(sanity);
-        lblCharacterTwoImage.setIcon(loadImageIcon(imageId));
+        lblCharacterTwoImage.setIcon(loadImageIcon(imageId, 260, 200));
     }
 
     public void updateCharacterThree(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
@@ -80,55 +85,13 @@ public class FrameClient extends javax.swing.JFrame {
         lblCharacterThreeStrength.setText(strength);
         lblCharacterThreeEndurance.setText(endurance);
         lblCharacterThreeSanity.setText(sanity);
-        lblCharacterThreeImage.setIcon(loadImageIcon(imageId));
+        lblCharacterThreeImage.setIcon(loadImageIcon(imageId, 260, 200));
     }
 
     public void refreshAllFighters() {
         manager.getGameManager().refreshAllFighters();
     }
-
-    public ImageIcon loadImageIcon(String id) {
-        
-        try {
-            Image img = ImageIO.read(getClass().getResource(IMAGE_PATH + id + ".png"));
-            img = img.getScaledInstance(240, 240, Image.SCALE_SMOOTH);
-            return new ImageIcon(img);
-        } catch (IOException e) {
-            System.out.println("No se pudo cargar imagen:" + e.getMessage());
-        }
-        return new ImageIcon();
-    }
     
-    private void initializeEmptyLabels() {
-
-        lblCharacterOneName.setText("Fighter 1");
-        lblCharacterOneType.setText("Not selected");
-        lblCharacterOneTiles.setText("0%");
-        lblCharacterOneStrength.setText("Fuerza: 0");
-        lblCharacterOneEndurance.setText("Resistencia: 0");
-        lblCharacterOneSanity.setText("Sanidad: 0");
-        lblCharacterOneImage.setText("");
-        lblCharacterOneImage.setIcon(null);
-        
-        lblCharacterTwoName.setText("Fighter 2");
-        lblCharacterTwoType.setText("Not selected");
-        lblCharacterTwoTiles.setText("0%");
-        lblCharacterTwoStrength.setText("Fuerza: 0");
-        lblCharacterTwoEndurance.setText("Resistencia: 0");
-        lblCharacterTwoSanity.setText("Sanidad: 0");
-        lblCharacterTwoImage.setText("");
-        lblCharacterTwoImage.setIcon(null);
-        
-        lblCharacterThreeName.setText("Fighter 3");
-        lblCharacterThreeType.setText("Not selected");
-        lblCharacterThreeTiles.setText("0%");
-        lblCharacterThreeStrength.setText("Fuerza: 0");
-        lblCharacterThreeEndurance.setText("Resistencia: 0");
-        lblCharacterThreeSanity.setText("Sanidad: 0");
-        lblCharacterThreeImage.setText("");
-        lblCharacterThreeImage.setIcon(null);
-        
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -246,26 +209,12 @@ public class FrameClient extends javax.swing.JFrame {
         pnlCharacterOne.setBackground(new java.awt.Color(255, 102, 51));
         pnlCharacterOne.setOpaque(false);
         pnlCharacterOne.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblCharacterOneSanity.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneSanity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
-
-        lblCharacterOneImage.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
-
-        lblCharacterOneName.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
-
-        lblCharacterOneType.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneType, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
-
-        lblCharacterOneTiles.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneTiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
-
-        lblCharacterOneStrength.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneStrength, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
-
-        lblCharacterOneEndurance.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneEndurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
 
         pnlFighters.add(pnlCharacterOne, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 250));
@@ -273,26 +222,12 @@ public class FrameClient extends javax.swing.JFrame {
         pnlCharacterTwo.setBackground(new java.awt.Color(255, 102, 51));
         pnlCharacterTwo.setOpaque(false);
         pnlCharacterTwo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblCharacterTwoSanity.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoSanity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
-
-        lblCharacterTwoImage.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
-
-        lblCharacterTwoName.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
-
-        lblCharacterTwoType.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoType, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
-
-        lblCharacterTwoTiles.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoTiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
-
-        lblCharacterTwoStrength.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoStrength, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
-
-        lblCharacterTwoEndurance.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoEndurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
 
         pnlFighters.add(pnlCharacterTwo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 490, 250));
@@ -300,26 +235,12 @@ public class FrameClient extends javax.swing.JFrame {
         pnlCharacterThree.setBackground(new java.awt.Color(255, 102, 51));
         pnlCharacterThree.setOpaque(false);
         pnlCharacterThree.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblCharacterThreeSanity.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeSanity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
-
-        lblCharacterThreeImage.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
-
-        lblCharacterThreeName.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
-
-        lblCharacterThreeType.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeType, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
-
-        lblCharacterThreeTiles.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeTiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
-
-        lblCharacterThreeStrength.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeStrength, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
-
-        lblCharacterThreeEndurance.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeEndurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
 
         pnlFighters.add(pnlCharacterThree, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 490, 250));
@@ -327,28 +248,15 @@ public class FrameClient extends javax.swing.JFrame {
         pnlBackground.add(pnlFighters, new org.netbeans.lib.awtextra.AbsoluteConstraints(1420, 10, 490, 750));
 
         pnlCommandLine.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+        pnlCommandLine.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtFieldCommandLine.setText(">");
+        txtFieldCommandLine.setCaretColor(new java.awt.Color(0, 102, 0));
         txtFieldCommandLine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFieldCommandLineActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout pnlCommandLineLayout = new javax.swing.GroupLayout(pnlCommandLine);
-        pnlCommandLine.setLayout(pnlCommandLineLayout);
-        pnlCommandLineLayout.setHorizontalGroup(
-            pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1892, Short.MAX_VALUE)
-            .addGroup(pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(txtFieldCommandLine, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1892, Short.MAX_VALUE))
-        );
-        pnlCommandLineLayout.setVerticalGroup(
-            pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 52, Short.MAX_VALUE)
-            .addGroup(pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(txtFieldCommandLine, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
-        );
+        pnlCommandLine.add(txtFieldCommandLine, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 4, 1890, 52));
 
         pnlBackground.add(pnlCommandLine, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 1010, 1900, 60));
 

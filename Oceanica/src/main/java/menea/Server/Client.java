@@ -118,7 +118,7 @@ public class Client extends javax.swing.JFrame {
 
     private void btnAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttackActionPerformed
         int dmg = rand.nextInt() % 20 + 10;
-        connection.attack(dmg);
+        //connection.attack(dmg);
         if (currentPlayer == 1) {
             prgBar2.setValue(prgBar2.getValue() - dmg);
         } else {
