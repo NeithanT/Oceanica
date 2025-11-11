@@ -1,5 +1,6 @@
 package menea.Server;
 
+import menea.Client.ClientConnection;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class Client extends javax.swing.JFrame {
         connectToServer();
         try {
             sleep(1000);
-            currentPlayer = connection.getPlayer();
+            //currentPlayer = connection.getPlayer();
             System.out.println("Current player : " + currentPlayer);
         } catch (InterruptedException ex) {
             System.out.println("Could not sleep");
@@ -35,7 +36,7 @@ public class Client extends javax.swing.JFrame {
 
     public void connectToServer() {
     
-        connection = new ClientConnection(this);
+        //connection = new ClientConnection(this);
         connection.start();
     }
 
@@ -118,7 +119,7 @@ public class Client extends javax.swing.JFrame {
 
     private void btnAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttackActionPerformed
         int dmg = rand.nextInt() % 20 + 10;
-        connection.attack(dmg);
+        //connection.attack(dmg);
         if (currentPlayer == 1) {
             prgBar2.setValue(prgBar2.getValue() - dmg);
         } else {
