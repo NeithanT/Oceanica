@@ -1,5 +1,6 @@
 package menea.Server;
 
+import Action.Action;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,9 +11,7 @@ public class Server {
     private final int MAX_CONNECTIONS = 4;
     private ServerConnection[] players;
     
-    
     private int amtOfPlayers;
-    private int currentPlayer = 1;
     
     private ServerSocket serverSocket;
     private Socket temptSocket;
@@ -64,13 +63,13 @@ public class Server {
 
     public void notifyOthers(int index) {
     
-        // TODO, in future, notify others of new players joined ..
+        // TODO, in future
     }
     
-    public void attackOthers(int dmg, ServerConnection sc) {
+    public void attackOthers(Action attackAction, ServerConnection sc) {
         for (int i = 0; i < MAX_CONNECTIONS; i++) {
             if (players[i] != null && !players[i].equals(sc)) {
-                players[i].receiveAttack(dmg);
+                players[i].receiveAttack(attackAction);
             }
         }
     }

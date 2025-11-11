@@ -1,8 +1,12 @@
 package menea.Server;
 
+import Action.Action;
+import Action.ActionType;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 
@@ -10,8 +14,8 @@ public class ServerConnection extends Thread {
 
     private Server server;
     private Socket socket;
-    private DataInputStream inputStream;
-    private DataOutputStream outputStream;
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
     
     private int numOfPlayer;
     public ServerConnection(Socket s, int num, Server sv) {
@@ -24,41 +28,56 @@ public class ServerConnection extends Thread {
     public void run() {
         
         try {
-            System.out.println("Problem here:");
-            inputStream = new DataInputStream(socket.getInputStream());
-            outputStream = new DataOutputStream(socket.getOutputStream());
+            System.out.println("Conectando usuario");
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            outputStream.flush();
+            inputStream = new ObjectInputStream(socket.getInputStream());
             
             outputStream.writeInt(numOfPlayer);
-            int dmg = 0;
+            outputStream.flush();
             
-            while (dmg > -1) {
-                System.out.println("Created server Socked");
+            while (true) {
                 try {
-                    dmg = inputStream.readInt();
-                    server.attackOthers(dmg, this);
+                    Action act = (Action) inputStream.readObject();
+                    
+                    if (act.getType() == ActionType.ATTACK) {
+                        System.out.println("[Player " + numOfPlayer + "] Received attack action: " + act.toString());
+                        server.attackOthers(act, this);
+                    }
+                    
                 } catch (IOException ex) {
-                    System.out.println("Error sending or input data in SERVER");
+                    System.out.println("Error sending or receiving data in SERVER");
+                    break;
+                } catch (ClassNotFoundException ex) {
+                    System.out.println("Error deserializing Action object: " + ex.getMessage());
                 }
             }
-            
             
             inputStream.close();
             outputStream.close();
             socket.close();
             
         } catch (IOException ex) {
-            System.out.println("Could not connect client");
+            System.out.println("Could not connect client: " + ex.getMessage());
         }
     }
     
-    public void sendAttack(int dmg) {
-    
+    public void sendAttack(Action attackAction) {
+        try {
+            outputStream.writeObject(attackAction);
+            outputStream.flush();
+            
+            System.out.println("Attack sent to player " + numOfPlayer + ": " + attackAction.toString());
+        } catch (IOException ex) {
+            System.out.println("Error sending attack: " + ex.getMessage());
+        }
     }
     
-    public void receiveAttack(int dmg) {
+    public void receiveAttack(Action attackAction) {
     
         try {
-            outputStream.writeInt(dmg);
+            outputStream.writeObject(attackAction);
+            outputStream.flush();
         } catch(IOException ex) {
             System.out.println("Could not send attack");
         }

@@ -16,7 +16,7 @@ public class CommandManager {
     public CommandManager(GameManager gameManager) {
         
         this.gameManager = gameManager;
-        registry = new CommandRegistry();
+        registry = new CommandRegistry(gameManager);
         
     }
 
@@ -62,7 +62,7 @@ public class CommandManager {
         handle(comando);
         
         txfCommand.setText("");
-     }         
+    }         
     
     public void logAttack(int dmg, int attacker, int target) {
         log("Jugador " + attacker + " atacó al jugador " + target + " con daño de " + dmg);

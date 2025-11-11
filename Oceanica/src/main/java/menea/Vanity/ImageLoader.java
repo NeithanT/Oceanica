@@ -8,12 +8,11 @@ import javax.swing.ImageIcon;
 
 public class ImageLoader {
 
-    private static final String IMAGE_PATH = "/assets/";
+    public static final String IMAGE_PATH = "/assets/";
     
     public Image loadImage(String id) {
         
         try {
-
             return ImageIO.read(getClass().getResource(IMAGE_PATH + id + ".png"));
 
         } catch (IOException e) {

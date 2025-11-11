@@ -3,16 +3,9 @@ package menea.Client.GUI;
 import java.awt.BorderLayout;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
-/**
- *
- * @author nei
- */
+
 public class FrameClient extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameClient.class.getName());
@@ -22,26 +15,13 @@ public class FrameClient extends javax.swing.JFrame {
 
 
     GraphicsDevice gd;
+    
     /**
      * Creates new form FrameClient
      */
     public FrameClient() {
         initComponents();
-        exampleLabels();
-        setFullScreen();
         
-        drawBoard();
-        
-        manager = new ClientManager();
-        manager.setLogArea(txtAreaCommandRegister);
-        manager.setAttackLog(txtAreaAttacks);
-        manager.setBitacora(txtAreaBitacora);
-        manager.setCommandField(txtFieldCommandLine);
-        manager.setBoardPanel(pnlBoard);
-    }
-
-    private void setFullScreen() {
-    
         gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         try {
@@ -49,56 +29,69 @@ public class FrameClient extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error cargando pantalla " + e.getMessage());
         }
+        
+        manager = new ClientManager();
+        manager.setCommandField(txtFieldCommandLine);
+        manager.setLogArea(txtAreaAttacks);
+        manager.setLogCommands(txtAreaCommandRegister);
+        manager.setLogAttacks(txtAreaAttacks);
+        manager.setLogBitacora(txtAreaBitacora);
+        manager.setBoardPanel(pnlBoard);
+        
+        manager.getGameManager().setFrameClient(this);
+        
+        drawBoard();
     }
-    
+
     public void drawBoard() {
-        JPanel board = new PanelBoard(pnlBoard);
+        PanelBoard board = new PanelBoard(pnlBoard, manager.getGameManager().getBoard());
+        manager.setPanelBoard(board);
         pnlBoard.setLayout(new BorderLayout());
         pnlBoard.add(board, BorderLayout.CENTER);
     }
 
     public ImageIcon loadImageIcon(String id) {
-        
-        try {
-            Image img = ImageIO.read(getClass().getResource(IMAGE_PATH + id + ".png"));
-            img = img.getScaledInstance(240, 240, Image.SCALE_SMOOTH);
-            return new ImageIcon(img);
-        } catch (IOException e) {
-            System.out.println("No se pudo cargar imagen:" + e.getMessage());
-        }
-        return new ImageIcon();
+        return manager.loadImageIcon(id);
     }
     
-    private void exampleLabels() {
-
-        lblCharacterOneName.setText("Chica Fresita");
-        lblCharacterOneType.setText("Volcano");
-        lblCharacterOneTiles.setText("30%");
-        lblCharacterOneStrength.setText("Fuerza: 50");
-        lblCharacterOneEndurance.setText("Resistencia: 75");
-        lblCharacterOneSanity.setText("Sanidad: 50");
-        lblCharacterOneImage.setText("");
-        lblCharacterOneImage.setIcon(loadImageIcon("ChicaFresita"));
-        
-        lblCharacterTwoName.setText("Lebron James");
-        lblCharacterTwoType.setText("Trident:");
-        lblCharacterTwoTiles.setText("40%");
-        lblCharacterTwoStrength.setText("Fuerza: 100");
-        lblCharacterTwoEndurance.setText("Resistencia: 100");
-        lblCharacterTwoSanity.setText("Sanidad: 100");
-        lblCharacterTwoImage.setText("");
-        lblCharacterTwoImage.setIcon(loadImageIcon("LebronJames"));
-        
-        lblCharacterThreeName.setText("Dr Strange");
-        lblCharacterThreeType.setText("Waves Control");
-        lblCharacterThreeTiles.setText("30%");
-        lblCharacterThreeStrength.setText("Fuerza: 75");
-        lblCharacterThreeEndurance.setText("Resistencia: 75");
-        lblCharacterThreeSanity.setText("Sanidad: 50");
-        lblCharacterThreeImage.setText("");
-        lblCharacterThreeImage.setIcon(loadImageIcon("DrStrange"));
-        
+    public ImageIcon loadImageIcon(String id, int width, int height) {
+        return manager.loadImageIcon(id, width, height);
     }
+
+    public void updateCharacterOne(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
+        lblCharacterOneName.setText(name);
+        lblCharacterOneType.setText(type);
+        lblCharacterOneTiles.setText(tiles);
+        lblCharacterOneStrength.setText(strength);
+        lblCharacterOneEndurance.setText(endurance);
+        lblCharacterOneSanity.setText(sanity);
+        lblCharacterOneImage.setIcon(loadImageIcon(imageId, 260, 200));
+    }
+
+    public void updateCharacterTwo(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
+        lblCharacterTwoName.setText(name);
+        lblCharacterTwoType.setText(type);
+        lblCharacterTwoTiles.setText(tiles);
+        lblCharacterTwoStrength.setText(strength);
+        lblCharacterTwoEndurance.setText(endurance);
+        lblCharacterTwoSanity.setText(sanity);
+        lblCharacterTwoImage.setIcon(loadImageIcon(imageId, 260, 200));
+    }
+
+    public void updateCharacterThree(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
+        lblCharacterThreeName.setText(name);
+        lblCharacterThreeType.setText(type);
+        lblCharacterThreeTiles.setText(tiles);
+        lblCharacterThreeStrength.setText(strength);
+        lblCharacterThreeEndurance.setText(endurance);
+        lblCharacterThreeSanity.setText(sanity);
+        lblCharacterThreeImage.setIcon(loadImageIcon(imageId, 260, 200));
+    }
+
+    public void refreshAllFighters() {
+        manager.getGameManager().refreshAllFighters();
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -216,26 +209,12 @@ public class FrameClient extends javax.swing.JFrame {
         pnlCharacterOne.setBackground(new java.awt.Color(255, 102, 51));
         pnlCharacterOne.setOpaque(false);
         pnlCharacterOne.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblCharacterOneSanity.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneSanity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
-
-        lblCharacterOneImage.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
-
-        lblCharacterOneName.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
-
-        lblCharacterOneType.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneType, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
-
-        lblCharacterOneTiles.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneTiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
-
-        lblCharacterOneStrength.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneStrength, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
-
-        lblCharacterOneEndurance.setText("jLabel1");
         pnlCharacterOne.add(lblCharacterOneEndurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
 
         pnlFighters.add(pnlCharacterOne, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 250));
@@ -243,26 +222,12 @@ public class FrameClient extends javax.swing.JFrame {
         pnlCharacterTwo.setBackground(new java.awt.Color(255, 102, 51));
         pnlCharacterTwo.setOpaque(false);
         pnlCharacterTwo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblCharacterTwoSanity.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoSanity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
-
-        lblCharacterTwoImage.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
-
-        lblCharacterTwoName.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
-
-        lblCharacterTwoType.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoType, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
-
-        lblCharacterTwoTiles.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoTiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
-
-        lblCharacterTwoStrength.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoStrength, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
-
-        lblCharacterTwoEndurance.setText("jLabel1");
         pnlCharacterTwo.add(lblCharacterTwoEndurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
 
         pnlFighters.add(pnlCharacterTwo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 490, 250));
@@ -270,26 +235,12 @@ public class FrameClient extends javax.swing.JFrame {
         pnlCharacterThree.setBackground(new java.awt.Color(255, 102, 51));
         pnlCharacterThree.setOpaque(false);
         pnlCharacterThree.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblCharacterThreeSanity.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeSanity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
-
-        lblCharacterThreeImage.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
-
-        lblCharacterThreeName.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
-
-        lblCharacterThreeType.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeType, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
-
-        lblCharacterThreeTiles.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeTiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
-
-        lblCharacterThreeStrength.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeStrength, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
-
-        lblCharacterThreeEndurance.setText("jLabel1");
         pnlCharacterThree.add(lblCharacterThreeEndurance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
 
         pnlFighters.add(pnlCharacterThree, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 490, 250));
