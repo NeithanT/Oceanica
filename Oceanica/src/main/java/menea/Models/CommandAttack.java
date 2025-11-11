@@ -88,7 +88,7 @@ public class CommandAttack extends Command implements Serializable {
         } else if (ataque instanceof ThundersUnderTheSea) {
             return ejecutarThunders((ThundersUnderTheSea) ataque, jugadorObjetivo, metodo, tableroEnemigo, ctx);
         } else if (ataque instanceof ReleaseTheKraken) {
-            return ejecutarKraken((ReleaseTheKraken) ataque, jugadorObjetivo, metodo, args, tableroEnemigo, ctx);
+         //   return ejecutarKraken((ReleaseTheKraken) ataque, jugadorObjetivo, metodo, args, tableroEnemigo, ctx);
         } else if (ataque instanceof WavesControl) {
             return ejecutarWavesControl((WavesControl) ataque, jugadorObjetivo, metodo, tableroEnemigo, ctx);
         } else if (ataque instanceof UnderseaVolcanoes) {
@@ -164,37 +164,43 @@ public class CommandAttack extends Command implements Serializable {
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 
-    private CommandResult ejecutarKraken(ReleaseTheKraken ataque, String jugadorObjetivo, String metodo, String[] args, Board tablero, CommandContext ctx) {
-        String detalles = "";
+    private CommandResult ejecutarKraken(ReleaseTheKraken ataque, String metodo, String[] args, Board tablero, CommandContext ctx) {
         switch (metodo) {
-            case "TENTACLES":
-            case "TENTACULOS":
-          //      ataque.tentaculos(tablero);
-                detalles = "¡Tentáculos del Kraken emergen!";
-            //    ctx.console().log(detalles);
+           case "TENTACLES":
+           case "TENTACULOS":
+               if (args.length < 7) {
+                   return CommandResult.fail("Uso: ATTACK TENTACLES <fila1> <col1> <fila2> <col2> <fila3> <col3>");
+               }
+               try {
+                   int fila1 = Integer.parseInt(args[1]) - 1;
+                   int col1 = Integer.parseInt(args[2]) - 1;
+                   int fila2 = Integer.parseInt(args[3]) - 1;
+                   int col2 = Integer.parseInt(args[4]) - 1;
+                   int fila3 = Integer.parseInt(args[5]) - 1;
+                   int col3 = Integer.parseInt(args[6]) - 1;
+                   
+                   ataque.tentaculos(tablero, fila1, col1, fila2, col2, fila3, col3);
+                } catch (NumberFormatException e) {
+                    return CommandResult.fail("Todas las coordenadas deben ser números.");
+                    }
                 break;
                 
             case "BREATH":
             case "ALIENTO":
-                if (args.length < 5) {
-                    return CommandResult.fail("Uso: ATTACK <NombreJugador> BREATH <fila> <col> <direccion>\nDirecciones: arriba, abajo, izquierda, derecha");
+                if (args.length < 4) {
+                    return CommandResult.fail("Uso: ATTACK BREATH <fila> <col> <direccion>\nDirecciones: arriba, abajo, izquierda, derecha");
                 }
                 try {
-                    int fila = Integer.parseInt(args[2]) - 1; // Convertir a 0-based
-                    int col = Integer.parseInt(args[3]) - 1;
-                    String direccion = args[4];
+                    int fila = Integer.parseInt(args[1]) - 1; // Convertir a 0-based
+                    int col = Integer.parseInt(args[2]) - 1;
+                    String direccion = args[3];
                     ataque.krakenBreath(tablero, fila, col, direccion);
-                    detalles = "¡Aliento del Kraken lanzado hacia " + direccion + "!";
-              //      ctx.console().log(detalles);
                 } catch (NumberFormatException e) {
                     return CommandResult.fail("Fila y cola deben ser números.");
                 }
                 break;
             case "KRAKEN":
             case "RELEASE":
-                //ataque.releaseTheKraken(tablero);
-                detalles = "¡Release the Kraken! Destrucción masiva!";
-              //  ctx.console().log(detalles);
                 if (args.length >= 3) {
                     // El jugador colocó coordenadas 
                     try {
@@ -213,12 +219,14 @@ public class CommandAttack extends Command implements Serializable {
             default:
                 return CommandResult.fail("Método no válido para Kraken. Usa: TENTACLES, BREATH, o KRAKEN");
         }
+        
+        return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
 
         //registrar en la bitácora
-        Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(), jugadorObjetivo, "RELEASE_THE_KRAKEN - " + detalles);
+        //Bitacora.registrarEvento(EventType.ATAQUE, ctx.player().getName(), jugadorObjetivo, "RELEASE_THE_KRAKEN - " + detalles);
 
        // ctx.console().refreshBoard();
-        return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
+   
     }
 
     private CommandResult ejecutarWavesControl(WavesControl ataque, String jugadorObjetivo, String metodo, Board tablero, CommandContext ctx) {
