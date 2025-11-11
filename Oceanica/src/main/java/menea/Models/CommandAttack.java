@@ -82,6 +82,7 @@ public class CommandAttack extends Command {
         switch (metodo) {
             case "CARDUMEN":
                 ataque.cardumen(tablero);
+
                 
                 break;
             case "SHARK":
@@ -276,6 +277,9 @@ public class CommandAttack extends Command {
 
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     } 
+    // Método auxiliar para registrar
+
+    
 
        
     

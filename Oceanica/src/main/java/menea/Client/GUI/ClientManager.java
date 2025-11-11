@@ -25,6 +25,8 @@ public class ClientManager {
         commandManager = new CommandManager(gameManager);
     }
     
+ 
+    
     public void setCommandField(JTextField txfCommand) {
         commandManager.setCommandLine(txfCommand);
     }
