@@ -33,6 +33,99 @@ public class ClientManager {
         
     }
     
+
+ 
+    
+    public void setCommandField(JTextField txfCommand) {
+        commandManager.setCommandLine(txfCommand);
+    }
+     
+    public void setLogArea(JTextArea txaLog) {
+        commandManager.setLogCommands(txaLog);
+    }
+    
+    public void setAttackLog(JTextArea txaLog) {
+        commandManager.setLogAttacks(txaLog);
+    }
+    
+    public void setBitacora(JTextArea txaLog) {
+        commandManager.setLogBitacora(txaLog);
+    }
+
+    public Board getBoardRef() {
+        return boardRef;
+    }
+
+    public void setBoardRef(Board boardRef) {
+        this.boardRef = boardRef;
+    }
+
+    public ImageLoader getImgLoader() {
+        return imgLoader;
+    }
+
+    public void setImgLoader(ImageLoader imgLoader) {
+        this.imgLoader = imgLoader;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    public void setCommandManager(CommandManager commandManager) {
+        this.commandManager = commandManager;
+    }
+
+    public JTextArea getTxaLog() {
+        return txaLog;
+    }
+
+    public void setTxaLog(JTextArea txaLog) {
+        this.txaLog = txaLog;
+    }
+
+    public JTextField getTxfCommand() {
+        return txfCommand;
+    }
+
+    public void setTxfCommand(JTextField txfCommand) {
+        this.txfCommand = txfCommand;
+    }
+
+    public JPanel getPlnMatriz() {
+        return plnMatriz;
+    }
+
+    public void setPlnMatriz(JPanel plnMatriz) {
+        this.plnMatriz = plnMatriz;
+    }
+
+    public JTextArea getTxaLogCommands() {
+        return txaLogCommands;
+    }
+
+    public void setTxaLogCommands(JTextArea txaLogCommands) {
+        this.txaLogCommands = txaLogCommands;
+    }
+
+    public JTextArea getTxaLogAttacks() {
+        return txaLogAttacks;
+    }
+
+    public void setTxaLogAttacks(JTextArea txaLogAttacks) {
+        this.txaLogAttacks = txaLogAttacks;
+    }
+
+    public JTextArea getTxaLogBitacora() {
+        return txaLogBitacora;
+    }
+
+    public void setTxaLogBitacora(JTextArea txaLogBitacora) {
+        this.txaLogBitacora = txaLogBitacora;
+    }
+    
+    
+
     public GameManager getGameManager() {
         return gameManager;
     }
@@ -41,17 +134,6 @@ public class ClientManager {
         commandManager.processCommand();
     }
     
-    public void setLogArea(JTextArea txaLog) {
-        this.txaLog = txaLog;
-    }
-    
-    public void setCommandField(JTextField txfCommand) {
-        commandManager.setCommandLine(txfCommand);
-    }
-    
-    public void setBoardPanel(JPanel plnMatriz) {
-        this.plnMatriz = plnMatriz;
-    }
     
     public void setPanelBoard(PanelBoard panelBoard) {
         this.panelBoard = panelBoard;

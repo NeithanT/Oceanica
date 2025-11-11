@@ -14,10 +14,7 @@ public class Player {
     private ArrayList<Fighter> fighters; //arreglo de 3 jugadores
     private Board board;
     private boolean ready; //saber si está listo para jugar
-    private boolean alive; //indica si la civilizacion esta viva 
-    
-    //TODO: bitacora
-    private ArrayList<String> bitacora;
+    private boolean alive; //indica si la civilizacion esta viva
     
     
     //CONSTUCTOR
@@ -28,7 +25,6 @@ public class Player {
         this.board = new Board();
         this.ready = false;
         this.alive = true;
-        this.bitacora = new ArrayList<>();
     }
     
     public void addFighter(Fighter fighter){
@@ -56,9 +52,7 @@ public class Player {
     public void aliveStatus(){
         this.alive = porcentajeVida() > 0;
     }
-    
-    //TODO: metodo para mostrar info en bitacora
-    
+
     //muestra la info del jugador
     public String statusSummary() {
         return "Jugador: " + name + "\n Peleadores: " + fighters + "\n  Vida Total: " + porcentajeVida() + "\n Estado: " + (alive ? "Vivo" : "Muerto") + "\n";
@@ -87,10 +81,6 @@ public class Player {
         return alive;
     }
 
-    public ArrayList<String> getBitacora() {
-        return bitacora;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -113,10 +103,6 @@ public class Player {
 
     public void setAlive(boolean alive) {
         this.alive = alive;
-    }
-
-    public void setBitacora(ArrayList<String> bitacora) {
-        this.bitacora = bitacora;
     }
 
 }

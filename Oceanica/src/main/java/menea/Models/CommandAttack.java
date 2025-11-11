@@ -348,8 +348,3 @@ public class CommandAttack extends Command implements Serializable {
         return CommandResult.ok("Ataque " + metodo + " ejecutado exitosamente.");
     }
 }
-       
-       
-    
-    
-}

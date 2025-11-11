@@ -7,7 +7,10 @@ package menea.Models;
 import menea.Fighters.Attack;
 import menea.Fighters.FishTelepathy;
 import menea.Fighters.ReleaseTheKraken;
+import menea.Fighters.TheTrident;
 import menea.Fighters.ThundersUnderTheSea;
+import menea.Fighters.UnderseaVolcanoes;
+import menea.Fighters.WavesControl;
 
 /**
  *
@@ -20,12 +23,12 @@ public class CommandSelectAttack extends Command{
     @Override
     public CommandResult execute(CommandContext ctx, String[] args){
         if (args.length < 1) {
-            return CommandResult.fail("Uso: SELECT <tipo>\nTipos disponibles: FISH_TELEPHATY, THUNDERS_UNDER_THE_SEA, RELEASE_THE_KRAKEN");
+            return CommandResult.fail("Uso: SELECT <tipo>\nTipos disponibles: 1. FISH_TELEPHATY\n" + " 2. THUNDERS_UNDER_THE_SEA\n" + "2. RELEASE_THE_KRAKEN\n" + " THE_TRIDENT\n" + "WAVES_CONTROL\n" + "UNDERSEA_VOLCANOES \n");
         }
     String tipo = args[0].toUpperCase();
         Attack ataque = null;
 
-        switch (tipo) {
+         switch (tipo) {
             case "FISH_TELEPHATY":
             case "FISH":
             case "1":
@@ -40,6 +43,22 @@ public class CommandSelectAttack extends Command{
             case "KRAKEN":
             case "3":
                 ataque = new ReleaseTheKraken();
+                break;
+            case "THE_TRIDENT":
+            case "TRIDENT":
+            case "4":
+                ataque = new TheTrident();
+                break;
+            case "WAVES_CONTROL":
+            case "WAVES":
+            case "5":
+                ataque = new WavesControl();
+                break;
+            case "UNDERSEA_VOLCANOES":
+            case "VOLCANOES":
+            case "UNDERSEA":
+            case "6":
+                ataque = new UnderseaVolcanoes();
                 break;
             default:
                 return CommandResult.fail("Tipo de ataque no reconocido: " + tipo);

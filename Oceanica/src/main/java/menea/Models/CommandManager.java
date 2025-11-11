@@ -3,6 +3,7 @@ package menea.Models;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import menea.Fighters.GameManager;
+import menea.Models.CommandRegistry;
 
 public class CommandManager {
     
@@ -62,7 +63,23 @@ public class CommandManager {
         handle(comando);
         
         txfCommand.setText("");
-    }         
+     }
+    //ataque enviado
+    public void logAttackSent(String attackType, int jugadorObjetivo, int daño, int x, int y) {
+    txaLogAttacks.append("⚔️ Atacaste al Jugador " + jugadorObjetivo + 
+                        " con " + attackType + 
+                        "  Daño: " + daño + 
+                        " en casilla (" + x + "," + y + ")\n");
+    }
+
+    // registrar ataque recibido
+    public void logAtaqueRecibido(String attackType, int atacante, int daño, int x, int y) {
+        txaLogAttacks.append("Jugador " + atacante + 
+                            " te atacó con " + attackType + 
+                            "  Daño: " + daño + 
+                            " en casilla (" + x + "," + y + ")\n");
+        }
+            
     
     public void logAttack(int dmg, int attacker, int target) {
         log("Jugador " + attacker + " atacó al jugador " + target + " con daño de " + dmg);

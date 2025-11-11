@@ -36,7 +36,6 @@ public class FrameClient extends javax.swing.JFrame {
         manager.setLogCommands(txtAreaCommandRegister);
         manager.setLogAttacks(txtAreaAttacks);
         manager.setLogBitacora(txtAreaBitacora);
-        manager.setBoardPanel(pnlBoard);
         
         manager.getGameManager().setFrameClient(this);
         
