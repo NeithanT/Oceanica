@@ -27,12 +27,14 @@ public class PanelBoard extends JPanel {
     
     private Board board;
     
-    public PanelBoard(JPanel pnl) {
+    public PanelBoard(JPanel pnl, Board board) {
         width = (int)pnl.getWidth();
         height = (int)pnl.getHeight();
         
         cellSizeX = width/COLUMNS;
         cellSizeY = height/ROWS;
+        
+        this.board = board;
     }
 
     @Override
@@ -42,25 +44,30 @@ public class PanelBoard extends JPanel {
         
         Graphics g2 = (Graphics2D) g;
         
-        board = new Board();
+        if (board == null) {
+            return;
+        }
+        
         for (int row = 0; row < board.getROWS(); row++) {
             for (int column = 0; column < board.getCOLUMNS(); column++) {
-                //Tile tile = board.getTile(row, column); TODO take into account tile state
+                Tile tile = board.getTile(row, column);
                 Color fill;
-                if (column % 2 == 0 && row % 2 == 0)
+                
+                if (tile.getState() == OCCUPIED && tile.getOwner() != null) {
+                    fill = tile.getOwner().getColor();
+                } else if (tile.getState() == DAMAGED) {
+                    fill = new Color(255, 165, 0);
+                } else if (tile.getState() == DESTROYED) {
+                    fill = new Color(64, 64, 64);
+                } else { // EMPTY
                     fill = new Color(40, 82, 220);
-                else if (column % 2 == 0 || row % 2 == 0)
-                    fill = new Color(255, 127, 0);
-                else
-                    fill = new Color(40, 82, 220);
+                }
                 
                 int x = column * (cellSizeX);
                 int y = row * (cellSizeY);
 
                 g2.setColor(fill);
                 g2.fillRect(x, y, cellSizeX, cellSizeY);
-                //g2.setColor(Color.BLACK);
-                //g2.drawRect(x, y, cellSizeX, cellSizeY);
             }
         }
         

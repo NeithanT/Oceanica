@@ -35,106 +35,110 @@ public class CommandRegistry {
         return commands.contains(command.toLowerCase());
     }
 
-    private void validateAttack(String method, String[] args) {
+
+    private boolean validateAttack(String[] args) {
         
-        if (method == null) throw new IllegalArgumentException("Attack method cannot be null");
-        String m = method.toUpperCase();
-        switch (m) {
+        if (args == null || args.length == 0) return false;
+        
+        String method = args[0];
+        
+        switch (method.toUpperCase()) {
             // FISH_TELEPATHY
             case "CARDUMEN":
             case "SHARK":
             case "PULP":
-                if (args.length != 0) throw new IllegalArgumentException(m + " takes no arguments");
+                if (args.length != 1) return false;
                 break;
 
             // THUNDERS_UNDER_THE_SEA
             case "THUNDERRAIN":
             case "POSEIDON":
             case "EEL":
-                if (args.length != 0) throw new IllegalArgumentException(m + " takes no arguments");
+                if (args.length != 1) return false;
                 break;
 
             // RELEASE_THE_KRAKEN
             case "TENTACLES":
-                if (args.length != 6) throw new IllegalArgumentException("TENTACLES requires 6 integer arguments: fila1 col1 fila2 col2 fila3 col3");
-                for (String arg : args) {
+                if (args.length != 7) return false;
+                for (int i = 1; i < args.length; i++) {
                     try {
-                        Integer.parseInt(arg);
+                        Integer.parseInt(args[i]);
                     } catch (NumberFormatException e) {
-                        throw new IllegalArgumentException("TENTACLES arguments must be integers");
+                        return false;
                     }
                 }
                 break;
             case "BREATH":
-                if (args.length != 3) throw new IllegalArgumentException("BREATH requires 3 arguments: fila col direccion");
+                if (args.length != 4) return false;
                 try {
-                    Integer.parseInt(args[0]);
                     Integer.parseInt(args[1]);
+                    Integer.parseInt(args[2]);
                 } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("BREATH fila and col must be integers");
+                    return false;
                 }
                 // direccion is a string, no check
                 break;
             case "KRAKEN":
-                if (args.length != 0) throw new IllegalArgumentException("KRAKEN takes no arguments");
+                if (args.length != 1) return false;
                 break;
 
             // THE_TRIDENT
             case "THREELINES":
-                if (args.length != 6) throw new IllegalArgumentException("THREELINES requires 6 integer arguments: fila1 col1 fila2 col2 fila3 col3");
-                for (String arg : args) {
+                if (args.length != 7) return false;
+                for (int i = 1; i < args.length; i++) {
                     try {
-                        Integer.parseInt(arg);
+                        Integer.parseInt(args[i]);
                     } catch (NumberFormatException e) {
-                        throw new IllegalArgumentException("THREELINES arguments must be integers");
+                        return false;
                     }
                 }
                 break;
             case "THREENUMBERS":
-                if (args.length != 3) throw new IllegalArgumentException("THREENUMBERS requires 3 integer arguments: num1 num2 num3");
-                for (String arg : args) {
+                if (args.length != 4) return false;
+                for (int i = 1; i < args.length; i++) {
                     try {
-                        Integer.parseInt(arg);
+                        Integer.parseInt(args[i]);
                     } catch (NumberFormatException e) {
-                        throw new IllegalArgumentException("THREENUMBERS arguments must be integers");
+                        return false;
                     }
                 }
                 break;
             case "CONTROLKRAKEN":
-                if (args.length != 0) throw new IllegalArgumentException("CONTROLKRAKEN takes no arguments");
+                if (args.length != 1) return false;
                 break;
 
             // UNDERSEA_VOLCANOES
             case "VOLCANORAISING":
             case "VOLCANOEXPLOSION":
             case "TERMALRUSH":
-                if (args.length != 0) throw new IllegalArgumentException(m + " takes no arguments");
+                if (args.length != 1) return false;
                 break;
 
             // WAVES_CONTROL
             case "SWIRLRAISING":
-                if (args.length != 2) throw new IllegalArgumentException("SWIRLRAISING requires 2 integer arguments: fila1 col1");
+                if (args.length != 3) return false;
                 try {
-                    Integer.parseInt(args[0]);
                     Integer.parseInt(args[1]);
+                    Integer.parseInt(args[2]);
                 } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("SWIRLRAISING arguments must be integers");
+                    return false;
                 }
                 break;
             case "SENDHUMANGARDBAGE":
             case "RADIACTIVERUSH":
-                if (args.length != 0) throw new IllegalArgumentException(m + " takes no arguments");
+                if (args.length != 1) return false;
                 break;
 
             default:
-                throw new IllegalArgumentException("Unknown attack method: " + method);
+                return false;
         }
         
+        return true;
     }
 
     public String execute(String command, String[] args) {
 
-        if (command == null) throw new IllegalArgumentException("command cannot be null");
+        if (command == null) return "Comando invalido";
 
         String cmd = command.toLowerCase();
         switch (cmd) {
@@ -163,16 +167,26 @@ public class CommandRegistry {
                 }
 
             case "ready":
-                if (args != null && args.length > 0) throw new IllegalArgumentException("ready takes no arguments");
-                System.out.println("Player ready");
-                break;
+                if (args != null && args.length > 0) return "Ready no toma Argumentos";
+                if (gameManager.checkReady()) {
+                    return "Conectandose al Juego";
+                }
+                return "No hay 3 luchadores";
 
             case "attack":
-                // attack <method> [params...]
-                if (args == null || args.length < 1) throw new IllegalArgumentException("attack requires at least the attack method name as argument");
-                validateAttack(args[0], Arrays.copyOfRange(args, 1, args.length));
-                System.out.println("Attack requested: " + String.join(" ", args));
-                break;
+                // TODO : VALIDAR >>> que si tenga el ataque el jugador o lo que sea
+                if (args == null || args.length < 1) return "Argumentos Invalidos para attack";
+
+                
+                
+                if (!validateAttack(args)) {
+                    return "Argumentos Invalido para ataque";
+                }
+
+                gameManager.sendAttack(args[0]);
+
+                System.out.println("Ataque mandado");
+                return "Attack executed with " + args[0] + " method and 10 damage";
 
             case "skip":
                 if (args != null && args.length > 0) throw new IllegalArgumentException("skip takes no arguments");

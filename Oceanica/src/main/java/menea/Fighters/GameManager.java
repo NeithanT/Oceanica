@@ -1,18 +1,33 @@
 package menea.Fighters;
 
-import java.io.File;
+import Action.Action;
+import Action.ActionType;
+import menea.Client.ClientConnection;
 import menea.Tiles.Board;
 import menea.Vanity.ImageLoader;
+import menea.Client.GUI.FrameClient;
 
 
 public class GameManager {
 
     private Fighter fighters[];
     private Board board;
+    private FrameClient frameClient;
+    private ClientConnection connection;
+    private Object clientManager;
     
     public GameManager() {
         fighters = new Fighter[3];
         board = new Board();
+        frameClient = null;
+    }
+    
+    public void setFrameClient(FrameClient frame) {
+        this.frameClient = frame;
+    }
+    
+    public void setClientManager(Object manager) {
+        this.clientManager = manager;
     }
     
      public Board getBoard() {
@@ -68,7 +83,7 @@ public class GameManager {
         attackType = attackType.replace(" ", "_");
         switch (attackType) {
             case "THUNDERS_UNDERS_THE_SEA":
-                return AttackType.THUNDERS_UNDERS_THE_SEA;
+                return AttackType.THUNDERS_UNDER_THE_SEA;
             case "FISH_TELEPHATY":
                 return AttackType.FISH_TELEPHATY;
             case "RELEASE_THE_KRAKEN":
@@ -83,7 +98,6 @@ public class GameManager {
                 return AttackType.NONE;
         }
 
-        return AttackType.NONE;
     }
 
     private boolean isValidAttackType(String attackType) {
@@ -130,47 +144,126 @@ public class GameManager {
 
         AttackType attackType = getAttackType(attackTypeStr);
         if (attackType == AttackType.NONE) {
-            // No se como llegaria aca despues del isValidFighter Pero ok
+            // No se como llegaria aca despues del isValidFighter Pero por si acaso
             return false;
         }
 
-        String imagePath = ImageLoader.IMAGE_PATH + imageId + ".png";
-
-        Fighter fighter = null;
+        Fighter fighter = new Fighter(name, imageId, attackType, strength, endurance, sanity, mapPercentage);
         switch (attackType) {
-            case THUNDERS_UNDERS_THE_SEA:
-                fighter = new ThundersUnderTheSea(name, imagePath, attackType, strength, endurance, sanity, mapPercentage);
+            case THUNDERS_UNDER_THE_SEA:
+                fighter.setAttack(new ThundersUnderTheSea());
                 break;
             case FISH_TELEPHATY:
-                fighter = new FishTelepathy(name, imagePath, attackType, strength, endurance, sanity, mapPercentage);
+                fighter.setAttack(new FishTelepathy());
                 break;
             case RELEASE_THE_KRAKEN:
-                fighter = new ReleaseTheKraken(name, imagePath, attackType, strength, endurance, sanity, mapPercentage);
+                fighter.setAttack(new ReleaseTheKraken());
                 break;
             case WAVES_CONTROL:
-                fighter = new WavesControl(name, imagePath, attackType, strength, endurance, sanity, mapPercentage);
+                fighter.setAttack(new WavesControl());
                 break;
             case THE_TRIDENT:
-                fighter = new TheTrident(name, imagePath, attackType, strength, endurance, sanity, mapPercentage);
+                fighter.setAttack(new TheTrident());
                 break;
             case UNDERSEA_VOLCANOES:
-                fighter = new UnderseaVolcanoes(name, imagePath, attackType, strength, endurance, sanity, mapPercentage);
+                fighter.setAttack(new UnderseaVolcanoes());
                 break;
             default:
                 return false;
         }
 
-        // Add to fighters array (find empty slot)
         for (int i = 0; i < fighters.length; i++) {
             if (fighters[i] == null) {
                 fighters[i] = fighter;
 
-                updateFrame(fighter);
+                board.assignZone(fighter, mapPercentage);
+                updateFrame(fighter, i);
                 return true;
             }
         }
         // If no space available
         return false;
     }
+    
+    private void updateFrame(Fighter fighter, int index) {
+        if (frameClient == null) {
+            return;
+        }
+        
+        String name = fighter.getName();
+        String imageId = fighter.getImageId();
+        String typeLabel = fighter.getType().toString();
+        String tilesLabel = fighter.getRepresentationPercentage() + "%";
+        String strengthLabel = "Fuerza: " + fighter.getStrength();
+        String enduranceLabel = "Resistencia: " + fighter.getEndurance();
+        String sanityLabel = "Sanidad: " + fighter.getSanity();
+        
+        switch (index) {
+            case 0:
+                frameClient.updateCharacterOne(name, typeLabel, tilesLabel,
+                                               strengthLabel, enduranceLabel, sanityLabel, imageId);
+                break;
+            case 1:
+                frameClient.updateCharacterTwo(name, typeLabel, tilesLabel, 
+                                               strengthLabel, enduranceLabel, sanityLabel, imageId);
+                break;
+            case 2:
+                frameClient.updateCharacterThree(name, typeLabel, tilesLabel, strengthLabel,
+                                                 enduranceLabel, sanityLabel, imageId);
+                break;
+        }
+    }
+
+    public boolean checkReady() {
+        for (int i = 0; i < fighters.length; i++) {
+            if (fighters[i] == null) {
+                return false;
+            }
+        }
+        try {
+            connection = new ClientConnection(this);
+            connection.start();
+        } catch (Exception ex) {
+            System.out.println("No se pudo conectar");
+            return false;
+        }
+        return true;
+    }
+    
+    public void sendAttack(String attackMethod) {
+        if (connection == null) {
+            System.out.println("Not connected to server");
+            return;
+        }
+        connection.attack(attackMethod);
+    }
+    
+    public void receiveAttack(String attackContext) {
+        System.out.println("Se recibio ataque! Context: " + attackContext);
+        
+        int randomRow = (int) (Math.random() * board.getROWS());
+        int randomCol = (int) (Math.random() * board.getCOLUMNS());
+        board.attackAt(randomRow, randomCol);
+        
+        if (clientManager != null) {
+            try {
+                clientManager.getClass().getMethod("refreshBoard").invoke(clientManager);
+            } catch (Exception e) {
+                System.out.println("Error refreshing board: " + e.getMessage());
+            }
+        }
+        if (frameClient != null) {
+            frameClient.repaint();
+        }
+    }
+
+    public void refreshAllFighters() {
+        for (int i = 0; i < fighters.length; i++) {
+            if (fighters[i] != null) {
+                updateFrame(fighters[i], i);
+            }
+        }
+    }
+
 
 }

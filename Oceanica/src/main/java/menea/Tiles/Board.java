@@ -39,18 +39,18 @@ public class Board {
     
 
     public void assignZone(Fighter fighter, int porcentaje) {
-        // Asigna celdas proporcionalmente según el porcentaje del peleador
         int totalTiles = ROWS * COLUMNS;
         int tilesParaAsignar = (int) ((porcentaje / 100.0) * totalTiles);
 
-        int asignados = 0;
-        for (int i = 0; i < ROWS && asignados < tilesParaAsignar; i++) {
-            for (int j = 0; j < COLUMNS && asignados < tilesParaAsignar; j++) {
-                Tile tile = tiles[i][j];
-                if (tile.getState() == TileState.EMPTY) {
-                    tile.setOwner(fighter);
-                    asignados++;
-                }
+        int assigned = 0;
+        while (assigned < tilesParaAsignar) {
+            int row = (int) (Math.random() * ROWS);
+            int col = (int) (Math.random() * COLUMNS);
+            Tile tile = tiles[row][col];
+            if (tile.getState() == TileState.EMPTY) {
+                tile.setOwner(fighter);
+                fighter.addTile(tile);
+                assigned++;
             }
         }
     }

@@ -27,21 +27,7 @@ public class FrameClient extends javax.swing.JFrame {
      */
     public FrameClient() {
         initComponents();
-        exampleLabels();
-        setFullScreen();
-        
-        drawBoard();
-        
-        manager = new ClientManager();
-        manager.setLogArea(txtAreaCommandRegister);
-        manager.setAttackLog(txtAreaAttacks);
-        manager.setBitacora(txtAreaBitacora);
-        manager.setCommandField(txtFieldCommandLine);
-        manager.setBoardPanel(pnlBoard);
-    }
-
-    private void setFullScreen() {
-    
+        initializeEmptyLabels();
         gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         try {
@@ -49,12 +35,56 @@ public class FrameClient extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error cargando pantalla " + e.getMessage());
         }
+        
+        manager = new ClientManager();
+        manager.setLogArea(txtAreaBitacora);
+        manager.setCommandField(txtFieldCommandLine);
+        manager.setBoardPanel(pnlBoard);
+        
+        manager.getGameManager().setFrameClient(this);
+        
+        drawBoard();
     }
-    
+
     public void drawBoard() {
-        JPanel board = new PanelBoard(pnlBoard);
+        PanelBoard board = new PanelBoard(pnlBoard, manager.getGameManager().getBoard());
+        manager.setPanelBoard(board);
         pnlBoard.setLayout(new BorderLayout());
         pnlBoard.add(board, BorderLayout.CENTER);
+    }
+
+    public void updateCharacterOne(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
+        lblCharacterOneName.setText(name);
+        lblCharacterOneType.setText(type);
+        lblCharacterOneTiles.setText(tiles);
+        lblCharacterOneStrength.setText(strength);
+        lblCharacterOneEndurance.setText(endurance);
+        lblCharacterOneSanity.setText(sanity);
+        lblCharacterOneImage.setIcon(loadImageIcon(imageId));
+    }
+
+    public void updateCharacterTwo(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
+        lblCharacterTwoName.setText(name);
+        lblCharacterTwoType.setText(type);
+        lblCharacterTwoTiles.setText(tiles);
+        lblCharacterTwoStrength.setText(strength);
+        lblCharacterTwoEndurance.setText(endurance);
+        lblCharacterTwoSanity.setText(sanity);
+        lblCharacterTwoImage.setIcon(loadImageIcon(imageId));
+    }
+
+    public void updateCharacterThree(String name, String type, String tiles, String strength, String endurance, String sanity, String imageId) {
+        lblCharacterThreeName.setText(name);
+        lblCharacterThreeType.setText(type);
+        lblCharacterThreeTiles.setText(tiles);
+        lblCharacterThreeStrength.setText(strength);
+        lblCharacterThreeEndurance.setText(endurance);
+        lblCharacterThreeSanity.setText(sanity);
+        lblCharacterThreeImage.setIcon(loadImageIcon(imageId));
+    }
+
+    public void refreshAllFighters() {
+        manager.getGameManager().refreshAllFighters();
     }
 
     public ImageIcon loadImageIcon(String id) {
@@ -69,34 +99,34 @@ public class FrameClient extends javax.swing.JFrame {
         return new ImageIcon();
     }
     
-    private void exampleLabels() {
+    private void initializeEmptyLabels() {
 
-        lblCharacterOneName.setText("Chica Fresita");
-        lblCharacterOneType.setText("Volcano");
-        lblCharacterOneTiles.setText("30%");
-        lblCharacterOneStrength.setText("Fuerza: 50");
-        lblCharacterOneEndurance.setText("Resistencia: 75");
-        lblCharacterOneSanity.setText("Sanidad: 50");
+        lblCharacterOneName.setText("Fighter 1");
+        lblCharacterOneType.setText("Not selected");
+        lblCharacterOneTiles.setText("0%");
+        lblCharacterOneStrength.setText("Fuerza: 0");
+        lblCharacterOneEndurance.setText("Resistencia: 0");
+        lblCharacterOneSanity.setText("Sanidad: 0");
         lblCharacterOneImage.setText("");
-        lblCharacterOneImage.setIcon(loadImageIcon("ChicaFresita"));
+        lblCharacterOneImage.setIcon(null);
         
-        lblCharacterTwoName.setText("Lebron James");
-        lblCharacterTwoType.setText("Trident:");
-        lblCharacterTwoTiles.setText("40%");
-        lblCharacterTwoStrength.setText("Fuerza: 100");
-        lblCharacterTwoEndurance.setText("Resistencia: 100");
-        lblCharacterTwoSanity.setText("Sanidad: 100");
+        lblCharacterTwoName.setText("Fighter 2");
+        lblCharacterTwoType.setText("Not selected");
+        lblCharacterTwoTiles.setText("0%");
+        lblCharacterTwoStrength.setText("Fuerza: 0");
+        lblCharacterTwoEndurance.setText("Resistencia: 0");
+        lblCharacterTwoSanity.setText("Sanidad: 0");
         lblCharacterTwoImage.setText("");
-        lblCharacterTwoImage.setIcon(loadImageIcon("LebronJames"));
+        lblCharacterTwoImage.setIcon(null);
         
-        lblCharacterThreeName.setText("Dr Strange");
-        lblCharacterThreeType.setText("Waves Control");
-        lblCharacterThreeTiles.setText("30%");
-        lblCharacterThreeStrength.setText("Fuerza: 75");
-        lblCharacterThreeEndurance.setText("Resistencia: 75");
-        lblCharacterThreeSanity.setText("Sanidad: 50");
+        lblCharacterThreeName.setText("Fighter 3");
+        lblCharacterThreeType.setText("Not selected");
+        lblCharacterThreeTiles.setText("0%");
+        lblCharacterThreeStrength.setText("Fuerza: 0");
+        lblCharacterThreeEndurance.setText("Resistencia: 0");
+        lblCharacterThreeSanity.setText("Sanidad: 0");
         lblCharacterThreeImage.setText("");
-        lblCharacterThreeImage.setIcon(loadImageIcon("DrStrange"));
+        lblCharacterThreeImage.setIcon(null);
         
     }
     
@@ -297,15 +327,28 @@ public class FrameClient extends javax.swing.JFrame {
         pnlBackground.add(pnlFighters, new org.netbeans.lib.awtextra.AbsoluteConstraints(1420, 10, 490, 750));
 
         pnlCommandLine.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
-        pnlCommandLine.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtFieldCommandLine.setCaretColor(new java.awt.Color(0, 102, 0));
+        txtFieldCommandLine.setText(">");
         txtFieldCommandLine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFieldCommandLineActionPerformed(evt);
             }
         });
-        pnlCommandLine.add(txtFieldCommandLine, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 4, 1890, 52));
+
+        javax.swing.GroupLayout pnlCommandLineLayout = new javax.swing.GroupLayout(pnlCommandLine);
+        pnlCommandLine.setLayout(pnlCommandLineLayout);
+        pnlCommandLineLayout.setHorizontalGroup(
+            pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1892, Short.MAX_VALUE)
+            .addGroup(pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(txtFieldCommandLine, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1892, Short.MAX_VALUE))
+        );
+        pnlCommandLineLayout.setVerticalGroup(
+            pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 52, Short.MAX_VALUE)
+            .addGroup(pnlCommandLineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(txtFieldCommandLine, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
+        );
 
         pnlBackground.add(pnlCommandLine, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 1010, 1900, 60));
 

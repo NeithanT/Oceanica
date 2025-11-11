@@ -11,42 +11,66 @@ import menea.Models.CommandManager;
 
 public class ClientManager {
 
-    private GameManager gameManager;
-    private CommandManager commandManager;
     private Board boardRef; 
     private ImageLoader imgLoader;
-    private JPanel pnlBoard;
+    private GameManager gameManager;
+    private CommandManager commandManager;
+    private JTextArea txaLog;
+    private JTextField txfCommand;
+    private JPanel plnMatriz;
+    private PanelBoard panelBoard;
     
     public ClientManager() {
         imgLoader = new ImageLoader();
         gameManager = new GameManager();
         boardRef = gameManager.getBoard();
-        
-        commandManager = new CommandManager(gameManager);
+        gameManager.setClientManager(this);
     }
     
-    public void setCommandField(JTextField txfCommand) {
-        commandManager.setCommandLine(txfCommand);
-    }
-     
-    public void setLogArea(JTextArea txaLog) {
-        commandManager.setLogCommands(txaLog);
-    }
-    
-    public void setAttackLog(JTextArea txaLog) {
-        commandManager.setLogAttacks(txaLog);
-    }
-    
-    public void setBitacora(JTextArea txaLog) {
-        commandManager.setLogBitacora(txaLog);
-    }
-    
-    public void setBoardPanel(JPanel plnMatriz) {
-        this.pnlBoard = plnMatriz;
+    public GameManager getGameManager() {
+        return gameManager;
     }
     
     public void processCommand() {
-        commandManager.processCommand();
+        gameManager.processCommand();
+    }
+    
+    public void setLogArea(JTextArea txaLog) {
+        this.txaLog = txaLog;
+    }
+    
+    public void setCommandField(JTextField txfCommand) {
+        this.txfCommand = txfCommand;
+    }
+    
+    public void setBoardPanel(JPanel plnMatriz) {
+        this.plnMatriz = plnMatriz;
+    }
+    
+    public void setPanelBoard(PanelBoard panelBoard) {
+        this.panelBoard = panelBoard;
+    }
+    
+    public void addFighter() {
+    
+    }
+    
+    public void attachBoard(Board board) {
+        this.boardRef = board;
+        plnMatriz.repaint();       
+    }
+
+    public void refreshBoard() {
+        if (panelBoard != null) {
+            panelBoard.repaint();
+        } else if (plnMatriz != null) {
+            plnMatriz.repaint();
+        }
+    }
+    
+    
+    public void log(String message) {
+        txaLog.append(message + "\n"); //agregar una línea a la bitácora 
     }
     
 }

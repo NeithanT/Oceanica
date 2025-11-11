@@ -67,10 +67,10 @@ public class Server {
         // TODO, in future, notify others of new players joined ..
     }
     
-    public void attackOthers(int dmg, ServerConnection sc) {
+    public void attackOthers(Action attackAction, ServerConnection sc) {
         for (int i = 0; i < MAX_CONNECTIONS; i++) {
             if (players[i] != null && !players[i].equals(sc)) {
-                players[i].receiveAttack(dmg);
+                players[i].receiveAttack(attackAction);
             }
         }
     }
