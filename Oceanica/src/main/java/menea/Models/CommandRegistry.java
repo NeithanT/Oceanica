@@ -79,7 +79,14 @@ public class CommandRegistry {
                 // direccion is a string, no check
                 break;
             case "KRAKEN":
-                if (args.length != 1) return false;
+                // KRAKEN requires two integer parameters: row and column
+                if (args.length != 3) return false;
+                try {
+                    Integer.parseInt(args[1]);
+                    Integer.parseInt(args[2]);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
                 break;
 
             // THE_TRIDENT

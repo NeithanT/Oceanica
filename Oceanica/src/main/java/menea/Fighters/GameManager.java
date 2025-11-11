@@ -350,8 +350,19 @@ public class GameManager {
                     }
                     break;
                 case "KRAKEN":
-                    ReleaseTheKraken krakenAttack = new ReleaseTheKraken();
-                    krakenAttack.releaseTheKraken(board);
+                    // Expect two parameters: row and column
+                    if (params.length >= 3) {
+                        try {
+                            int fila = Integer.parseInt(params[1]);
+                            int col = Integer.parseInt(params[2]);
+                            ReleaseTheKraken krakenAttack = new ReleaseTheKraken();
+                            krakenAttack.releaseTheKraken(board, fila, col);
+                        } catch (NumberFormatException nfe) {
+                            System.out.println("Invalid parameters for KRAKEN attack");
+                        }
+                    } else {
+                        System.out.println("KRAKEN requires 2 parameters: fila col");
+                    }
                     break;
                 
                 // UNDERSEA_VOLCANOES attacks
