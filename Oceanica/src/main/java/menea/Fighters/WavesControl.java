@@ -18,7 +18,7 @@ public class WavesControl extends Attack {
         this.random = new Random();
     }
 
-    public void swirlRaising(Board boardAtacado) {
+    public boolean swirlRaising(Board boardAtacado) {
         //casilla aleatoria para crear remolino
         int[] casilla = getRandomTile(boardAtacado);
         int centroX = casilla[0];
@@ -29,23 +29,25 @@ public class WavesControl extends Attack {
         SpecialObject swirl = new SpecialObject(SpecialObjectType.SWIRL, centroX, centroY, radio);
 
         //destruir casillas
-        atacarArea(boardAtacado, centroX, centroY, radio, 100, "Swirl Raising");
+        int ataquesExitosos = atacarArea(boardAtacado, centroX, centroY, radio, 100, "Swirl Raising");
 
         //colocar el remolino en la casilla central
         Tile tileCentral = boardAtacado.getTile(centroX, centroY);
         if (tileCentral != null) {
             tileCentral.addSpecialObject(swirl);
         }
+
+        return ataquesExitosos > 0;
     }
 
-    public void sendHumanGarbage(Board boardAtacado) {
+    public boolean sendHumanGarbage(Board boardAtacado) {
         //obtener todos los remolinos activos en el tablero
         ArrayList<SpecialObject> swirls = getSwirls(boardAtacado);
 
         //si no hay remolinos, no se puede hacer nada
         if (swirls.isEmpty()) {
             System.out.println("No hay remolinos disponibles para enviar basura");
-            return;
+            return false;
         }
 
         //seleccionar un remolino aleatorio
@@ -53,6 +55,7 @@ public class WavesControl extends Attack {
 
         //envia 10 veces el radio del remolino de toneladas de basura
         int cantidadBasura = 10 * swirlSeleccionado.getRadio();
+        int ataquesExitosos = 0;
 
         for (int i = 0; i < cantidadBasura; i++) {
             //seleccionar casilla aleatoria
@@ -63,7 +66,9 @@ public class WavesControl extends Attack {
             //cada tonelada daña 25% de la casilla
             Tile tile = boardAtacado.getTile(x, y);
             if (tile != null) {
-                tile.daño(25, "Garbage");
+                if (tile.daño(25, "Garbage")) {
+                    ataquesExitosos++;
+                }
 
                 //50% de probabilidad de que sea radioactiva
                 boolean esRadioactiva = random.nextBoolean();
@@ -75,6 +80,8 @@ public class WavesControl extends Attack {
                 }
             }
         }
+
+        return ataquesExitosos > 0;
     }
 
     /**
@@ -82,26 +89,31 @@ public class WavesControl extends Attack {
      * segundos. Cada tonelada de basura radioactiva afecta entre 10% por
      * segundo la vida de la casilla.
      */
-    public void radioactiveRush(Board boardAtacado) {
+    public boolean radioactiveRush(Board boardAtacado) {
         //obtener toda la basura radioactiva activa en el tablero
         ArrayList<SpecialObject> radioactiveGarbage = getRadioactiveGarbage(boardAtacado);
 
         //si no hay basura radioactiva, no se puede hacer nada
         if (radioactiveGarbage.isEmpty()) {
             System.out.println("No hay basura radioactiva disponible");
-            return;
+            return false;
         }
 
         int duracion = 1 + random.nextInt(10); // 1-10 segundos
+        int ataquesExitosos = 0;
 
         //basura radioactiva afecta
         for (SpecialObject basura : radioactiveGarbage) {
             Tile tile = boardAtacado.getTile(basura.getX(), basura.getY());
             if (tile != null) {
                 int danoTotal = duracion * 10; //10% de daño por segundo
-                tile.daño(danoTotal, "Radioactive rush");
+                if (tile.daño(danoTotal, "Radioactive rush")) {
+                    ataquesExitosos++;
+                }
             }
         }
+
+        return ataquesExitosos > 0;
     }
 
     //busca todos los remolinos en el tablero

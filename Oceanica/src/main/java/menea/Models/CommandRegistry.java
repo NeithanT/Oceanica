@@ -2,15 +2,17 @@ package menea.Models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.swing.JOptionPane;
 import menea.Fighters.GameManager;
 
 public class CommandRegistry {
     // Diccionario que guarda todos los comandos disponibles
     private ArrayList<String> commands;
     private GameManager gameManager;
-    
+    private CommandManager commandManager;
+
     public CommandRegistry(GameManager gmMag) {
-        
+
         commands = new ArrayList<>();
         commands.add("help");
         commands.add("create");
@@ -24,10 +26,14 @@ public class CommandRegistry {
         commands.add("logenemy");
         commands.add("logdamage");
         commands.add("logcells");
-        commands.add("logalive");  
-        
+        commands.add("logalive");
+
         this.gameManager = gmMag;
-        
+
+    }
+
+    public void setCommandManager(CommandManager commandManager) {
+        this.commandManager = commandManager;
     }
     
     public boolean isValidCommand(String command) {
@@ -215,7 +221,35 @@ public class CommandRegistry {
                 break;
 
             case "log":
+                if (args != null && args.length > 0) return "log no toma argumentos";
+                // Actualizar txtAreaBitacora con todo el contenido de la bitácora
+                String bitacoraCompleta = Bitacora.obtenerBitacoraTexto();
+                if (commandManager != null) {
+                    commandManager.logBitacora(bitacoraCompleta);
+                }
+                return "Bitácora actualizada (" + Bitacora.getTotalEventos() + " eventos)";
+
             case "logattacks":
+                if (args != null && args.length > 0) return "logattacks no toma argumentos";
+                // Obtener estadísticas y mostrar en JOptionPane
+                AttackStatistics stats = AttackStatistics.getInstance();
+                int total = stats.getTotalAtaques();
+                int exitosos = stats.getAtaquesExitosos();
+                int fallidos = stats.getAtaquesFallidos();
+                double porcentaje = stats.getPorcentajeExito();
+
+                String mensaje = String.format(
+                    "=== ESTADÍSTICAS DE ATAQUES ===\n\n" +
+                    "Total de ataques: %d\n" +
+                    "Ataques exitosos: %d\n" +
+                    "Ataques fallidos: %d\n" +
+                    "Porcentaje de éxito: %.2f%%",
+                    total, exitosos, fallidos, porcentaje
+                );
+
+                JOptionPane.showMessageDialog(null, mensaje, "Resumen de Ataques", JOptionPane.INFORMATION_MESSAGE);
+                return "Estadísticas de ataques mostradas";
+
             case "logenemy":
             case "logdamage":
             case "logcells":

@@ -18,7 +18,7 @@ public class UnderseaVolcanoes extends Attack {
         this.random = new Random();
     }
 
-    public void volcanoRaising(Board boardAtacado) {
+    public boolean volcanoRaising(Board boardAtacado) {
         //obtener una casilla aleatoria para crear un volcan
         int[] casilla = getRandomTile(boardAtacado);
         int centroX = casilla[0];
@@ -29,23 +29,25 @@ public class UnderseaVolcanoes extends Attack {
         SpecialObject volcano = new SpecialObject(SpecialObjectType.VOLCANO, centroX, centroY, radio);
 
         //destruir casillas en el radio del volcan
-        atacarArea(boardAtacado, centroX, centroY, radio, 100, "Volcán");
+        int ataquesExitosos = atacarArea(boardAtacado, centroX, centroY, radio, 100, "Volcán");
 
         //colocar el volcan en la casilla central para futuros ataques
         Tile tileCentral = boardAtacado.getTile(centroX, centroY);
         if (tileCentral != null) {
             tileCentral.addSpecialObject(volcano);
         }
+
+        return ataquesExitosos > 0;
     }
 
-    public void volcanoExplosion(Board boardAtacado) {
+    public boolean volcanoExplosion(Board boardAtacado) {
         //obtener todos los volcanes activos en el tablero
         ArrayList<SpecialObject> volcanes = getVolcanes(boardAtacado);
 
         //si no hay volcanes, no se hace nada
         if (volcanes.isEmpty()) {
             System.out.println("No hay volcanes disponibles para hacer erupción");
-            return;
+            return false;
         }
 
         //seleccionar un volcan aleatorio para que haga erupcion
@@ -53,6 +55,7 @@ public class UnderseaVolcanoes extends Attack {
 
         //envia 10 veces el tamaño del volcan en piedras
         int cantidadPiedras = 10 * volcanoSeleccionado.getRadio();
+        int ataquesExitosos = 0;
 
         for (int i = 0; i < cantidadPiedras; i++) {
             //casilla aleatoria en donde caeran las piedras
@@ -63,19 +66,23 @@ public class UnderseaVolcanoes extends Attack {
             //daña 20% de la casilla por piedra
             Tile tile = boardAtacado.getTile(x, y);
             if (tile != null) {
-                tile.daño(20, "Piedra volcánica");
+                if (tile.daño(20, "Piedra volcánica")) {
+                    ataquesExitosos++;
+                }
             }
         }
+
+        return ataquesExitosos > 0;
     }
 
-    public void termalRush(Board boardAtacado) {
+    public boolean termalRush(Board boardAtacado) {
         //obtener todos los volcanes activos en el tablero
         ArrayList<SpecialObject> volcanes = getVolcanes(boardAtacado);
 
         //si no hay volcanes, no se hace nada
         if (volcanes.isEmpty()) {
             System.out.println("No hay volcanes disponibles para sobrecalentamiento");
-            return;
+            return false;
         }
 
         //seleccionar volcan aleatorio para sobrecalentar su radio
@@ -90,7 +97,9 @@ public class UnderseaVolcanoes extends Attack {
         int centroY = volcanSeleccionado.getY();
         int radioAAtacar = volcanSeleccionado.getRadio() + RADIOCALOR;
 
-        atacarArea(boardAtacado, centroX, centroY, radioAAtacar, danoTotal, "Termal rush");
+        int ataquesExitosos = atacarArea(boardAtacado, centroX, centroY, radioAAtacar, danoTotal, "Termal rush");
+
+        return ataquesExitosos > 0;
     }
 
     //busca todos los volcanes del tablero

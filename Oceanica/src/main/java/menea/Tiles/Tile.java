@@ -20,8 +20,8 @@ public class Tile {
         this.specialObjects = new ArrayList<>();
     }
 
-    public void daño(int cantidad, String atacante) {
-        if (life <= 0) return;
+    public boolean daño(int cantidad, String atacante) {
+        if (life <= 0) return false; // No se aplicó daño, casilla ya destruida
         int antes = life;
         life = Math.max(0, life - cantidad);
         if (life == 0) {
@@ -30,6 +30,7 @@ public class Tile {
             state = TileState.DAMAGED;
         }
         this.history.add("Ataque recibido de " + atacante + ": -" + cantidad + ", vida antes: " + antes + ", después:" + life + ":("); //Agregarle talvez que salga la fila y columna de la casilla
+        return true; // Daño aplicado exitosamente
     }
 
     public void heal(int cantidad, String fuente) {

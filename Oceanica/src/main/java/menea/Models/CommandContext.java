@@ -6,18 +6,27 @@ import menea.Server.Client;
 import menea.Tiles.Board;
 
 public class CommandContext {
-    //Este no es serializable, pq tiene referencias a objetos cm Frame.. lo de los atributos 
+    //Este no es serializable, pq tiene referencias a objetos cm Frame.. lo de los atributos
     //no lo serialicé, pero si voy a agregar un método para serrializar los datos
-    //revisar si eso sí está bien o qué hacer si no lo está 
+    //revisar si eso sí está bien o qué hacer si no lo está
     //referencias útiles para cualquier comando
     private final Client clientUI;
     private final Board board;
     private final Player player;
+    private CommandManager commandManager;
 
     public CommandContext(Client clientUI, Board board, Player player) {
         this.clientUI = clientUI;
         this.board = board;
         this.player = player;
+    }
+
+    public void setCommandManager(CommandManager commandManager) {
+        this.commandManager = commandManager;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
     
     public class AttackMessage implements Serializable {

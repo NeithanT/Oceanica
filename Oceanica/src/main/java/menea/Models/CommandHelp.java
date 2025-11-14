@@ -6,7 +6,7 @@ public class CommandHelp {
         return "COMANDOS DISPONIBLES:\n" +
                "- HELP ; SIN ARGUMENTOS, ESTE REGISTRO\n" +
                "- HELP ATTACK ; 1 ARGUMENTO, MUESTRA AYUDA DE ATAQUES\n" +
-               "==================================================" +
+               "==================================================\n" +
                "- CREATE [] ; Sin args, abre un frame para que cree un personaje\n" +
                "- CREATE [NOMBRE:STR] [IMAGEN:STR] [TIPO_ATAQUE:STR/ENUM] [CONTROL_DEL_MAPA:INT] [FUERZA:INT] [RESISTENCIA:INT] [SALUD:INT]\n" +
                "- CREATE [NOMBRE:STR] [RUTA_ABSOLUTA_IMAGEN:STR] [TIPO_ATAQUE:STR/ENUM] [CONTROL_DEL_MAPA:INT] [FUERZA:INT] [RESISTENCIA:INT] [SALUD:INT] ; HACER TODAS LAS VERIFICACIONES, MENOS QUE 3 JUGADORES, QUE TODO SEA VALIDO, ETC\n" +
@@ -16,7 +16,7 @@ public class CommandHelp {
                "- SURRENDER ; PIERDE EL JUEGO\n" +
                "- CELL [X:INT] [Y:INT] ; VERIFICAR QUE SEA CELDA VALIDA, MOSTRAR LOG DE ACCIONES EN BITACORA\n" +
                "- LOG ; MUESTRA EN LOS ATAQUES, TODOS LOS ATAQUES RECIBIDOS Y MANDADOS, SOLO LOS EXITOSOS\n" +
-               "- LOGATTACKS ; SIN ARGS, MUESTRA CUANTOS ATAQUES MANDADOS EXITOSOS\n" +
+               "- LOGATTACKS ; SIN ARGS, MUESTRA ATAQUES REALIZADOS, PORCENTAJE DE EXITO, CUANTOS ATINARON Y CUANTOS NO.\n" +
                "- LOGENEMY ; SIN ARGS, MUESTRA EL ESTADO DE TODOS LOS ENEMIGOS\n" +
                "- LOGDAMAGE ; MUESTRA EN EL MAPA LAS CELDAS OCUPADAS POR VOLCANES, REMOLINOS\n" +
                "- LOGCELLS ; MUESTRA EN EL MAPA LA VIDA DE CADA CELDA\n" +
