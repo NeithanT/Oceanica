@@ -15,10 +15,11 @@ public class CommandManager {
     private final CommandRegistry registry; //dónde buscar por nombre
     
     public CommandManager(GameManager gameManager) {
-        
+
         this.gameManager = gameManager;
         registry = new CommandRegistry(gameManager);
-        
+        registry.setCommandManager(this);
+
     }
 
     public void handle(String str) {
@@ -52,7 +53,7 @@ public class CommandManager {
     }
     
     public void logBitacora(String message) {
-        txaLogBitacora.append(message + "\n");
+        txaLogBitacora.setText(message);
     }
     
     public void processCommand() {
@@ -66,7 +67,7 @@ public class CommandManager {
      }
     //ataque enviado
     public void logAttackSent(String attackType, int jugadorObjetivo, int daño, int x, int y) {
-    txaLogAttacks.append("⚔️ Atacaste al Jugador " + jugadorObjetivo + 
+    txaLogAttacks.append("Atacaste al Jugador " + jugadorObjetivo + 
                         " con " + attackType + 
                         "  Daño: " + daño + 
                         " en casilla (" + x + "," + y + ")\n");

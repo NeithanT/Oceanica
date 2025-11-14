@@ -9,8 +9,9 @@ public class FishTelepathy extends Attack {
     }
     
     //peces atacan aleatoriamente casillas, cada pez daña 33% de la vida de la casilla
-    public void cardumen(Board tableroEnemigo) {
+    public boolean cardumen(Board tableroEnemigo) {
         int numPeces = 100 + random.nextInt(201); // 100 300 peces
+        int ataquesExitosos = 0;
 
         for (int i = 0; i < numPeces; i++) {
             int[] pos = getRandomTile(tableroEnemigo);
@@ -18,26 +19,31 @@ public class FishTelepathy extends Attack {
 
             int damage = (int) (vidaActual * 0.33); // 33% de la vida actual
 
-            tableroEnemigo.getTile(pos[0], pos[1]).daño(damage, "Cardumen");
+            if (tableroEnemigo.getTile(pos[0], pos[1]).daño(damage, "Cardumen")) {
+                ataquesExitosos++;
             }
+        }
+        return ataquesExitosos > 0; // Exitoso si al menos un pez causó daño
     }
     
-    public void sharkAttack(Board tableroEnemigo) {
+    public boolean sharkAttack(Board tableroEnemigo) {
         int[][] esquinas = {
             {0, 0}, // Superior izquierda
             {0, tableroEnemigo.getCOLUMNS() - 1}, // Superior derecha
             {tableroEnemigo.getROWS() - 1, 0}, // Inferior izquierda
             {tableroEnemigo.getROWS() - 1, tableroEnemigo.getCOLUMNS() - 1} // Inferior derecha
         };
-        
+
+        int ataquesExitosos = 0;
         for (int[] esquina : esquinas) {
             int radio = 1 + random.nextInt(10); // 1 a 10 casillas
-            atacarArea(tableroEnemigo, esquina[0], esquina[1], radio, 100, "Shark Attack");
+            ataquesExitosos += atacarArea(tableroEnemigo, esquina[0], esquina[1], radio, 100, "Shark Attack");
         }
+        return ataquesExitosos > 0;
     }
     
     //Pulpos con 8 tentáculo c/u en casiillas aleatorias, con 25% de daño cada tectacu
-    public void pulp(Board tableroEnemigo) {
+    public boolean pulp(Board tableroEnemigo) {
         int numPulpos = 20 + random.nextInt(31); // 20 a 50 pulpos
 
         // HashMap para contar cuántos tentáculos tocan cada casilla
@@ -54,6 +60,7 @@ public class FishTelepathy extends Attack {
         }
 
         // Acá se aplica el daño basado en cuántos tentáculos tocaron cada casilla
+        int ataquesExitosos = 0;
         for (java.util.Map.Entry<String, Integer> entry : tentaculosPorCasilla.entrySet()) {
             String[] coords = entry.getKey().split(",");
             int row = Integer.parseInt(coords[0]);
@@ -62,15 +69,18 @@ public class FishTelepathy extends Attack {
 
             int vidaActual = tableroEnemigo.getTile(row, col).getLife();
 
+            boolean exitoso = false;
             if (numTentaculos >= 4) {
                 // Si hay 4 o más tentáculos en la misma casilla, se destruye completamente
-                tableroEnemigo.getTile(row, col).daño(vidaActual, "Pulp Tentacle (4+ golpes)");
+                exitoso = tableroEnemigo.getTile(row, col).daño(vidaActual, "Pulp Tentacle (4+ golpes)");
             } else {
                 // Si menos de 4, cada tentáculo hace 25% de la vida actual
                 int damageTotal = (int) (vidaActual * 0.25 * numTentaculos);
-                tableroEnemigo.getTile(row, col).daño(damageTotal, "Pulp Tentacle (" + numTentaculos + " golpes)");
+                exitoso = tableroEnemigo.getTile(row, col).daño(damageTotal, "Pulp Tentacle (" + numTentaculos + " golpes)");
             }
+            if (exitoso) ataquesExitosos++;
         }
+        return ataquesExitosos > 0;
     }
     
     
