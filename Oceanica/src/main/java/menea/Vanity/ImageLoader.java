@@ -44,16 +44,16 @@ public class ImageLoader {
     }
     
     public ImageIcon loadImageIcon(String id, int width, int height) {
-        
+
         Image img = loadImage(id);
-        
+
         if (img != null) {
             img = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-            return new ImageIcon(loadImage(id));
-        }    
+            return new ImageIcon(img);
+        }
         else
             return new ImageIcon();
-        
+
     }
     
     
