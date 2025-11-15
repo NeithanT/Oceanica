@@ -180,7 +180,15 @@ public class ClientManager {
     }
     
     public void log(String message) {
-        txaLog.append(message + "\n"); //agregar una línea a la bitácora 
+        if (txaLogBitacora != null) {
+            txaLogBitacora.append(message + "\n"); //agregar una línea a la bitácora
+        }
+    }
+
+    public void logError(String message) {
+        if (commandManager != null) {
+            commandManager.logError(message);
+        }
     }
     
 }

@@ -132,10 +132,10 @@ public class GameManager {
 
             //verificar que al agregar, el porcentaje de casillas no se exceda el 100%
             if (totalMapPercentage + mapPercentage > 100) {
-                String errorMsg = "Error: El porcentaje de casillas excede el 100%. Ya se ha usado " + totalMapPercentage + "%.";
+                String errorMsg = "El porcentaje de casillas excede el 100%. Ya se ha usado " + totalMapPercentage + "%.";
                 System.out.println(errorMsg);
                 if (clientManager != null) {
-                    clientManager.log(errorMsg);
+                    clientManager.logError(errorMsg);
                 }
                 return false;
             }
@@ -143,10 +143,10 @@ public class GameManager {
             //si se crea el luchador, validar que el total sea exactamente 100%
             if (fightersCount == 2) {
                 if (totalMapPercentage + mapPercentage != 100) {
-                    String errorMsg = "Error: El tercer luchador debe completar el 100% de casillas. Total actual: " + totalMapPercentage + "%, necesitas: " + (100 - totalMapPercentage) + "%.";
+                    String errorMsg = "El tercer luchador debe completar el 100% de casillas. Total actual: " + totalMapPercentage + "%, necesitas: " + (100 - totalMapPercentage) + "%.";
                     System.out.println(errorMsg);
                     if (clientManager != null) {
-                        clientManager.log(errorMsg);
+                        clientManager.logError(errorMsg);
                     }
                     return false;
                 }
@@ -280,10 +280,10 @@ public class GameManager {
 
         //validar la distribución de los valores antes de crear el luchador
         if (!isValidStatDistribution(strength, endurance, sanity)) {
-            String errorMsg = "Error: Distribución de valores inválida. Debe haber 3x100%, 3x75%, 3x50% en total.";
+            String errorMsg = "Distribución de valores inválida. Debe haber 3x100%, 3x75%, 3x50% en total.";
             System.out.println(errorMsg);
             if (clientManager != null) {
-                clientManager.log(errorMsg);
+                clientManager.logError(errorMsg);
             }
             return false;
         }
