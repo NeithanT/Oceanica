@@ -26,7 +26,7 @@ public class GameManager {
     public void setFrameClient(FrameClient frame) {
         this.frameClient = frame;
     }
-    
+
     public void setClientManager(ClientManager manager) {
         this.clientManager = manager;
     }
