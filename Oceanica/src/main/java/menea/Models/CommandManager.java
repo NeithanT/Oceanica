@@ -41,19 +41,27 @@ public class CommandManager {
     }
     
     public void log(String message) {
-        txaLogCommands.append(">" + message + "\n");
+        if (txaLogCommands != null) {
+            txaLogCommands.append(">" + message + "\n");
+        }
     }
-    
+
     public void logError(String message) {
-        txaLogCommands.append("[ERROR]." + message + "\n");
+        if (txaLogCommands != null) {
+            txaLogCommands.append("[ERROR]." + message + "\n");
+        }
     }
-    
+
     public void logAttack(String message) {
-        txaLogAttacks.append(message + "\n");
+        if (txaLogAttacks != null) {
+            txaLogAttacks.append(message + "\n");
+        }
     }
-    
+
     public void logBitacora(String message) {
-        txaLogBitacora.setText(message);
+        if (txaLogBitacora != null) {
+            txaLogBitacora.setText(message);
+        }
     }
     
     public void processCommand() {

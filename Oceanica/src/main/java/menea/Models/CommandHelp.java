@@ -15,8 +15,9 @@ public class CommandHelp {
                "- SKIP ; SALTA TURNO\n" +
                "- SURRENDER ; PIERDE EL JUEGO\n" +
                "- CELL [X:INT] [Y:INT] ; VERIFICAR QUE SEA CELDA VALIDA, MOSTRAR LOG DE ACCIONES EN BITACORA\n" +
-               "- LOG ; MUESTRA EN LOS ATAQUES, TODOS LOS ATAQUES RECIBIDOS Y MANDADOS, SOLO LOS EXITOSOS\n" +
-               "- LOGATTACKS ; SIN ARGS, MUESTRA ATAQUES REALIZADOS, PORCENTAJE DE EXITO, CUANTOS ATINARON Y CUANTOS NO.\n" +
+               "- LOG ; MUESTRA LA BITACORA DE EVENTOS\n" +
+               "- LOGATTACK ; MUESTRA EN LOS ATAQUES, TODOS LOS ATAQUES RECIBIDOS Y MANDADOS\n" +
+               "- LOGRESUMEN ; SIN ARGS, MUESTRA ATAQUES REALIZADOS, PORCENTAJE DE EXITO, CUANTOS ATINARON Y CUANTOS NO.\n" +
                "- LOGENEMY ; SIN ARGS, MUESTRA EL ESTADO DE TODOS LOS ENEMIGOS\n" +
                "- LOGDAMAGE ; MUESTRA EN EL MAPA LAS CELDAS OCUPADAS POR VOLCANES, REMOLINOS\n" +
                "- LOGCELLS ; MUESTRA EN EL MAPA LA VIDA DE CADA CELDA\n" +
@@ -37,7 +38,7 @@ public class CommandHelp {
                "RELEASE_THE_KRAKEN:\n" +
                "  - ATTACK TENTACLES <f1> <c1> <f2> <c2> <f3> <c3>\n" +
                "  - ATTACK BREATH <fila> <col> <direccion>\n" +
-               "  - ATTACK KRAKEN <fila> <col> (no coordenadas = ataque aleatorio )\n" +
+               "  - ATTACK KRAKEN <fila> <col> (no coordenadas = ataque aleatorio )\n\n" +
                "THE_TRIDENT:\n" +
                "  - ATTACK THREELINES <fila1> <col1> <fila2> <col2> <fila3> <col3\n" +
                "  - ATTACK THREENUMBERS <num1> <num2> <num3>\n" +

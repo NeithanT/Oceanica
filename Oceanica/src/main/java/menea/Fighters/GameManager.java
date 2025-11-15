@@ -16,6 +16,14 @@ public class GameManager {
     private FrameClient frameClient;
     private ClientConnection connection;
     private ClientManager clientManager;
+
+    //contadores para validar la distribución de valores (3x100%, 3x75%, 3x50%)
+    private int count100 = 0;
+    private int count75 = 0;
+    private int count50 = 0;
+
+    //contador para validar que los porcentajes de casillas sumen 100%
+    private int totalMapPercentage = 0;
     
     public GameManager() {
         fighters = new Fighter[3];
@@ -26,7 +34,7 @@ public class GameManager {
     public void setFrameClient(FrameClient frame) {
         this.frameClient = frame;
     }
-    
+
     public void setClientManager(ClientManager manager) {
         this.clientManager = manager;
     }
@@ -111,9 +119,40 @@ public class GameManager {
     
     private boolean isValidMapPercentage(String mapPercStr) {
         try {
-            // TODO, check that is valid map percentage
             int mapPercentage = Integer.parseInt(mapPercStr);
-            return mapPercentage >= 0 && mapPercentage <= 100;
+            if (mapPercentage <= 0 || mapPercentage > 100) {
+                return false;
+            }
+
+            //contar luchadores existentes
+            int fightersCount = 0;
+            for (Fighter f : fighters) {
+                if (f != null) fightersCount++;
+            }
+
+            //verificar que al agregar, el porcentaje de casillas no se exceda el 100%
+            if (totalMapPercentage + mapPercentage > 100) {
+                String errorMsg = "El porcentaje de casillas excede el 100%. Ya se ha usado " + totalMapPercentage + "%.";
+                System.out.println(errorMsg);
+                if (clientManager != null) {
+                    clientManager.logError(errorMsg);
+                }
+                return false;
+            }
+
+            //si se crea el luchador, validar que el total sea exactamente 100%
+            if (fightersCount == 2) {
+                if (totalMapPercentage + mapPercentage != 100) {
+                    String errorMsg = "El tercer luchador debe completar el 100% de casillas. Total actual: " + totalMapPercentage + "%, necesitas: " + (100 - totalMapPercentage) + "%.";
+                    System.out.println(errorMsg);
+                    if (clientManager != null) {
+                        clientManager.logError(errorMsg);
+                    }
+                    return false;
+                }
+            }
+
+            return true;
         } catch (NumberFormatException e) {
             return false;
         }
@@ -121,16 +160,112 @@ public class GameManager {
     
     private boolean isValidStat(String statStr) {
         try {
-            // TODO, check if the 75, 100 are used
             int stat = Integer.parseInt(statStr);
             return stat == 50 || stat == 75 || stat == 100;
         } catch (NumberFormatException e) {
             return false;
         }
     }
+
+    //Valida valores de strength, endurance, sanity (3x100%, 3x75%, 3x50%)
+    private boolean isValidStatDistribution(int strength, int endurance, int sanity) {
+
+        int temp100 = count100;
+        int temp75 = count75;
+        int temp50 = count50;
+
+        int[] stats = {strength, endurance, sanity};
+
+        //asignar cada valor a las variables temporales
+        for (int stat : stats) {
+            if (stat == 100) {
+                if (temp100 >= 3) {
+                    return false; // Ya se usaron los 3 valores de 100%
+                }
+                temp100++;
+            } else if (stat == 75) {
+                if (temp75 >= 3) {
+                    return false; // Ya se usaron los 3 valores de 75%
+                }
+                temp75++;
+            } else if (stat == 50) {
+                if (temp50 >= 3) {
+                    return false; // Ya se usaron los 3 valores de 50%
+                }
+                temp50++;
+            }
+        }
+
+        return true;
+    }
+
+    //actualiza los contadores de valores después de crear un luchador
+    private void updateStatCounters(int strength, int endurance, int sanity) {
+        int[] stats = {strength, endurance, sanity};
+
+        for (int stat : stats) {
+            if (stat == 100) {
+                count100++;
+            } else if (stat == 75) {
+                count75++;
+            } else if (stat == 50) {
+                count50++;
+            }
+        }
+    }
+
+    //valores de 100% disponibles
+    public int getAvailable100() {
+        return 3 - count100;
+    }
+
+    //valores de 75% disponibles
+    public int getAvailable75() {
+        return 3 - count75;
+    }
+
+    //valores de 50% disponibles
+    public int getAvailable50() {
+        return 3 - count50;
+    }
+
+    //resetea los contadores de distribución de valores (para crear luchadores nuevos)
+    public void resetStatCounters() {
+        count100 = 0;
+        count75 = 0;
+        count50 = 0;
+    }
+
+    //mensaje con los valores disponibles para asignar
+    public String getAvailableStatsMessage() {
+        return "Valores disponibles - 100%: " + getAvailable100() +
+               ", 75%: " + getAvailable75() +
+               ", 50%: " + getAvailable50();
+    }
+
+    //retorna el porcentaje de casillas ya usado
+    public int getTotalMapPercentage() {
+        return totalMapPercentage;
+    }
+
+    //retorna el porcentaje de casillas disponible
+    public int getAvailableMapPercentage() {
+        return 100 - totalMapPercentage;
+    }
+
+    //resetea el contador de porcentaje de casillas
+    public void resetMapPercentage() {
+        totalMapPercentage = 0;
+    }
+
+    //resetea todos los contadores (stats y casillas)
+    public void resetAllCounters() {
+        resetStatCounters();
+        resetMapPercentage();
+    }
     
     public boolean createFighter(String []args) {
-        
+
         if (!isValidFighter(args)) {
             return false;
         }
@@ -142,6 +277,16 @@ public class GameManager {
         int strength = Integer.parseInt(args[4]);
         int endurance = Integer.parseInt(args[5]);
         int sanity = Integer.parseInt(args[6]);
+
+        //validar la distribución de los valores antes de crear el luchador
+        if (!isValidStatDistribution(strength, endurance, sanity)) {
+            String errorMsg = "Distribución de valores inválida. Debe haber 3x100%, 3x75%, 3x50% en total.";
+            System.out.println(errorMsg);
+            if (clientManager != null) {
+                clientManager.logError(errorMsg);
+            }
+            return false;
+        }
 
         AttackType attackType = getAttackType(attackTypeStr);
         if (attackType == AttackType.NONE) {
@@ -177,6 +322,12 @@ public class GameManager {
             if (fighters[i] == null) {
                 fighters[i] = fighter;
 
+                //actualizar los contadores de distribución de valores
+                updateStatCounters(strength, endurance, sanity);
+
+                //actualizar el contador de porcentaje de casillas
+                totalMapPercentage += mapPercentage;
+
                 board.assignZone(fighter, mapPercentage);
                 updateFrame(fighter, i);
                 return true;
@@ -201,16 +352,13 @@ public class GameManager {
         
         switch (index) {
             case 0:
-                frameClient.updateCharacterOne(name, typeLabel, tilesLabel,
-                                               strengthLabel, enduranceLabel, sanityLabel, imageId);
+                frameClient.updateCharacterOne(name, typeLabel, tilesLabel, strengthLabel, enduranceLabel, sanityLabel, imageId);
                 break;
             case 1:
-                frameClient.updateCharacterTwo(name, typeLabel, tilesLabel, 
-                                               strengthLabel, enduranceLabel, sanityLabel, imageId);
+                frameClient.updateCharacterTwo(name, typeLabel, tilesLabel, strengthLabel, enduranceLabel, sanityLabel, imageId);
                 break;
             case 2:
-                frameClient.updateCharacterThree(name, typeLabel, tilesLabel, strengthLabel,
-                                                 enduranceLabel, sanityLabel, imageId);
+                frameClient.updateCharacterThree(name, typeLabel, tilesLabel, strengthLabel, enduranceLabel, sanityLabel, imageId);
                 break;
         }
     }

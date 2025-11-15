@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import menea.Fighters.GameManager;
 
 public class CommandRegistry {
-    // Diccionario que guarda todos los comandos disponibles
+    //diccionario que guarda todos los comandos disponibles
     private ArrayList<String> commands;
     private GameManager gameManager;
     private CommandManager commandManager;
@@ -22,7 +22,8 @@ public class CommandRegistry {
         commands.add("surrender");
         commands.add("cell");
         commands.add("log");
-        commands.add("logattacks");
+        commands.add("logresumen");
+        commands.add("logattack");
         commands.add("logenemy");
         commands.add("logdamage");
         commands.add("logcells");
@@ -222,16 +223,16 @@ public class CommandRegistry {
 
             case "log":
                 if (args != null && args.length > 0) return "log no toma argumentos";
-                // Actualizar txtAreaBitacora con todo el contenido de la bitácora
+                //actualizar txtAreaBitacora con todo el contenido de la bitácora
                 String bitacoraCompleta = Bitacora.obtenerBitacoraTexto();
                 if (commandManager != null) {
                     commandManager.logBitacora(bitacoraCompleta);
                 }
                 return "Bitácora actualizada (" + Bitacora.getTotalEventos() + " eventos)";
 
-            case "logattacks":
-                if (args != null && args.length > 0) return "logattacks no toma argumentos";
-                // Obtener estadísticas y mostrar en JOptionPane
+            case "logresumen":
+                if (args != null && args.length > 0) return "logresumen no toma argumentos";
+                //obtener estadísticas y mostrar en JOptionPane
                 AttackStatistics stats = AttackStatistics.getInstance();
                 int total = stats.getTotalAtaques();
                 int exitosos = stats.getAtaquesExitosos();
@@ -250,9 +251,13 @@ public class CommandRegistry {
                 JOptionPane.showMessageDialog(null, mensaje, "Resumen de Ataques", JOptionPane.INFORMATION_MESSAGE);
                 return "Estadísticas de ataques mostradas";
 
-            case "logenemy":
-            case "logdamage":
-            case "logcells":
+            case "logattack":
+                // TODO: Implementar ataques enviados y recibidos de melissa
+                return "Ataques ejecutados y recibidos mostrados";
+
+            case "logenemy": //TODO
+            case "logdamage": //TODO
+            case "logcells": //TODO
             case "logalive":
                 if (args != null && args.length > 0) throw new IllegalArgumentException(cmd + " takes no arguments");
                 System.out.println("Executing log command: " + cmd);
