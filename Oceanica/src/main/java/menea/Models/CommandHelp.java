@@ -37,7 +37,7 @@ public class CommandHelp {
                "RELEASE_THE_KRAKEN:\n" +
                "  - ATTACK TENTACLES <f1> <c1> <f2> <c2> <f3> <c3>\n" +
                "  - ATTACK BREATH <fila> <col> <direccion>\n" +
-               "  - ATTACK KRAKEN <fila> <col> (no coordenadas = ataque aleatorio )\n" +
+               "  - ATTACK KRAKEN <fila> <col> (no coordenadas = ataque aleatorio )\n\n" +
                "THE_TRIDENT:\n" +
                "  - ATTACK THREELINES <fila1> <col1> <fila2> <col2> <fila3> <col3\n" +
                "  - ATTACK THREENUMBERS <num1> <num2> <num3>\n" +
